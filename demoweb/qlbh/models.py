@@ -20,7 +20,7 @@ class products(models.Model):
     product_image = models.ImageField
 
     def __str__(self):
-        return self.product_name, self.product_description, self.product_cost
+        return self.product_name
 
 
 class orders(models.Model):
@@ -38,7 +38,7 @@ class orders(models.Model):
     customer_phone = models.IntegerField(null=False)
 
     def __str__(self):
-        return self.total_money, self.customer_name
+        return  self.customer_name
 
 class order_detail(models.Model):
     order = models.ForeignKey(orders, related_name='orders', on_delete=models.CASCADE)
@@ -58,5 +58,5 @@ class payments(models.Model):
     payment_menthods = models.IntegerField(choices=paymentmenthods_choices, default=1)
     payment_datetime = models.DateTimeField
 
-    def __str__(self):
-        return self.payment_menthods, self.payment_datetime
+    # def __str__(self):
+    #     return self.order_payment
