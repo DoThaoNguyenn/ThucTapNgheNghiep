@@ -1,26 +1,26 @@
 from django.db import models
-
+from django.utils import timezone
 
 # Create your models here.
-class catogories(models.Model):
-    catogory_name = models.CharField(max_length=100)
+class categories(models.Model):
+    name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.catogory_name
+        return self.name
 
 class products(models.Model):
     
 
-    catogory = models.ForeignKey(catogories, related_name='products', on_delete=models.CASCADE)
-    product_name = models.CharField(max_length=100)
-    product_description = models.TextField
-    product_cost = models.IntegerField
-    product_quantity = models.IntegerField
-    product_discount = models.FloatField
-    product_image = models.ImageField
+    category = models.ForeignKey(categories, related_name='products', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    cost = models.IntegerField()
+    quantity = models.IntegerField()
+    discount = models.FloatField()
+    image = models.ImageField()
 
     def __str__(self):
-        return self.product_name, self.product_description, self.product_cost
+        return self.name
 
 
 class orders(models.Model):
@@ -38,15 +38,15 @@ class orders(models.Model):
     customer_phone = models.IntegerField(null=False)
 
     def __str__(self):
-        return self.total_money, self.customer_name
+        return self.customer_name
 
 class order_detail(models.Model):
     order = models.ForeignKey(orders, related_name='orders', on_delete=models.CASCADE)
     product = models.ForeignKey(products, related_name='products', on_delete=models.CASCADE)
-    quantity = models.IntegerField
+    quantity = models.IntegerField(null=False)
 
-    def __str__(self):
-        return self.product, self.quantity
+    # def __str__(self):
+    #     return self.quantity
 
 class payments(models.Model):
     paymentmenthods_choices = (
@@ -54,9 +54,9 @@ class payments(models.Model):
         (2, "Credit_card"),
         (3, "Electronic_bank_transfer"),
     )
-    order_payment = models.ForeignKey(orders, related_name='order_payment', on_delete=models.CASCADE)
-    payment_menthods = models.IntegerField(choices=paymentmenthods_choices, default=1)
-    payment_datetime = models.DateTimeField
+    order = models.ForeignKey(orders, related_name='order_payment', on_delete=models.CASCADE)
+    menthods = models.IntegerField(choices=paymentmenthods_choices, default=1)
+    datetime = models.DateTimeField()
 
-    def __str__(self):
-        return self.payment_menthods, self.payment_datetime
+    # def __str__(self):
+    #     return self.order_payment
