@@ -1,0 +1,20 @@
+{% extends 'product/base.html' %}
+
+{% block content %}
+<h3>Thông tin chi tiết sản phẩm:</h3>
+<ul>
+    
+    <img src="{{ sp.image.url }}">
+    <br><h5>{{sp.title}}</h5></br>
+    <br><h5>Giá sách:</h5>{{sp.cost}}</br>
+    <br><h5></h5>{{sp.discount}}<h5 style="font-size: 20px;">%</h5></br>
+    <li><h5>Giảm giá:</h5>{{sp.discount_cost}}</li>
+    {% for x in information %}
+        <br><h5>Tác giả:</h5>{{x.author}}</br>
+        <br><h5>Nhà xuất bản:</h5><p>{{x.publisher}}</p></br>
+        <br><h5>Số trang:</h5>{{x.pages}}</br>
+        <br><h5>Mô tả:</h5>{{x.description}}</br>
+    {% endfor %}
+    
+</ul>
+{% endblock %}
