@@ -1,37 +1,46 @@
 from django.db import models
-from product.models import product
+from django.contrib.auth.models import AbstractUser
+# from .managers import CustomUserManager
+# from django.utils.translation import ugettext_lazy as _
+
+from product.models import Product
 
 # Create your models here.
-class order(models.Model):
-    status_choices = (
-        (1, ("Processing")),
-        (2, ("Shipping")),
-        (3, ("Completed")),
-    )
+class Users(AbstractUser):
+    # username = None
+    # email = models.EmailField(_('email address'), unique=True)
+    # name= models.CharField(_("full name"), max_length=100)
+    # address = models.CharField(max_length=200)
+    # phone = models.CharField(_("phone number"), max_length=10)
 
-    status = models.IntegerField(choices=status_choices, default=1)
-    total_money = models.IntegerField(default=0)
-    total_product = models.IntegerField(default=0)
-    customer_name = models.CharField(max_length=100)
-    customer_address = models.CharField(max_length=200)
-    customer_phone = models.IntegerField(null=False)
+    # USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = ['email']
 
-    def __str__(self):
-        return self.customer_name
+    # objects = CustomUserManager()
 
-class order_detail(models.Model):
-    order = models.ForeignKey(order, related_name='orders', on_delete=models.CASCADE)
-    product = models.ForeignKey(product, related_name='products', on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    # def __str__(self):
+    #     return self.name
+    pass
 
-  
 
-class payment(models.Model):
+
+class Order(models.Model):
+
     paymentmenthod_choices = (
         (1, "Cash"),
         (2, "Credit_card"),
         (3, "Electronic_bank_transfer"),
     )
-    order = models.ForeignKey(order, related_name='order_payment', on_delete=models.CASCADE)
     menthod = models.IntegerField(choices=paymentmenthod_choices, default=1)
-    note = models.CharField(max_length=200, null=True)
+    note = models.CharField(max_length=200, null=True, blank=True)
+    total = models.IntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(Users, related_name='users', on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ManyToManyField(Product, related_name='products_order')
+
+    
+class Cart(models.Model):
+    users=models.ForeignKey(Users, related_name='user', on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ForeignKey(Product, related_name='product',on_delete=models.CASCADE,null=True, blank=True)
+    quantity = models.PositiveIntegerField(default=0)
+    

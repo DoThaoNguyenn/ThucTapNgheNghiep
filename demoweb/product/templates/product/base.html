@@ -342,14 +342,18 @@ h5.modal-title {
                 </form>
             </div>
             <!-- The Modal -->
-            <button id="cart">
-                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                Giỏ Hàng
-            </button>
+            <button type="button" class="btn btn-secondary" onclick="chuyentrang()">Gio hang</a></button>
+            <script>
+              function chuyentrang()
+              {
+                location.assign("{% url 'product:show_cart'  %}");
+              }
+                
+            </script>
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Giỏ Hàng</h5>
+                       <h5 class="modal-title">Giỏ Hàng</h5>
                         <span class="close">&times;</span>
                     </div>
                     <div class="modal-body">

@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'product',
-    'order'
+    'order',
+   
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,10 @@ BASE_DIR
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+
+	
+AUTH_USER_MODEL = 'order.users'
