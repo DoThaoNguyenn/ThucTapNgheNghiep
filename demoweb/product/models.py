@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 class category(models.Model):
     name = models.CharField(max_length=100)
@@ -9,8 +8,6 @@ class category(models.Model):
         return self.name
 
 class product(models.Model):
-    
-
     category = models.ForeignKey(category, related_name='products', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     cost = models.IntegerField()

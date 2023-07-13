@@ -12,12 +12,12 @@
         {% endfor %}   
     </ul>
 </div>
-<div class="home-products">      
+<div  class="home-products">      
     <h2>Danh sách sản phẩm:</h2>
     <div class="sp">
         <ul>
             {% for i in sanpham %}
-            <div>
+            <div class='product-list'>
                 <img style="width:120px;height:150px" src="{{i.image.url}}">
                 <li><a href ="{% url 'product:detail' i.id %}">{{i.title}}</a></li>
                 <li><h5>Giá sách:</h5>{{i.cost}}</li>
