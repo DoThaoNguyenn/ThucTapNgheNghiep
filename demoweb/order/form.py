@@ -6,6 +6,7 @@ class paymentmenthods_form(forms.Form):
     paymentmenthods_field = forms.ChoiceField(choices = order.paymentmenthods_choices, widget=forms.Select(), required=True)   
 
 
+
 class UsersCreationFrom(UserCreationForm):
     class Meta:
         models = users

@@ -5,13 +5,121 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .tb-head{
+            background-color: red;
+            display: inline-block;
+            
+        } 
+        .cart-tb{
+            width: 100%;
+            border-collapse:collapse;
+            border-radius: 5px;
+            box-shadow:4px 4px 5px black ;
+            text-align: center;
+        }
+        tr{
+            border: 1px solid black;
+        
+        }
+        th{
+            height: 50px;
+        }
+        td{
+            width: auto;
+        }
+        .row-image{
+            width: 120px;
+            height: 120px;
+
+        }
+        .table1{
+            width: 100%;
+        }
+        body{
+            width: 900px;
+            margin-top :auto ;
+
+        }
+    </style>
 </head>
 <body>
-    <h2>Giỏ hàng</h2>
-    {% for i in sanpham %}
-        {{i.title}}
-        {{i.cost}}
-    {% endfor %}
+    <div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+                <a  class="btn btn-outline-dark" href="{% url 'product:index' %}">&#x2190; Quay lại trang chủ</a>
+                <br>
+                <table class="table1">
+                    <tr>
+                        <th><h5>Tổng sản phẩm:</h5>{{order.quantity}}</th>
+                        <th><h5>Tổng tiền:</h5>{{order.total}}</th>
+                        <th>
+                            <a style ="float:right; margin:5px;" class="btn btn success" href="{% url 'product:checkout' %}">Thanh toán</a>
+                        </th>
+                    </tr>
+                </table>
+
+			</div>
+
+			<br>
+			<div class="box-element">
+                <div class="cart_row">
+                    <div class="tb-head"></div>
+                    <div class="tb-head"><strong>Sản phẩm</strong></div>
+                    <div class="tb-head"><strong>Giá tiền</strong></div>
+                    <div class="tb-head"><strong>Số lượng</strong></div>
+                    <div class="tb-head"><strong>Thành tiền</strong></div>
+
+                </div>
+                <div class="cart-row">
+                    {% for i in orderDetail %}
+                        {% for x in product %}
+                            {% if x.id == i.product.id %}
+					<div style="flex:2"><img class="row-image" src="{{x.image.url}}"></div>
+					<div style="flex:2"><p>{{x.title}}</p></div>
+					<div style="flex:1"><p>{{x.discount_cost}}</p></div>
+					<div style="flex:1">
+                            {% endif %}
+                        {% endfor %}
+						<p class="quantity">{{i.quantity}}</p>
+						
+					</div>
+					<div style="flex:1"><p>$32</p></div>
+                    {% endfor %}
+                </div>
+			</div>
+		</div>
+	</div>
+    <table class="cart-tb">
+        <tr class="table-head">
+            <th></th>
+            <th>Sản phẩm</th>
+            <th>Giá tiền</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+            <th></th>
+        </tr>
+        {% for i in orderDetail %}
+                
+        
+            <tr class="table-content">
+            
+                <td><img class="row-image" src="{{i.product.image.url}}"></td>
+                <td><p>{{i.product.title}}</p></td>
+                <td><p>{{i.product.discount_cost}}</p></td>
+                    
+                <td><p class="quantity">{{i.quantity}}</p></td>
+                <td>Thành tiền</td>
+                <td><i class="fa-duotone fa-trash"></i></td>
+        {% endfor %}
+        </tr>
+    </table>
     
 </body>
 </html>
+{% for i in orderDetail %}
+    {{i.product.title}}
+    {{i.product.discount_cost}}
+    {{i.quantity}}
+{% endfor %}

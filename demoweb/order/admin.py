@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Users, Order
+from .models import Users, Order, Order_detail
 # from .form import UsersCreationFrom
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
@@ -22,4 +22,10 @@ from django.contrib.auth.admin import UserAdmin
 #     )
 
 admin.site.register(Users, UserAdmin)
-admin.site.register(Order)
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['user','quantity','total']
+@admin.register(Order_detail)
+class OrderDetailAdmin(admin.ModelAdmin):
+    list_display = ['order','product','quantity']
+

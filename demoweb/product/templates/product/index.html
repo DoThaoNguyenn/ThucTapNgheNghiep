@@ -28,4 +28,12 @@
         </ul>
     </div>
 </div>
+{% for i in loaisp %}
+    {{i.name}}
+    {% for x in i.products.all %}
+        
+        {{x.title}}
+       
+    {% endfor %}
+{% endfor %}
 {% endblock %}

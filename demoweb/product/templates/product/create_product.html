@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="{% url 'product:create_product' %}", method="post", enctype="multipart/form-data">
         {% csrf_token %}
         {{pr.as_p}}
         <button type="submit">Submit</button>

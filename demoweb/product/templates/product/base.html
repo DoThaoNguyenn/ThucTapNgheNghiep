@@ -317,7 +317,7 @@ h5.modal-title {
     background-color: rgb(243, 217, 166);
     text-align: center;
 }
-         
+    
 
          
         </style>
@@ -342,14 +342,18 @@ h5.modal-title {
                 </form>
             </div>
             <!-- The Modal -->
-            <button type="button" class="btn btn-secondary" onclick="chuyentrang()">Gio hang</a></button>
-            <script>
-              function chuyentrang()
-              {
-                location.assign("{% url 'product:show_cart'  %}");
-              }
-                
-            </script>
+            
+            <button type="button" class="btn btn-secondary"><a href="{% url 'product:show_cart' %}">Gio hang</a></button>
+            <div class="user">
+              {% if user.username %}
+                  <p>Xin chào {{user.username}}</p>
+                  <p><a href="{% url 'product:logout'%}">Logout</a></p>
+              {% else %}
+              <p><a href="{% url 'product:register' %}">Đăng ký</a></p>
+              <p><a href="{% url 'product:login'%}">Đăng nhập</a></p>
+
+              {% endif %}
+            </div>
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
