@@ -27,7 +27,7 @@ class Order(models.Model):
     )
     menthod = models.IntegerField(choices=paymentmenthod_choices, default=1)
     note = models.CharField(max_length=200, null=True, blank=True)
-    total = models.FloatField(default=0)
+    total = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(Users, related_name='users', on_delete=models.CASCADE, null=True, blank=True)
     status = models.IntegerField(choices=status_choices, default=1)
@@ -37,3 +37,5 @@ class Order_detail(models.Model):
     product = models.ForeignKey(Product, related_name='product_pr',on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
+    def total(sefl):
+        return sefl.quantity*sefl.product.discount_cost()

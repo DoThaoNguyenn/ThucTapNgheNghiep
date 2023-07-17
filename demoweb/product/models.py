@@ -15,7 +15,7 @@ class Product(models.Model):
     title = models.CharField(max_length=100)
     cost = models.PositiveIntegerField(null=True, blank=True)
     quantity = models.PositiveIntegerField(null=True, blank=True)
-    discount = models.FloatField(null=True, blank=True)
+    discount = models.DecimalField(default=0, max_digits=5, decimal_places=2)
     image = models.ImageField(upload_to='media')
     
 

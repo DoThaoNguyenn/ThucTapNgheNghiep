@@ -167,9 +167,11 @@ def show_cart(request):
     print(order.quantity)
     print(order.total)
     product = Product.objects.all()
+    
     for i in orderDetail:
         order.quantity += i.quantity
-        order.total += i.product.discount_cost()
+        order.total += i.product.discount_cost()*i.quantity
+        
     print(order.quantity)
     print(order.total)
     return render (request, 'product/cart.html', {'product':product,'orderDetail':orderDetail,'order':order})

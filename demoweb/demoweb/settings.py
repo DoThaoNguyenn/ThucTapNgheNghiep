@@ -119,8 +119,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+STATIC_ROOT = f"{BASE_DIR}/productionfiles"
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+
+MEDIA_URL = ''
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
@@ -130,7 +133,7 @@ STATICFILES_DIRS = (
 # BASE_DIR
 # )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
 
 # Default primary key field type
