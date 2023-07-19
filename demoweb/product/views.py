@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product, Product_information
 from order.models import Order, Users, Order_detail
-from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformation_form, Order_form
+from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm, OrderForm
 
 
 # Create your views here.
@@ -25,14 +25,6 @@ def infor(request, id):
     return render(request,"product/product_detail.html", {'sp':sp,'information':inf})
 
 
-def show_cart(request):
-    a = Order.objects.get(pk=1)
-    sp = a.product.all() 
-    listsp=[]
-    for i in sp:
-        b=Product.objects.get(pk=i.id)
-        listsp = listsp + [b]
-    return render(request, "product/cart.html", {"sanpham":listsp})  
 
 
 def create_product(request):
@@ -146,23 +138,15 @@ def register(request):
 
 
 def add_to_cart(request,id):
-    print(98988888888888)
     user = request.user
-    print(request.user)
-
-    print(user.is_authenticated)
     if user.is_authenticated:
-        print(98988888888888)
-        
-        product = Product.objects.get(pk=id)
-        print(333, product)
+        product = Product.objects.get(pk=id)   
         order, created = Order.objects.get_or_create(user = request.user, status =1)
-
-        print(23333333333, order)
         orderdetail, created1 = Order_detail.objects.get_or_create(order = order, product = product)
         if not created1:
             orderdetail.quantity += 1
             orderdetail.save()
+    
         return redirect('product:show_cart')
     else:
         return redirect('product:login')
@@ -170,37 +154,26 @@ def add_to_cart(request,id):
 def remove_orderDetail(request, id):
     item = Order_detail.objects.get(pk=id)
     item.delete()
-    if request.method == 'POST':
-        item.save()
     return redirect('product:show_cart')
 
 def show_cart(request):
     order = Order.objects.get(user=request.user, status =1)
-    orderDetail = Order_detail.objects.filter(order=order)
-    print(order.quantity)
-    print(order.total)
-    product = Product.objects.all()
-    order.quantity=0
-    order.total=0
-    for i in orderDetail:
-        order.quantity += i.quantity
-        order.total += i.product.discount_cost()*i.quantity
+    orderDetail = Order_detail.objects.filter(order=order)   
+    order.quantity = sum(obj.quantity for obj in orderDetail)
+    order.total = sum(obj.product.discount_cost()*obj.quantity for obj in orderDetail)
     order.save()
-      
-    print(order.quantity)
-    print(order.total)
-    return render (request, 'product/cart.html', {'product':product,'orderDetail':orderDetail,'order':order})
+    return render (request, 'product/cart.html', {'orderDetail':orderDetail,'order':order})
 
 def checkout(request):
 
     user = Users.objects.get(pk=request.user.pk)
-    order = Order.objects.get(user=user)
+    order = Order.objects.get(user=user, status = 1)
     orderdetail = Order_detail.objects.filter(order=order)
-    form_user = UserInformation_form(instance=user)
-    form_order = Order_form(instance=order)
+    form_user = UserInformationForm(instance=user)
+    form_order = OrderForm(instance=order)
     if request.method == 'POST':
-        form_user = UserInformation_form(request.POST,instance=user)
-        form_order = Order_form(request.POST,instance=order)
+        form_user = UserInformationForm(request.POST,instance=user)
+        form_order = OrderForm(request.POST,instance=order)
         if form_user.is_valid():
             form_order.save()
             form_user.save()
@@ -209,3 +182,21 @@ def checkout(request):
             print(form_order.errors.as_data())
     return render(request, 'product/checkout.html',{'form_user':form_user,'form_order':form_order,'orderdetail':orderdetail,'order':order})
 
+
+
+def minus_quantity(request,id):
+    item = Order_detail.objects.get(pk=id)
+    if item.quantity == 1:
+        item.delete()
+    else:
+        item.quantity -= 1
+        item.save()
+    print(item.quantity)
+    return redirect('product:show_cart')
+
+def plus_quantity(request,id):
+    item = Order_detail.objects.get(pk=id)
+    item.quantity += 1
+    item.save()
+    print(item.quantity)
+    return redirect('product:show_cart')

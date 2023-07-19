@@ -66,6 +66,8 @@
 
 			</div>
 
+            <br>
+            <br>
     <table class="cart-tb">
         <tr class="table-head">
             <th></th>
@@ -84,26 +86,15 @@
                 <td><p>{{i.product.title}}</p></td>
                 <td><p>{{i.product.discount_cost}}</p></td>
                     
-                <td><p style="display: inline-block ;" class="quantity">{{i.quantity}}</p>
-                    <div class="quantity" 
-                    style="display: flex;
-                            flex-direction: column;
-                            position:relative ;
-                            top:-50px;
-                            left: 100px;">
-                    <img class="chg-quantity" src="{% static  'demoweb/arrow-up.png' %}">
-            
-                    <img class="chg-quantity" src="{% static  'demoweb/arrow-down.png' %}">
+                
+                <td>
+                    <div class="Quantity">
+                        <a class="minus-cart btn" href="{% url 'product:minus_quantity' i.id %}" ><i class="fas fa-minus-square fa-lg"></i></a>
+                        <span id="quantity">{{i.quantity}}</span>
+                        <a class="plus-cart btn" href="{% url 'product:plus_quantity' i.id %}" ><i class="fas fa-plus-square fa-lg"></i></a>
+
                     </div>
                 </td>
-
-                 <!-- <td>
-                    <form action="{% url 'product:remove_orderDetail' i.id %}" method="post">
-                        
-                        <input type="number" id="number" value="{{i.quantity}}" />
-                       
-                    </form>
-                </td> -->
                  
                 <td>{{i.total}}</td>
                 <td><a href="{% url 'product:remove_orderDetail' i.id %}"><i class="fa-solid fa-trash"></a></i></td>
