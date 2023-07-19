@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product, Product_information
 from order.models import Order, Users, Order_detail
-from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information
+from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformation_form, Order_form
+
 
 # Create your views here.
 def index(request):
@@ -14,7 +15,7 @@ def index(request):
 
 def detail(request, id):
     
-    lsp = Category.objects.get(pk=id)
+    lsp = Category.objects.all()
     sp = Product.objects.filter(category=id)
     return render(request, "product/detail.html", {'sanpham':sp,'loaisp':lsp})
     
@@ -145,37 +146,66 @@ def register(request):
 
 
 def add_to_cart(request,id):
-    
-    print(request.user.pk)
-    user = Users.objects.get(pk=request.user.pk)
-    print(id)
-    product = Product.objects.get(pk=id)
-    order, created = Order.objects.get_or_create(user = user, status =1)
-    print(order, created)
-    orderdetail, created1 = Order_detail.objects.get_or_create(order = order, product = product)
-    print(orderdetail, created1,product, orderdetail.quantity)
-    if not created1:
-        orderdetail.quantity += 1
-        orderdetail.save()
-        print(orderdetail.quantity)
-    
+    print(98988888888888)
+    user = request.user
+    print(request.user)
+
+    print(user.is_authenticated)
+    if user.is_authenticated:
+        print(98988888888888)
+        
+        product = Product.objects.get(pk=id)
+        print(333, product)
+        order, created = Order.objects.get_or_create(user = request.user, status =1)
+
+        print(23333333333, order)
+        orderdetail, created1 = Order_detail.objects.get_or_create(order = order, product = product)
+        if not created1:
+            orderdetail.quantity += 1
+            orderdetail.save()
+        return redirect('product:show_cart')
+    else:
+        return redirect('product:login')
+
+def remove_orderDetail(request, id):
+    item = Order_detail.objects.get(pk=id)
+    item.delete()
+    if request.method == 'POST':
+        item.save()
     return redirect('product:show_cart')
 
 def show_cart(request):
-    order = Order.objects.get(user=request.user.pk, status =1)
+    order = Order.objects.get(user=request.user, status =1)
     orderDetail = Order_detail.objects.filter(order=order)
     print(order.quantity)
     print(order.total)
     product = Product.objects.all()
-    
+    order.quantity=0
+    order.total=0
     for i in orderDetail:
         order.quantity += i.quantity
         order.total += i.product.discount_cost()*i.quantity
-        
+    order.save()
+      
     print(order.quantity)
     print(order.total)
     return render (request, 'product/cart.html', {'product':product,'orderDetail':orderDetail,'order':order})
 
 def checkout(request):
-    return render(request, 'product/checkout.html')
+
+    user = Users.objects.get(pk=request.user.pk)
+    order = Order.objects.get(user=user)
+    orderdetail = Order_detail.objects.filter(order=order)
+    form_user = UserInformation_form(instance=user)
+    form_order = Order_form(instance=order)
+    if request.method == 'POST':
+        form_user = UserInformation_form(request.POST,instance=user)
+        form_order = Order_form(request.POST,instance=order)
+        if form_user.is_valid():
+            form_order.save()
+            form_user.save()
+        else:
+            print(form_user.errors.as_data())
+            print(form_order.errors.as_data())
+    return render(request, 'product/checkout.html',{'form_user':form_user,'form_order':form_order,'orderdetail':orderdetail,'order':order})
 

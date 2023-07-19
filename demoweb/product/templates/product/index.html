@@ -19,7 +19,7 @@
             {% for i in sanpham %}
             <div>
                 <img style="width:120px;height:150px" src="{{i.image.url}}">
-                <li><a href ="{% url 'product:detail' i.id %}">{{i.title}}</a></li>
+                <li><a href ="{% url 'product:infor' i.id %}">{{i.title}}</a></li>
                 <li><h5>Giá sách:</h5>{{i.cost}}</li>
                 <li><h5>Giảm giá:</h5>{{i.discount_cost}}</li>
             
@@ -28,6 +28,8 @@
         </ul>
     </div>
 </div>
+
+{% endblock %}
 {% for i in loaisp %}
     {{i.name}}
     {% for x in i.products.all %}
@@ -36,4 +38,3 @@
        
     {% endfor %}
 {% endfor %}
-{% endblock %}

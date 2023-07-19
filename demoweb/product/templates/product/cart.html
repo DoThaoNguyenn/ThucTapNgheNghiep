@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script> 
     <style>
         .tb-head{
             background-color: red;
@@ -40,7 +41,9 @@
         }
         body{
             width: 900px;
-            margin-top :auto ;
+            margin-right :auto ;
+            margin-left: auto;
+            
 
         }
     </style>
@@ -88,22 +91,25 @@
                             position:relative ;
                             top:-50px;
                             left: 100px;">
-                    <img class="chg-quantity" src="{% static  '/arrow-up.png' %}">
+                    <img class="chg-quantity" src="{% static  'demoweb/arrow-up.png' %}">
             
-                    <img class="chg-quantity" src="{% static  '/arrow-down.png' %}">
+                    <img class="chg-quantity" src="{% static  'demoweb/arrow-down.png' %}">
                     </div>
                 </td>
-                
+
+                 <!-- <td>
+                    <form action="{% url 'product:remove_orderDetail' i.id %}" method="post">
+                        
+                        <input type="number" id="number" value="{{i.quantity}}" />
+                       
+                    </form>
+                </td> -->
+                 
                 <td>{{i.total}}</td>
-                <td><i class="fa-duotone fa-trash"></i></td>
+                <td><a href="{% url 'product:remove_orderDetail' i.id %}"><i class="fa-solid fa-trash"></a></i></td>
         {% endfor %}
         </tr>
     </table>
-    
+
 </body>
 </html>
-{% for i in orderDetail %}
-    {{i.product.title}}
-    {{i.product.discount_cost}}
-    {{i.quantity}}
-{% endfor %}

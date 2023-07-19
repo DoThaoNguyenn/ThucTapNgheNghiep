@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from .models import Product, Category, Product_information
 import re
 from django.core.exceptions import ObjectDoesNotExist
-from order.models import Users
+from order.models import Users, Order, Order_detail
 
 
 class Product_create_form(ModelForm):
@@ -61,3 +61,24 @@ class Register_form(forms.Form):
 
         Users.objects.create_user(username=self.cleaned_data['username'],email=self.cleaned_data['email'],password=self.cleaned_data['password1'])
             
+
+
+class Order_form(ModelForm):
+    class Meta:
+        model = Order 
+        fields = ['menthod','note']
+
+   
+
+
+# class UserInformation_form(forms.Form):
+    # first_name=forms.CharField(label='Họ')
+    # last_name=forms.CharField(label='Tên')
+    # email=forms.EmailField(label='Email')
+    # phone=forms.CharField(label='SĐT')
+    # address=forms.CharField(label='Địa chỉ')
+
+class UserInformation_form(ModelForm):
+    class Meta:
+        model = Users
+        fields =['first_name', 'last_name','phone','address']
