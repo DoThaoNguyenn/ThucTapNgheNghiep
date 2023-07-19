@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script> 
+    <style>
+        .tb-head{
+            background-color: red;
+            display: inline-block;
+            
+        } 
+        .cart-tb{
+            width: 100%;
+            border-collapse:collapse;
+            border-radius: 5px;
+            box-shadow:4px 4px 5px black ;
+            text-align: center;
+        }
+        tr{
+            border: 1px solid black;
+        
+        }
+        th{
+            height: 50px;
+        }
+        td{
+            width: auto;
+        }
+        .row-image{
+            width: 120px;
+            height: 120px;
+
+        }
+        .table1{
+            width: 100%;
+        }
+        body{
+            width: 900px;
+            margin-right :auto ;
+            margin-left: auto;
+            
+
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+                <a  class="btn btn-outline-dark" href="{% url 'product:index' %}">&#x2190; Quay lại trang chủ</a>
+                <br>
+                <table class="table1">
+                    <tr>
+                        <th><h5>Tổng sản phẩm:</h5>{{order.quantity}}</th>
+                        <th><h5>Tổng tiền:</h5>{{order.total}}</th>
+                        <th>
+                            <a style ="float:right; margin:5px;" class="btn btn success" href="{% url 'product:checkout' %}">Thanh toán</a>
+                        </th>
+                    </tr>
+                </table>
+
+			</div>
+
+    <table class="cart-tb">
+        <tr class="table-head">
+            <th></th>
+            <th>Sản phẩm</th>
+            <th>Giá tiền</th>
+            <th>Số lượng</th>
+            <th>Thành tiền</th>
+            <th></th>
+        </tr>
+        {% for i in orderDetail %}
+                
+        
+            <tr class="table-content">
+            
+                <td><img class="row-image" src="{{i.product.image.url}}"></td>
+                <td><p>{{i.product.title}}</p></td>
+                <td><p>{{i.product.discount_cost}}</p></td>
+                    
+                <td><p style="display: inline-block ;" class="quantity">{{i.quantity}}</p>
+                    <div class="quantity" 
+                    style="display: flex;
+                            flex-direction: column;
+                            position:relative ;
+                            top:-50px;
+                            left: 100px;">
+                    <img class="chg-quantity" src="{% static  'demoweb/arrow-up.png' %}">
+            
+                    <img class="chg-quantity" src="{% static  'demoweb/arrow-down.png' %}">
+                    </div>
+                </td>
+
+                 <!-- <td>
+                    <form action="{% url 'product:remove_orderDetail' i.id %}" method="post">
+                        
+                        <input type="number" id="number" value="{{i.quantity}}" />
+                       
+                    </form>
+                </td> -->
+                 
+                <td>{{i.total}}</td>
+                <td><a href="{% url 'product:remove_orderDetail' i.id %}"><i class="fa-solid fa-trash"></a></i></td>
+        {% endfor %}
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -1,11 +1,11 @@
 from django import forms
-from .models import order, payment
+from django.contrib.auth.forms import UserCreationForm
+from .models import Order, Users, Order_detail
+
+# class paymentmenthods_form(forms.Form):
+#     paymentmenthods_field = forms.ChoiceField(choices = Order.paymentmenthods_choices, widget=forms.Select(), required=True)   
 
 
 
 
-class status_form(forms.Form):
-    status_field = forms.ChoiceField(choices = order.status_choices, widget=forms.Select(), required=True)
-
-class paymentmenthods_form(forms.Form):
-    paymentmenthods_field = forms.ChoiceField(choices = payment.paymentmenthods_choices, widget=forms.Select(), required=True)   
+        

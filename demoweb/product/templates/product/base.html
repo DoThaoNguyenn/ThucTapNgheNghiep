@@ -21,7 +21,7 @@ nav {
   padding: 15px;
   width: 100%;
   display: flex;
-  background: #f1df11;
+  background: #6C737E;
 }
 
 nav .content-nav {
@@ -38,7 +38,7 @@ nav .content-nav ul {
 
 nav .content-nav ul li a {
   text-decoration: none;
-  color: #43433e;
+  color: white;
   text-transform: uppercase;
   padding: 0 15px;
   font-weight: 800;
@@ -317,7 +317,7 @@ h5.modal-title {
     background-color: rgb(243, 217, 166);
     text-align: center;
 }
-         
+    
 
          
         </style>
@@ -342,14 +342,22 @@ h5.modal-title {
                 </form>
             </div>
             <!-- The Modal -->
-            <button id="cart">
-                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                Giỏ Hàng
-            </button>
+            
+            <button type="button" class="btn btn-secondary"><a href="{% url 'product:show_cart' %}">Gio hang</a></button>
+            <div class="user">
+              {% if user.username %}
+                  <p>Xin chào {{user.username}}</p>
+                  <p><a href="{% url 'product:logout'%}">Logout</a></p>
+              {% else %}
+              <p><a href="{% url 'product:register' %}">Đăng ký</a></p>
+              <p><a href="{% url 'product:login'%}">Đăng nhập</a></p>
+
+              {% endif %}
+            </div>
             <div id="myModal" class="modal">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Giỏ Hàng</h5>
+                       <h5 class="modal-title">Giỏ Hàng</h5>
                         <span class="close">&times;</span>
                     </div>
                     <div class="modal-body">

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .list-product{
+            display: grid;
+            grid-template-columns:repeat(4,1fr) ;
+            
+        }
+        .content-product{
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+</head>
+<body>
+    <button style="position: relative;left: 1200px;width: 250px;height: 50px;font-size: 25px;" type="button" class="btn btn-create"><a href ="{% url 'product:create_product' %}">Thêm mới sản phẩm</a></button>
+    <div class="list-product"></div>
+    {% for i in sp %}  
+        <div class="content-product">
+            <div class="content-img">
+                <img src="{{ i.image.url }}">
+            </div>
+            <div class="content-detail">
+                <h2>{{i.title}}</h2>
+                <button type="button" class="btn btn-update"><a href ="{% url 'product:update_product' i.id %}">Sửa</a></button>
+                <button type="button" class="btn btn-delete"><a href ="{% url 'product:delete_product' i.id %}">Xóa</a></button>
+                <button type="button" class="btn btn-delete"><a href ="{% url 'product:add_product_information' i.id %}">Thêm thông tin sách</a></button>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</body>
+</html>

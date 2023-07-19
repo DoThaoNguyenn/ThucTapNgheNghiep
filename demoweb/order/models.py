@@ -1,37 +1,44 @@
 from django.db import models
-from product.models import product
+from django.contrib.auth.models import AbstractUser
+# from .managers import CustomUserManager
+# from django.utils.translation import ugettext_lazy as _
+
+from product.models import Product
 
 # Create your models here.
-class order(models.Model):
-    status_choices = (
-        (1, ("Processing")),
-        (2, ("Shipping")),
-        (3, ("Completed")),
-    )
+class Users(AbstractUser):
+    
+    phone = models.CharField(max_length=10,null=True, blank=True)
+    address = models.CharField(max_length=255,null=True, blank=True)
 
-    status = models.IntegerField(choices=status_choices, default=1)
-    total_money = models.IntegerField(default=0)
-    total_product = models.IntegerField(default=0)
-    customer_name = models.CharField(max_length=100)
-    customer_address = models.CharField(max_length=200)
-    customer_phone = models.IntegerField(null=False)
+    class Meta:
+        db_table = 'auth_user'
 
-    def __str__(self):
-        return self.customer_name
 
-class order_detail(models.Model):
-    order = models.ForeignKey(order, related_name='orders', on_delete=models.CASCADE)
-    product = models.ForeignKey(product, related_name='products', on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+class Order(models.Model):
 
-  
-
-class payment(models.Model):
     paymentmenthod_choices = (
         (1, "Cash"),
         (2, "Credit_card"),
         (3, "Electronic_bank_transfer"),
     )
-    order = models.ForeignKey(order, related_name='order_payment', on_delete=models.CASCADE)
+    status_choices = (
+        (1, "Cart"),
+        (2, "ordered"),
+        (3, "cancelled"),
+        
+    )
     menthod = models.IntegerField(choices=paymentmenthod_choices, default=1)
-    note = models.CharField(max_length=200, null=True)
+    note = models.CharField(max_length=200, null=True, blank=True)
+    total = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    quantity = models.PositiveIntegerField(default=0)
+    user = models.ForeignKey(Users, related_name='users', on_delete=models.CASCADE, null=True, blank=True)
+    status = models.IntegerField(choices=status_choices, default=1)
+
+class Order_detail(models.Model):
+    order = models.ForeignKey(Order, related_name='order',on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='product_pr',on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def total(sefl):
+        return sefl.quantity*sefl.product.discount_cost()

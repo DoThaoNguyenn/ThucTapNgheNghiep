@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'product',
-    'order'
+    'order',
+   
 ]
 
 MIDDLEWARE = [
@@ -118,21 +119,32 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+STATIC_ROOT = f"{BASE_DIR}/productionfiles"
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+
+MEDIA_URL = ''
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "media"),
 )
 
-MEDIA_ROOT = (
-BASE_DIR
-)
+# MEDIA_ROOT = (
+# BASE_DIR
+# )
 
-
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+
+	
+AUTH_USER_MODEL = 'order.users'
