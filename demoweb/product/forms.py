@@ -72,13 +72,6 @@ class OrderForm(ModelForm):
    
 
 
-# class UserInformation_form(forms.Form):
-    # first_name=forms.CharField(label='Họ')
-    # last_name=forms.CharField(label='Tên')
-    # email=forms.EmailField(label='Email')
-    # phone=forms.CharField(label='SĐT')
-    # address=forms.CharField(label='Địa chỉ')
-
 class UserInformationForm(ModelForm):
     class Meta:
         model = Users

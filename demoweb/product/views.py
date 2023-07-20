@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product, Product_information
 from order.models import Order, Users, Order_detail
 from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm, OrderForm
-
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 def index(request):
@@ -139,6 +140,7 @@ def register(request):
 
 def add_to_cart(request,id):
     user = request.user
+    print(2222)
     if user.is_authenticated:
         product = Product.objects.get(pk=id)   
         order, created = Order.objects.get_or_create(user = request.user, status =1)
@@ -146,6 +148,8 @@ def add_to_cart(request,id):
         if not created1:
             orderdetail.quantity += 1
             orderdetail.save()
+
+        
     
         return redirect('product:show_cart')
     else:
@@ -157,18 +161,38 @@ def remove_orderDetail(request, id):
     return redirect('product:show_cart')
 
 def show_cart(request):
-    order = Order.objects.get(user=request.user, status =1)
-    orderDetail = Order_detail.objects.filter(order=order)   
-    order.quantity = sum(obj.quantity for obj in orderDetail)
-    order.total = sum(obj.product.discount_cost()*obj.quantity for obj in orderDetail)
-    order.save()
-    return render (request, 'product/cart.html', {'orderDetail':orderDetail,'order':order})
+    print(343333)
+
+    if Order.objects.filter(user=request.user, status =1).exists() is False: 
+        # error_message = 'Chưa có sản phẩm trong giỏ hàng.'
+        context ={
+            "error_message":  'Chưa có sản phẩm trong giỏ hàng.',
+            "is_order": False
+        }
+        return render(request, 'product/cart.html', context)
+    else:
+        order = Order.objects.get(user=request.user, status =1)
+        orderDetail = Order_detail.objects.filter(order=order)   
+        order.quantity = sum(obj.quantity for obj in orderDetail)
+        order.total = sum(obj.product.discount_cost()*obj.quantity for obj in orderDetail)
+        order.save()
+
+        context = {
+            'orderDetail':orderDetail,
+            'order':order,
+            "is_order": True
+        }
+        return render (request, 'product/cart.html',context)
+        
 
 def checkout(request):
 
     user = Users.objects.get(pk=request.user.pk)
+    print(11, user)
     order = Order.objects.get(user=user, status = 1)
+    print(22, order)
     orderdetail = Order_detail.objects.filter(order=order)
+    print(999, orderdetail)
     form_user = UserInformationForm(instance=user)
     form_order = OrderForm(instance=order)
     if request.method == 'POST':
@@ -200,3 +224,16 @@ def plus_quantity(request,id):
     item.save()
     print(item.quantity)
     return redirect('product:show_cart')
+
+
+def review_order(request):
+    
+    order_id = request.POST.get('order_id')
+    order = Order.objects.get(pk=order_id)
+    print(order)
+    orderdetail = Order_detail.objects.filter(order=order)
+    if request.method == 'POST':
+        order.datetime = timezone.now()
+        order.status = 2
+    order.save()
+    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail})
