@@ -63,22 +63,19 @@ class Register_form(forms.Form):
             
 
 
-class Order_form(ModelForm):
+class OrderForm(ModelForm):
     class Meta:
         model = Order 
         fields = ['menthod','note']
+        labels = {'menthod':'Phương thức thanh toán', 'note':'Ghi chú'}
 
    
 
 
-# class UserInformation_form(forms.Form):
-    # first_name=forms.CharField(label='Họ')
-    # last_name=forms.CharField(label='Tên')
-    # email=forms.EmailField(label='Email')
-    # phone=forms.CharField(label='SĐT')
-    # address=forms.CharField(label='Địa chỉ')
-
-class UserInformation_form(ModelForm):
+class UserInformationForm(ModelForm):
     class Meta:
         model = Users
         fields =['first_name', 'last_name','phone','address']
+        labels ={'first_name':'Họ', 'last_name':'Tên','phone':'Số điện thoại', 'address':'Địa chỉ'}
+       
+        

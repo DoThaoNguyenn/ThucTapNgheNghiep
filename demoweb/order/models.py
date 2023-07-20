@@ -17,23 +17,24 @@ class Users(AbstractUser):
 
 class Order(models.Model):
 
-    paymentmenthod_choices = (
+    paymentmethod_choices = (
         (1, "Cash"),
-        (2, "Credit_card"),
-        (3, "Electronic_bank_transfer"),
+        (2, "Credit card"),
+        (3, "Bank transfer"),
     )
     status_choices = (
         (1, "Cart"),
-        (2, "ordered"),
-        (3, "cancelled"),
+        (2, "Ordered"),
+        (3, "Cancelled"),
         
     )
-    menthod = models.IntegerField(choices=paymentmenthod_choices, default=1)
-    note = models.CharField(max_length=200, null=True, blank=True)
-    total = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    menthod = models.IntegerField(choices=paymentmethod_choices, default=1)
+    note = models.TextField(max_length=200, null=True, blank=True)
+    total = models.FloatField(default=0)
     quantity = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(Users, related_name='users', on_delete=models.CASCADE, null=True, blank=True)
     status = models.IntegerField(choices=status_choices, default=1)
+    datetime = models.DateTimeField(null=True, blank=True)
 
 class Order_detail(models.Model):
     order = models.ForeignKey(Order, related_name='order',on_delete=models.CASCADE)
