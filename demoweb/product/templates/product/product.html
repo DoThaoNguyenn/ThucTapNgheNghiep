@@ -37,16 +37,19 @@
         </div>
     </br>
     
+    {{page_ojb.previous_number}}
+    {{page_ojb}}
+
     {% if page_obj.has_previous %}
         <a href="?page=1">&laquo First</a>
-        <a href="?page={{page_ojb.previous_page_number }}">trước</a>
+        <a href="?page={{page_obj.previous_number }}">trước</a>
     {% endif %}
     
     {{page_obj}}
 
     {% if page_obj.has_next %}
-        <a href="?page={{page_ojb.next_page_number}}">sau</a>
-        <a href="?page={{page_ojb.paginator.num_page}}">Last &raquo</a>
+        <a href="?page={{page_obj.next_page_number}}">sau</a>
+        <a href="?page={{page_obj.paginator.num_page}}">Last &raquo</a>
     {% endif %} 
     </aside>
 
