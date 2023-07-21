@@ -1,0 +1,53 @@
+{% extends 'product/base.html' %}
+{% block content %}
+    <div class="sidebar">
+        {%for i in loaisp%}
+        <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
+        {% endfor%}
+    </div>
+    <div class="sidebar">
+        {%for i in loaisp%}
+        <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
+        {% endfor%}
+    </div>
+    <aside style="margin:100px 0 0 300px">
+        <h1 style="margin-bottom:50px">Các sản phẩm thuộc: {{i.id}}</h1>
+        <div style="display:flex" >
+            {% for i in page_obj %}
+            <div class="main-product" style="text-align:center;" >
+                <div class="img-product">
+                    <img style="width:150px;height:200px" src="{{i.image.url}}" alt="">
+                </div>
+                <div class="content-product">
+                    <h3 class="content-product-name"><a href ="{% url 'product:infor' i.id %}">{{i.title}}</a></h3>
+                    <div class="content-product-details">
+                        <div class="price">
+                            <span class="money">{{i.cost}}</span>
+                        </div>
+                        <div class="discount">
+                            <div class="percent">{{i.discount}}</div>
+                        </div>
+                        <div class="discountcost">
+                            <div class="percent">{{i.discount_cost}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </br>
+    
+    {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo First</a>
+        <a href="?page={{page_ojb.previous_page_number }}">trước</a>
+    {% endif %}
+    
+    {{page_obj}}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{page_ojb.next_page_number}}">sau</a>
+        <a href="?page={{page_ojb.paginator.num_page}}">Last &raquo</a>
+    {% endif %} 
+    </aside>
+
+{% endblock %}

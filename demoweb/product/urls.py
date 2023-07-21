@@ -31,5 +31,7 @@ urlpatterns = [
      path('show_cart/',views.show_cart, name="show_cart"),
      path('checkout/',views.checkout, name="checkout"),
      path('review_order/',views.review_order, name="review_order"),
+     path('product/',views.product_select, name="product"),
+     path('product/<int:id>/',views.product_select_main, name="product_select_main"),
 
 ]
