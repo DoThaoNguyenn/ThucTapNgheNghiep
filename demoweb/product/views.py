@@ -229,11 +229,15 @@ def plus_quantity(request,id):
 def review_order(request):
     
     order_id = request.POST.get('order_id')
+    print(order_id)
+    # a = request.POST.get('menthod')
     order = Order.objects.get(pk=order_id)
     print(order)
+    payment = order.get_menthod_display()
+    print(payment)
     orderdetail = Order_detail.objects.filter(order=order)
     if request.method == 'POST':
         order.datetime = timezone.now()
         order.status = 2
     order.save()
-    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail})
+    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail,'payment':payment})

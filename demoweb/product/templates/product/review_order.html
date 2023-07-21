@@ -2,21 +2,22 @@
 
 
 {% block content %}
-<h2>Dat hang thanh cong</h2>
-<h3>Thong tin don hang</h3>
+<h2>Đặt hàng thành công !</h2>
+<h3>Thông tin đơn hàng:</h3>
 <br>
-<h4>Dia chi nhan hang:</h4>
-    <li>{{order.user.first_name}} {{order.user.last_name}}</li>
-    <li>{{order.user.address}}</li>
-    <li>{{order.user.phone}}</li>
+<h4>Địa chỉ nhận hàng:</h4>
+    <li>Họ tên: {{order.user.first_name}} {{order.user.last_name}}</li>
+    <li>Địa chỉ: {{order.user.address}}</li>
+    <li>SĐT: {{order.user.phone}}</li>
 
-<h4>San pham:</h4>
+<h4>Sản phẩm:</h4>
 
     {% include 'product/table_product.html' %}
 
-    <h4>Tổng sản phẩm: {{order.quantity}} </h4>
-    <h4>Tổng tiền: {{order.total}}</h4>
+    <h5>Tổng sản phẩm: {{order.quantity}} </h5>
+    <h5>Tổng tiền: {{order.total}}</h5>
     
-
+<h4>Phương thức thanh toán: {{payment}}</h4>
+<h4>Thời gian đặt hàng: {{order.datetime}}</h4>
 {% endblock %}
 

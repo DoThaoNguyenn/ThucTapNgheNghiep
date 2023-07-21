@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'product',
     'order',
+    'django_extensions'
    
 ]
 
@@ -117,24 +118,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# import os
+# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-STATIC_ROOT = f"{BASE_DIR}/productionfiles"
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = BASE_DIR / ''
 MEDIA_URL = ''
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
-    os.path.join(BASE_DIR, "media"),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, "static"),
+#     os.path.join(BASE_DIR, "media"),
+# )
 
 # MEDIA_ROOT = (
 # BASE_DIR
 # )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, '')
 
 
 # Default primary key field type
