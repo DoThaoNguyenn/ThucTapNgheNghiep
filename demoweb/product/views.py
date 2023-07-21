@@ -5,6 +5,7 @@ from .models import Category, Product, Product_information
 from order.models import Order, Users, Order_detail
 from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm, OrderForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
@@ -237,3 +238,18 @@ def review_order(request):
         order.status = 2
     order.save()
     return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail})
+# trang product
+#hien sản phẩm khi click vào sidebar
+def product_select_main(request, id):
+    lsp = Category.objects.all()
+    sp = Product.objects.filter(category=id)
+    paginator = Paginator(sp,1) # mỗi trang hiển thị 1 đối tượng
+    page= request.GET.get('page')
+    page_obj = paginator.get_page(page)
+    # return render(request, 'product/product.html', {})
+    return render(request, "product/product.html", {'sanpham':sp,'loaisp':lsp,'page_obj': page_obj})
+#dhien ds loai sp sidebar
+def product_select(request):
+    lsp = Category.objects.all()
+    return render(request, "product/product.html", {'loaisp':lsp})
+# (modifié) 
