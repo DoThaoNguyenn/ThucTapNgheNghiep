@@ -1,40 +1,33 @@
 {% extends 'product/base.html' %}
 
 {% block content %}
-<h2>Danh mục sản phẩm</h2>
-<div  class="category">
-    <ul>
-        {% for i in loaisp %}
-        <div class="categoty-content">
-            <img style="width:120px;height:150px" src="{{i.image.url}}">
-            <li><a href ="{% url 'product:detail' i.id %}">{{i.name}}</a></li>
-        </div> 
-        {% endfor %}   
-    </ul>
-</div>
-<div class="home-products">      
-    <h2>Danh sách sản phẩm:</h2>
-    <div class="sp">
+<div class="index-main-content">
+    <h2>Danh mục sản phẩm</h2>
+    <div  class="category">
         <ul>
-            {% for i in sanpham %}
-            <div>
+            {% for i in loaisp %}
+            <div class="categoty-content">
                 <img style="width:120px;height:150px" src="{{i.image.url}}">
-                <li><a href ="{% url 'product:infor' i.id %}">{{i.title}}</a></li>
-                <li><h5>Giá sách:</h5>{{i.cost}}</li>
-                <li><h5>Giảm giá:</h5>{{i.discount_cost}}</li>
-            
-            </div>
-            {% endfor %}
+                <li><a href ="{% url 'product:detail' i.id %}">{{i.name}}</a></li>
+            </div> 
+            {% endfor %}   
         </ul>
     </div>
+    <div class="home-products">      
+        <h2>Danh sách sản phẩm:</h2>
+        <div class="sp">
+            <ul>
+                {% for i in sanpham %}
+                <div>
+                    <img style="width:120px;height:150px" src="{{i.image.url}}">
+                    <li><a href ="{% url 'product:infor' i.id %}">{{i.title}}</a></li>
+                    <li><h5>Giá sách:</h5>{{i.cost}}</li>
+                    <li><h5>Giảm giá:</h5>{{i.discount_cost}}</li>
+                
+                </div>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
-
 {% endblock %}
-{% for i in loaisp %}
-    {{i.name}}
-    {% for x in i.products.all %}
-        
-        {{x.title}}
-       
-    {% endfor %}
-{% endfor %}

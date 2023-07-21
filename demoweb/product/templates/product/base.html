@@ -34,6 +34,8 @@ nav .content-nav {
 
 nav .content-nav ul {
   display: flex;
+  position: relative;
+  top:10px;
 }
 
 nav .content-nav ul li a {
@@ -127,7 +129,7 @@ nav .content-nav ul li a:hover {
   white-space: nowrap;
   vertical-align: middle;
   border: 1px solid transparent;
-  padding: .5rem 1rem;
+  /* padding: .5rem 1rem; */
   font-size: 1rem;
   border-radius: .25rem;
   transition: all .2s ease-in-out;
@@ -137,6 +139,8 @@ nav .content-nav ul li a:hover {
   color: #292b2c;
   background-color: #fff;
   border-color: #ccc;
+  height: 40px;
+  margin-left: 50px;
 }
 
 .btn-primary {
@@ -316,8 +320,74 @@ h5.modal-title {
     height: auto;
     background-color: rgb(243, 217, 166);
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
-    
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+  top:200px;
+  
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+ 
+.sidebar a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+}
+/* header user */
+.user{
+  display: flex;
+  width: 250px;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: auto;
+  margin-left:100px ;
+  padding: 0;
+
+}
+.user-content{
+
+  padding: 5px;
+  background-color: gainsboro;
+  border-radius: 4px;
+}
+.user-content p{
+  margin: 0;
+}
+.user-content a{
+  color: #000;
+  text-decoration: none;
+}
+/* index page */
+.index-main-content{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
          
         </style>
@@ -346,11 +416,11 @@ h5.modal-title {
             <button type="button" class="btn btn-secondary"><a href="{% url 'product:show_cart' %}">Gio hang</a></button>
             <div class="user">
               {% if user.username %}
-                  <p>Xin chào {{user.username}}</p>
-                  <p><a href="{% url 'product:logout'%}">Logout</a></p>
+                  <p >Xin chào <span>{{user.username}}</span></p>
+                  <p class="user-content"><a href="{% url 'product:logout'%}">Logout</a></p>
               {% else %}
-              <p><a href="{% url 'product:register' %}">Đăng ký</a></p>
-              <p><a href="{% url 'product:login'%}">Đăng nhập</a></p>
+              <p class="user-content"><a href="{% url 'product:register' %}">Đăng ký</a></p>
+              <p class="user-content"><a href="{% url 'product:login'%}">Đăng nhập</a></p>
 
               {% endif %}
             </div>
