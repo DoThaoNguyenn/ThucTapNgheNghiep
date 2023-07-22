@@ -231,13 +231,16 @@ def review_order(request):
     
     order_id = request.POST.get('order_id')
     order = Order.objects.get(pk=order_id)
-    print(order)
+    payment=order.get_menthod_display()
     orderdetail = Order_detail.objects.filter(order=order)
     if request.method == 'POST':
         order.datetime = timezone.now()
         order.status = 2
     order.save()
-    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail})
+    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail,'payment':payment})
+
+
+
 # trang product
 #hien sản phẩm khi click vào sidebar
 def product_select_main(request, id):
