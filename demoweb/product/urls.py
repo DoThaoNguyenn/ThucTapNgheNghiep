@@ -30,6 +30,8 @@ urlpatterns = [
      path('plus_quantity/<int:id>/',views.plus_quantity, name="plus_quantity" ),
      path('show_cart/',views.show_cart, name="show_cart"),
      path('checkout/',views.checkout, name="checkout"),
-     path('review_order/',views.review_order, name="review_order"),
+     path('review_order/<int:id>/',views.review_order, name="review_order"),
+
+     path('order_list/',views.order_list, name="order_list"),
 
 ]

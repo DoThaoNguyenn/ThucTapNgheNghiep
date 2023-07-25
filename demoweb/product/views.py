@@ -188,22 +188,10 @@ def show_cart(request):
 def checkout(request):
 
     user = Users.objects.get(pk=request.user.pk)
-    print(11, user)
     order = Order.objects.get(user=user, status = 1)
-    print(22, order)
-    orderdetail = Order_detail.objects.filter(order=order)
-    print(999, orderdetail)
+    orderdetail = Order_detail.objects.filter(order=order)    
     form_user = UserInformationForm(instance=user)
     form_order = OrderForm(instance=order)
-    if request.method == 'POST':
-        form_user = UserInformationForm(request.POST,instance=user)
-        form_order = OrderForm(request.POST,instance=order)
-        if form_user.is_valid():
-            form_order.save()
-            form_user.save()
-        else:
-            print(form_user.errors.as_data())
-            print(form_order.errors.as_data())
     return render(request, 'product/checkout.html',{'form_user':form_user,'form_order':form_order,'orderdetail':orderdetail,'order':order})
 
 
@@ -226,18 +214,29 @@ def plus_quantity(request,id):
     return redirect('product:show_cart')
 
 
-def review_order(request):
-    
-    order_id = request.POST.get('order_id')
-    print(order_id)
-    # a = request.POST.get('menthod')
-    order = Order.objects.get(pk=order_id)
-    print(order)
+def review_order(request,id):
+    order = Order.objects.get(pk=id)
     payment = order.get_menthod_display()
-    print(payment)
     orderdetail = Order_detail.objects.filter(order=order)
-    if request.method == 'POST':
-        order.datetime = timezone.now()
-        order.status = 2
-    order.save()
+    
     return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail,'payment':payment})
+
+
+def order_list(request):
+    
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        order = Order.objects.get(pk=order_id)
+        form_user = UserInformationForm(request.POST,instance=Users.objects.get(pk=request.user.pk))
+        form_order = OrderForm(request.POST,instance=order)
+        if form_user.is_valid() and form_order.is_valid():
+            form_order.save()
+            form_user.save()
+            order.datetime = timezone.now()
+            order.status = 2
+        else:
+            print(form_user.errors.as_data())
+            print(form_order.errors.as_data())
+        order.save()
+    list = Order.objects.filter(user=request.user, status =2)
+    return render (request,'product/account.html',{'order':list})

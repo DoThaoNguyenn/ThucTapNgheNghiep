@@ -63,19 +63,26 @@ class Register_form(forms.Form):
             
 
 
-class OrderForm(ModelForm):
+class OrderForm(forms.ModelForm):
     class Meta:
         model = Order 
         fields = ['menthod','note']
-        labels = {'menthod':'Phương thức thanh toán', 'note':'Ghi chú'}
+        labels = {'menthod':'Phương thức thanh toán:', 'note':'Ghi chú:'}
 
-   
+    widgets = {
+            'menthod': forms.Select(attrs={'class':'form-control'}),
+            'note': forms.Textarea(attrs={'class':'form-control'}),
+    }
 
-
-class UserInformationForm(ModelForm):
+class UserInformationForm(forms.ModelForm):
     class Meta:
         model = Users
         fields =['first_name', 'last_name','phone','address']
-        labels ={'first_name':'Họ', 'last_name':'Tên','phone':'Số điện thoại', 'address':'Địa chỉ'}
+        labels ={'first_name':'Họ:', 'last_name':'Tên:','phone':'Số điện thoại:', 'address':'Địa chỉ:'}
        
-        
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class':'form-control'}),
+            'last_name': forms.TextInput(attrs={'class':'form-control'}),
+            'phone': forms.TextInput(attrs={'class':'form-control'}),
+            'address': forms.TextInput(attrs={'class':'form-control'}),
+        }

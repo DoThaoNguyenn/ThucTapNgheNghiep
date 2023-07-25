@@ -1,23 +1,44 @@
 {% extends 'product/base.html' %}
 
-
+{% load static %}
 {% block content %}
-<h2>Đặt hàng thành công !</h2>
-<h3>Thông tin đơn hàng:</h3>
 <br>
-<h4>Địa chỉ nhận hàng:</h4>
-    <li>Họ tên: {{order.user.first_name}} {{order.user.last_name}}</li>
-    <li>Địa chỉ: {{order.user.address}}</li>
-    <li>SĐT: {{order.user.phone}}</li>
-
-<h4>Sản phẩm:</h4>
+<h4>Đặt hàng thành công !</h4>
+<br>
+<h5>Thông tin đơn hàng:</h5>
+<br>
+<div class="row">
+    <div class="col-4">
+        <h6>Địa chỉ nhận hàng:</h6>
+        <div class="infor">
+            
+                <li>{{order.user.first_name}} {{order.user.last_name}}</li>
+                <li>Địa chỉ: {{order.user.address}}</li>
+                <li>SĐT: {{order.user.phone}}</li>
+        </div>
+    </div>
+    <div class="col-4">
+        <h6>Phương thức thanh toán:</h6>
+        <div class="paytime"> 
+            <li>Thanh toán bằng: {{payment}}</li>
+            <li>Thời gian đặt hàng: {{order.datetime}}</li>
+        </div>
+    </div>
+    <div class="col-4">
+        <h6>Tổng tiền:</h6> 
+        <div class="total-review">
+            
+            {{order.total}}
+        </div>
+    </div>
+</div>
+<h6>Sản phẩm:</h6>
 
     {% include 'product/table_product.html' %}
-
-    <h5>Tổng sản phẩm: {{order.quantity}} </h5>
-    <h5>Tổng tiền: {{order.total}}</h5>
-    
-<h4>Phương thức thanh toán: {{payment}}</h4>
-<h4>Thời gian đặt hàng: {{order.datetime}}</h4>
+<br>
+<br>
+<!-- <button class="order-list"><a href="{% url 'product:order_list' %}">Quản lý đơn hàng</button>     -->
+<button type="button" class="btn btn-secondary" a href="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a>
+<!-- <button class="order-list" a href="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a> -->
 {% endblock %}
 
