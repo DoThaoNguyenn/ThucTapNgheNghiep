@@ -77,5 +77,5 @@ class UserInformationForm(ModelForm):
         model = Users
         fields =['first_name', 'last_name','phone','address']
         labels ={'first_name':'Họ', 'last_name':'Tên','phone':'Số điện thoại', 'address':'Địa chỉ'}
-       
-        
+
+

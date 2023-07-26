@@ -5,12 +5,7 @@
         <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
         {% endfor%}
     </div>
-    <div class="sidebar">
-        {%for i in loaisp%}
-        <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
-        {% endfor%}
-    </div>
-    <aside style="margin:100px 0 0 300px">
+    <aside class="product-content-list" style="margin:100px 0 0 300px">
         <h1 style="margin-bottom:50px">Các sản phẩm thuộc: {{i.id}}</h1>
         <div style="display:flex" >
             {% for i in page_obj %}
@@ -36,21 +31,38 @@
             {% endfor %}
         </div>
     </br>
-    
-    {{page_ojb.previous_number}}
-    {{page_ojb}}
 
-    {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo First</a>
-        <a href="?page={{page_obj.previous_number }}">trước</a>
-    {% endif %}
-    
-    {{page_obj}}
+    <nav style="background-color: white;" aria-label="Page navigation example">
+        <ul class="pagination">
+        
+        
 
-    {% if page_obj.has_next %}
-        <a href="?page={{page_obj.next_page_number}}">sau</a>
-        <a href="?page={{page_obj.paginator.num_page}}">Last &raquo</a>
-    {% endif %} 
+        {{page_obj.paginator.number_page}}
+        {% if page_obj.has_previous %}
+        
+            <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{page_obj.previous_page_number }}">trước</a>
+            </li>
+        {% endif %}
+        {%for i in nums %}
+            <li class="page-item"><a href="?page={{forloop.counter}}" class="page-link">{{forloop.counter}}</a>
+        </li>
+        {% endfor%}
+        
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link"href="?page={{page_obj.next_page_number}}">sau</a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"href="?page={{page_obj.paginator.num_pages}}">Last &raquo</a>
+        </li>
+        {% endif %}    
+        </ul>
+    </nav>
     </aside>
 
 {% endblock %}
