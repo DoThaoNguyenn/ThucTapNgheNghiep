@@ -246,10 +246,21 @@ def product_select_main(request, id):
     paginator = Paginator(sp,1) # mỗi trang hiển thị 1 đối tượng
     page= request.GET.get('page')
     page_obj = paginator.get_page(page)
+    nums="a" * page_obj.paginator.num_pages
     # return render(request, 'product/product.html', {})
-    return render(request, "product/product.html", {'sanpham':sp,'loaisp':lsp,'page_obj': page_obj})
+    return render(request, "product/product.html", {'sanpham':sp,'loaisp':lsp,'page_obj': page_obj,'nums':nums})
 #dhien ds loai sp sidebar
 def product_select(request):
     lsp = Category.objects.all()
     return render(request, "product/product.html", {'loaisp':lsp})
 # (modifié) 
+# trang about us
+def about_us(request):
+    return render(request,"product/aboutus.html")
+# trang contact
+def contact(request):
+    return render(request,"product/contact.html")
+def search(request):
+    q=request.GET.get('q')
+    sp=Product.objects.filter(title__icontains=q).order_by('-id')
+    return render(request,"product/search.html",{'sp':sp})

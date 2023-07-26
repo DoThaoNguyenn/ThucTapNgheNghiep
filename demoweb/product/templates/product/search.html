@@ -1,0 +1,32 @@
+{% extends 'product/base.html' %}
+
+{% block content %} 
+  <h1 style="margin-bottom:50px"><b>Kết quả tìm kiếm cho </b>{{request.GET.q}}:</h1>
+        <div style="display:flex" > 
+          {% if sp %}
+            {% for i in sp %}
+            <div class="main-product" style="text-align:center;" >
+                <div class="img-product">
+                    <img style="width:150px;height:200px" src="{{i.image.url}}" alt="">
+                </div>
+                <div class="content-product">
+                    <h3 class="content-product-name"><a href ="{% url 'product:infor' i.id %}">{{i.title}}</a></h3>
+                    <div class="content-product-details">
+                        <div class="price">
+                            <span class="money">{{i.cost}}</span>
+                        </div>
+                        <div class="discount">
+                            <div class="percent">{{i.discount}}</div>
+                        </div>
+                        <div class="discountcost">
+                            <div class="percent">{{i.discount_cost}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %} 
+          {% else %}
+            <p>Không tìm thấy sản phẩm nào.</p>
+          {% endif %}
+        </div>
+{% endblock %}
