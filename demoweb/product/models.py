@@ -19,8 +19,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='media')
     
 
-    # def __str__(self):
-    #     return self.title
+   
 
     def discount_cost(self):
         return self.cost*(1-(self.discount/100))

@@ -27,6 +27,7 @@ def detail(request, id):
 def infor(request, id):
     sp = Product.objects.get(pk=id)
     inf = Product_information.objects.get(product=id)
+    
     return render(request,"product/product_detail.html", {'sp':sp,'information':inf})
 
 
@@ -141,18 +142,21 @@ def register(request):
 
 def add_to_cart(request,id):
 
-    messages.success(request, 'Thêm sản phẩm thành công !')
+    
     user = request.user
     if user.is_authenticated:
+
         product = Product.objects.get(pk=id)   
         order, created = Order.objects.get_or_create(user = request.user, status =1)
         orderdetail, created1 = Order_detail.objects.get_or_create(order = order, product = product)
         if not created1:
             orderdetail.quantity += 1
             orderdetail.save()
+  
         
-        return redirect(reverse(viewname='information', args=[id]))
-        # return redirect('.')
+ 
+        return redirect(reverse(viewname='product:information', args=[id]))
+        
     else:
         return redirect('product:login')
 

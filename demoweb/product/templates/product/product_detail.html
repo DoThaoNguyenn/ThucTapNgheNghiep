@@ -3,12 +3,15 @@
 {% block content %}
 
 <br>
-{% for i in message %}
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>{{i}}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-{% endfor %}
+<!-- {% if message %}
+    {% for i in message %} -->
+        <!-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{i}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div> -->
+        <!-- {{i}}
+    {% endfor %}
+{% endif %} -->
 <br>
 <div class="row">
     <div class="col-6">
@@ -27,8 +30,14 @@
             <h5 style="display:inline-block;font-size: 20px; " >-{{sp.discount}} %</h5>
             </br>
             
-            <button type="button" class="btn-add-cart"><a style="text-decoration: none; color: #fff;" href="{% url 'product:add-cart' sp.id %}">Thêm vào giỏ hàng</button></a> 
-           
+            <button type="button" class="btn-add-cart" onclick="add_success()"><a style="text-decoration: none; color: #fff;" href="{% url 'product:add-cart' sp.id %}">Thêm vào giỏ hàng</button></a> 
+            <script>
+                function add_success() {
+                    alert('Thêm vào giỏ hàng thành công !');
+                    
+                }
+            </script>
+            
         </div>
     </div>
 </div>
