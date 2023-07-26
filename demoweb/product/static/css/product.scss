@@ -39,6 +39,9 @@ body{
     border-radius: 5px;
     box-shadow:4px 4px 5px black ;
     text-align: center;
+    td {
+        border-bottom: 2px solid #ececec;
+    }
 }
 .checkout-cart {
     @extend %box;
@@ -105,7 +108,7 @@ th, td {
     @extend %box;
 }
 
-.paytime {
+.datetime {
     @extend %box;
 }
 
@@ -145,7 +148,26 @@ td{
 }
 .order-tb {
     @extend %tb;
-    td {
+    .tb-h {
         border-bottom: 2px solid #ececec;
     }
+}
+.product-information {
+    @extend %box;
+}
+.btn-add-cart {
+    @extend %btn;
+}
+.tb-description {
+    
+    @extend %tb;
+    
+    td {
+        border-right: 2px solid #ececec;
+        text-align: left;
+        padding: 10px;
+    }
+}
+.order-list {
+    @extend %btn;
 }

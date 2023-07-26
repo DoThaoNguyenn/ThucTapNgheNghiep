@@ -63,16 +63,6 @@ class Register_form(forms.Form):
             
 
 
-class OrderForm(forms.ModelForm):
-    class Meta:
-        model = Order 
-        fields = ['menthod','note']
-        labels = {'menthod':'Phương thức thanh toán:', 'note':'Ghi chú:'}
-
-    widgets = {
-            'menthod': forms.Select(attrs={'class':'form-control'}),
-            'note': forms.Textarea(attrs={'class':'form-control'}),
-    }
 
 class UserInformationForm(forms.ModelForm):
     class Meta:

@@ -6,14 +6,14 @@ body {
   margin-left: auto;
 }
 
-.table1, .total-review, .paytime, .infor, .checkout-infor, .checkout-cart {
+.product-information, .table1, .total-review, .datetime, .infor, .checkout-infor, .checkout-cart {
   box-shadow: hsl(0, 0%, 80%) 0 0 16px;
   background-color: #fff;
   border-radius: 4px;
   padding: 10px;
 }
 
-.order-list, .btn-checkout {
+.btn-add-cart, .order-list, .btn-checkout {
   height: 50px;
   width: 200px;
   font-size: 22px;
@@ -25,16 +25,19 @@ body {
   outline: none;
 }
 
-.order-list:hover, .btn-checkout:hover {
+.btn-add-cart:hover, .order-list:hover, .btn-checkout:hover {
   background-color: lightcoral;
 }
 
-.order-tb, .cart-tb {
+.tb-description, .order-tb, .cart-tb {
   width: 100%;
   border-collapse: collapse;
   border-radius: 5px;
   box-shadow: 4px 4px 5px black;
   text-align: center;
+}
+.tb-description td, .order-tb td, .cart-tb td {
+  border-bottom: 2px solid #ececec;
 }
 
 .col-6 {
@@ -106,8 +109,14 @@ td {
   border-bottom: 2px solid #ececec;
 }
 
-.order-tb td {
+.order-tb .tb-h {
   border-bottom: 2px solid #ececec;
+}
+
+.tb-description td {
+  border-right: 2px solid #ececec;
+  text-align: left;
+  padding: 10px;
 }
 
 /*# sourceMappingURL=product.css.map */

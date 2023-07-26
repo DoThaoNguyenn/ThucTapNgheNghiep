@@ -6,7 +6,7 @@ app_name = "product"
 urlpatterns = [
      path('',views.index, name="index"),
      path('<int:id>/',views.detail, name="detail"),
-     path('information/<int:id>/',views.infor, name="infor"),
+     path('information/<int:id>/',views.infor, name="information"),
      
 
      path('create_product/',views.create_product,name='create_product'),
@@ -24,7 +24,7 @@ urlpatterns = [
      path( 'login/',auth_views.LoginView.as_view(template_name="product/login.html"), name="login"),
      path('logout/',auth_views.LogoutView.as_view(next_page='/'),name='logout'),
 
-     path('add_to_cart/<int:id>/',views.add_to_cart, name="add_to_cart"),
+     path('add-cart/<int:id>/',views.add_to_cart, name="add-cart"),
      path('remove_orderDetail/<int:id>/',views.remove_orderDetail, name="remove_orderDetail" ),
      path('minus_quantity/<int:id>/',views.minus_quantity, name="minus_quantity" ),
      path('plus_quantity/<int:id>/',views.plus_quantity, name="plus_quantity" ),
@@ -33,5 +33,7 @@ urlpatterns = [
      path('review_order/<int:id>/',views.review_order, name="review_order"),
 
      path('order_list/',views.order_list, name="order_list"),
+     path('product/',views.product_select, name="product"),
+     path('product/<int:id>/',views.product_select_main, name="product_select_main"),
 
 ]

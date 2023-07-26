@@ -12,7 +12,7 @@
         </div>
         <div class="total" >
             <h5>Tổng sản phẩm: {{order.quantity}} </h5>
-            <h5>Tổng tiền: {{order.total}}</h5>
+            <h5>Tổng tiền: {{order.total_price}}</h5>
         </div>     
     </div>
     <div class="col-6">
@@ -23,13 +23,7 @@
                 <h4>Nhập thông tin khách hàng:</h4>
                 
                     {{form_user.as_p}}
-               
-                <br>
-                <br>
-                <h4>Chọn phương thức thanh toán:</h4>
                 
-                {{form_order.as_p}}
-              
                 <input type="hidden" name="order_id" value="{{order.id}}">
                 <button class="btn-checkout" type="submit" >Đặt hàng</a></button>
             

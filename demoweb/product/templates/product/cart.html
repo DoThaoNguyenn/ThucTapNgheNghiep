@@ -34,7 +34,7 @@
                 <table class="table1">
                     <tr>
                         <th><h6>Tổng sản phẩm:</h6>{{order.quantity}}</th>
-                        <th><h6>Tổng tiền:</h6>{{order.total}}</th>
+                        <th><h6>Tổng tiền:</h6>{{order.total_price}}</th>
                         {% if is_order %}
                         <th>
                             <a style ="float:right; margin:5px;background-color: limegreen;" class="btn btn success" href="{% url 'product:checkout' %}">Thanh toán</a>

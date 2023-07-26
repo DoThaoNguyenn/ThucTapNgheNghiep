@@ -18,17 +18,16 @@
         </div>
     </div>
     <div class="col-4">
-        <h6>Phương thức thanh toán:</h6>
-        <div class="paytime"> 
-            <li>Thanh toán bằng: {{payment}}</li>
-            <li>Thời gian đặt hàng: {{order.datetime}}</li>
+        <h6>Thời gian đặt hàng:</h6>
+        <div class="datetime"> 
+            <li> {{order.datetime}}</li>
         </div>
     </div>
     <div class="col-4">
         <h6>Tổng tiền:</h6> 
         <div class="total-review">
             
-            {{order.total}}
+            {{order.total_price}}
         </div>
     </div>
 </div>
@@ -37,8 +36,7 @@
     {% include 'product/table_product.html' %}
 <br>
 <br>
-<!-- <button class="order-list"><a href="{% url 'product:order_list' %}">Quản lý đơn hàng</button>     -->
-<button type="button" class="btn btn-secondary" a href="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a>
-<!-- <button class="order-list" a href="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a> -->
+
+<button type="button" class="order-list"><a style="text-decoration: none;color: #fff;" href ="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a>
 {% endblock %}
 

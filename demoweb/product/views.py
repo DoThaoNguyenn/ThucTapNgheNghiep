@@ -3,8 +3,12 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product, Product_information
 from order.models import Order, Users, Order_detail
-from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm, OrderForm
+from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
+from django.contrib import messages
+from django.urls import reverse
+
 
 # Create your views here.
 def index(request):
@@ -34,7 +38,6 @@ def create_product(request):
         print(request.POST)
         pr=Product_create_form(request.POST, request.FILES)
         if pr.is_valid():
-            print('7777777')
             pr.save()
             return HttpResponse("Save success")
         else:
@@ -53,10 +56,8 @@ def update_product(request, id):
     sp = Product.objects.get(pk=id)
     pr = Product_create_form(instance=sp)
     if request.method=="POST":
-        print(request.POST)
         pr=Product_create_form(request.POST, request.FILES, instance=sp)
         if pr.is_valid():
-            print('7777777')
             pr.save()
             return HttpResponse("Update success")
         else:
@@ -139,8 +140,9 @@ def register(request):
 
 
 def add_to_cart(request,id):
+
+    messages.success(request, 'Thêm sản phẩm thành công !')
     user = request.user
-    print(2222)
     if user.is_authenticated:
         product = Product.objects.get(pk=id)   
         order, created = Order.objects.get_or_create(user = request.user, status =1)
@@ -148,10 +150,9 @@ def add_to_cart(request,id):
         if not created1:
             orderdetail.quantity += 1
             orderdetail.save()
-
         
-    
-        return redirect('product:show_cart')
+        return redirect(reverse(viewname='information', args=[id]))
+        # return redirect('.')
     else:
         return redirect('product:login')
 
@@ -161,10 +162,7 @@ def remove_orderDetail(request, id):
     return redirect('product:show_cart')
 
 def show_cart(request):
-    print(343333)
-
     if Order.objects.filter(user=request.user, status =1).exists() is False: 
-        # error_message = 'Chưa có sản phẩm trong giỏ hàng.'
         context ={
             "error_message":  'Chưa có sản phẩm trong giỏ hàng.',
             "is_order": False
@@ -174,7 +172,7 @@ def show_cart(request):
         order = Order.objects.get(user=request.user, status =1)
         orderDetail = Order_detail.objects.filter(order=order)   
         order.quantity = sum(obj.quantity for obj in orderDetail)
-        order.total = sum(obj.product.discount_cost()*obj.quantity for obj in orderDetail)
+        order.total_price = sum(obj.product.discount_cost()*obj.quantity for obj in orderDetail)
         order.save()
 
         context = {
@@ -191,8 +189,7 @@ def checkout(request):
     order = Order.objects.get(user=user, status = 1)
     orderdetail = Order_detail.objects.filter(order=order)    
     form_user = UserInformationForm(instance=user)
-    form_order = OrderForm(instance=order)
-    return render(request, 'product/checkout.html',{'form_user':form_user,'form_order':form_order,'orderdetail':orderdetail,'order':order})
+    return render(request, 'product/checkout.html',{'form_user':form_user,'orderdetail':orderdetail,'order':order})
 
 
 
@@ -216,10 +213,9 @@ def plus_quantity(request,id):
 
 def review_order(request,id):
     order = Order.objects.get(pk=id)
-    payment = order.get_menthod_display()
     orderdetail = Order_detail.objects.filter(order=order)
     
-    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail,'payment':payment})
+    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail})
 
 
 def order_list(request):
@@ -228,15 +224,33 @@ def order_list(request):
         order_id = request.POST.get('order_id')
         order = Order.objects.get(pk=order_id)
         form_user = UserInformationForm(request.POST,instance=Users.objects.get(pk=request.user.pk))
-        form_order = OrderForm(request.POST,instance=order)
-        if form_user.is_valid() and form_order.is_valid():
-            form_order.save()
+        if form_user.is_valid():
             form_user.save()
             order.datetime = timezone.now()
             order.status = 2
         else:
             print(form_user.errors.as_data())
-            print(form_order.errors.as_data())
         order.save()
     list = Order.objects.filter(user=request.user, status =2)
     return render (request,'product/account.html',{'order':list})
+      
+
+
+
+# trang product
+#hien sản phẩm khi click vào sidebar
+def product_select_main(request, id):
+    lsp = Category.objects.all()
+    sp = Product.objects.filter(category=id)
+    paginator = Paginator(sp,1) # mỗi trang hiển thị 1 đối tượng
+    page= request.GET.get('page')
+    page_obj = paginator.get_page(page)
+    # return render(request, 'product/product.html', {})
+    return render(request, "product/product.html", {'sanpham':sp,'loaisp':lsp,'page_obj': page_obj})
+#dhien ds loai sp sidebar
+def product_select(request):
+    lsp = Category.objects.all()
+    return render(request, "product/product.html", {'loaisp':lsp})
+# (modifié) 
+
+

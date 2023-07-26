@@ -1,25 +1,58 @@
 {% extends 'product/base.html' %}
-
+{% load static %}
 {% block content %}
-<h3>Thông tin chi tiết sản phẩm:</h3>
-<ul>
+
+<br>
+{% for i in message %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>{{i}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+<br>
+<div class="row">
+    <div class="col-6">
+        <div class="product-image">
+            <img src="{{ sp.image.url }}">
+            
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="product-information">
+            <h4>{{sp.title}}</h4>
+            <h5>Tác giả: {{information.author}}</h5>
+            <br>
+            <h4 style="display:inline-block ;" >{{sp.discount_cost}} </h4> <h4 style ="text-decoration: underline; display: inline-block;margin-right: 20px;">đ</h4>
+            <h5 style ="display:inline-block; text-decoration: line-through;">{{sp.cost}} </h5> <h5 style ="text-decoration: underline; display: inline-block;margin-right: 20px">đ</h5>
+            <h5 style="display:inline-block;font-size: 20px; " >-{{sp.discount}} %</h5>
+            </br>
+            
+            <button type="button" class="btn-add-cart"><a style="text-decoration: none; color: #fff;" href="{% url 'product:add-cart' sp.id %}">Thêm vào giỏ hàng</button></a> 
+           
+        </div>
+    </div>
+</div>
+<br>
+<h5>Thông tin chi tiết:</h5>
+<div>
+    <table class="tb-description">
+        <tbody>
+            <tr>
+                <td>Nhà xuất bản: </td>
+                <td>{{information.publisher}}</td>
+            </tr>
+            <tr>
+                <td>Số trang: </td>
+                <td>{{information.pages}}</td>
+            </tr>
+            <tr>
+                <td>Mô tả: </td>
+                <td>{{information.description}}</td>
+            </tr>
+        </tbody>
+    </table>
     
-    <img src="{{ sp.image.url }}">
-    <br><h5>{{sp.title}}</h5></br>
-    <br><h5>Giá sách:</h5>{{sp.cost}}</br>
-    <br><h5></h5>{{sp.discount}}<h5 style="font-size: 20px;">%</h5></br>
-    <li><h5>Giảm giá:</h5>{{sp.discount_cost}}</li>
-    
-    
-    <button type="button" class="btn btn-success"><a href ="{% url 'product:add_to_cart' sp.id %}">Thêm vào</a></button> -->
-    <a href="{% url 'product:add_to_cart' sp.id %}">Add to cart<a></a>
-    
-    
-    <br><h5>Tác giả:</h5>{{information.author}}</br>
-    <br><h5>Nhà xuất bản:</h5><p>{{information.publisher}}</p></br>
-    <br><h5>Số trang:</h5>{{information.pages}}</br>
-    <br><h5>Mô tả:</h5>{{information.description}}</br>
-    
-    
-</ul>
+</div>
+<br>
+
 {% endblock %}
