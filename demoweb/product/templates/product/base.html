@@ -7,6 +7,13 @@
         <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="{% static 'css/product.css' %}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link href='https://unpkg.com/css.gg@2.0.0/icons/css/shopping-cart.css' rel='stylesheet'>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" />
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" />
+        
         <style>
             * {
   padding: 0;
@@ -14,7 +21,9 @@
   box-sizing: border-box;
   font-family: 'Muli', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
-
+body{
+  background-color:rgb(248,248,255);
+}
 li {
   list-style: none;
 }
@@ -140,10 +149,11 @@ nav .content-nav ul li a:hover {
 
 .btn-secondary {
   color: #292b2c;
-  background-color: #fff;
-  border-color: #ccc;
+  background-color:none;
+  border-color: none;
   height: 40px;
-  margin-left: 50px;
+  margin-left: 100px;
+  
 }
 
 .btn-primary {
@@ -245,6 +255,9 @@ h5.modal-title {
 
 }
 
+main{
+  min-height: 80vh;
+}
 .main-product .content-product .content-product-deltals .price {
   color: #c7b200;
   font-weight: 700;
@@ -307,6 +320,7 @@ h5.modal-title {
 .category ul{
     display: flex;
     justify-content: space-around;
+    padding-top: 20px;
 }
 .category{
     border: 1px solid black;
@@ -327,12 +341,11 @@ h5.modal-title {
     margin-right: auto;
 }
 .sidebar {
-  margin: 0;
+  margin-top: 50px;
   padding: 0;
   width: 200px;
   background-color: #f1f1f1;
-  position: fixed;
-  height: 100%;
+  height: auto;
   overflow: auto;
   top:200px;
   
@@ -354,7 +367,10 @@ h5.modal-title {
   background-color: #555;
   color: white;
 }
-
+.product-content-list{
+  position: relative;
+  top: -450px;
+}
 div.content {
   margin-left: 200px;
   padding: 1px 16px;
@@ -364,15 +380,18 @@ div.content {
 .user{
   display: flex;
   width: 250px;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-end;
   height: auto;
-  margin-left:100px ;
+  margin-left:20px ;
   padding: 0;
+  color: #fff;
+  /* border: 1px solid black; */
 
 }
 .user-content{
-
+  position: relative;
+  top: 5px;
   padding: 5px;
   background-color: gainsboro;
   border-radius: 4px;
@@ -390,7 +409,14 @@ div.content {
   margin-left: auto;
   margin-right: auto;
 }
+footer{
+  height: 150px;
+  background-color: #555;
 
+}
+.container-slider{
+
+}
 
          
         </style>
@@ -404,22 +430,22 @@ div.content {
             </div>
             <div class="content-nav">
                 <ul>
-                    <li><a href="#">Trang Chủ</a></li>
-                    <li><a href="#">Sản Phẩm</a></li>
-                    <li><a href="#">Liên Hệ</a></li>
-                    <li><a href="#">Giới Thiệu</a></li>
+                    <li><a href="{% url 'product:index' %}">Trang Chủ</a></li>
+                    <li><a href="{% url 'product:product' %}">Sản Phẩm</a></li>
+                    <li><a href="{% url 'product:contact' %}">Liên Hệ</a></li>
+                    <li><a href="{% url 'product:about_us' %}">Giới Thiệu</a></li>
                 </ul>
-                <form>
-                    <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." />
+                <form id="myForm" action="{% url 'product:search' %}" >
+                    <input  type="text" name="q" placeholder="Tìm kiếm sản phẩm..." required />
                     <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
             </div>
             <!-- The Modal -->
             
-            <button type="button" class="btn btn-secondary"><a href="{% url 'product:show_cart' %}">Gio hang</a></button>
+            <button type="button" class="btn btn-secondary"><a style="color: #fff;" href="{% url 'product:show_cart' %}"><i class="gg-shopping-cart"></i></a></button>
             <div class="user">
               {% if user.username %}
-                  <p >Xin chào <span>{{user.username}}</span></p>
+                  <p >Xin chào <b>{{user.username}}</b></p>
                   <p class="user-content"><a href="{% url 'product:logout'%}">Logout</a></p>
               {% else %}
               <p class="user-content"><a href="{% url 'product:register' %}">Đăng ký</a></p>
@@ -455,7 +481,14 @@ div.content {
                 </div>
             </div>
         </nav>
-
+      <!-- <form class="form-inline my-2 my-ly-0" action="{% url 'product:search'%}">
+        <div class="input-group">
+          <input name="q" type="text" class="form-control" placeholder="search" >
+          <div class="input-group-append">
+          <button class="btn btn-dark" type="submit" id="button-addon2">Search</button>
+          </div>
+        </div>
+      </form> -->
     </header>
         <main class="container">
             <div class="row">
@@ -467,4 +500,8 @@ div.content {
         </main>
     </body>
 </body>
+
+<footer>
+    <div style="color: #f1f1f1;font-size: 30px ;text-align: center;padding-top: 50px;">Copyright@2023</div>
+</footer>
 </html>

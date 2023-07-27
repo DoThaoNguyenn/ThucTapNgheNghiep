@@ -35,5 +35,11 @@ urlpatterns = [
      path('order_list/',views.order_list, name="order_list"),
      path('product/',views.product_select, name="product"),
      path('product/<int:id>/',views.product_select_main, name="product_select_main"),
+     path('about_us/',views.about_us, name="about_us"),
+     path('contact/',views.contact, name="contact"),
+     path('search/',views.search,name="search"),
+     
+
+
 
 ]
