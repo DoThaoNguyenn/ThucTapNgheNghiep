@@ -10,9 +10,9 @@ from django.core.paginator import Paginator
 # Create your views here.
 def index(request):
     ds = Category.objects.all()
-    sp = Product.objects.all()
+    sp = Product.objects.all()[:3]
    
-    
+    print(sp)
     return render(request, 'product/index.html', {'loaisp':ds, 'sanpham':sp})
 
 def detail(request, id):
