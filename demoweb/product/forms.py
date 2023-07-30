@@ -32,11 +32,11 @@ class Register_form(forms.Form):
     #         'email': forms.EmailField(label='Email'),
     #         'password1': forms.PasswordInput(attrs={'label': 'Nhập mật khẩu'}),
     #         'password2': forms.PasswordInput(attrs={'label': 'Nhập lại mật khẩu'}),
-    #     }
-    
-    username= forms.CharField(label='Tài khoản', max_length=30)
+    #  }
+
+    username= forms.CharField(label='Tài khoản', max_length=30,widget=forms.TextInput(attrs={'class': 'myform','id':'username'}))
     email=forms.EmailField(label='Email')
-    password1=forms.CharField(label='Mật khẩu', widget=forms.PasswordInput())
+    password1=forms.CharField(label='Mật khẩu', widget=forms.PasswordInput(attrs={'class': 'myform','id':'password'}))
     password2=forms.CharField(label='Nhâp lại mật khẩu',widget=forms.PasswordInput())
 
     def clean_password2(self):

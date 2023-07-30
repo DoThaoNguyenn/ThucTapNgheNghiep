@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-
+# from product.views import ResetPasswordView
 app_name = "product"
 urlpatterns = [
      path('',views.index, name="index"),
@@ -36,8 +36,4 @@ urlpatterns = [
      path('about_us/',views.about_us, name="about_us"),
      path('contact/',views.contact, name="contact"),
      path('search/',views.search,name="search"),
-     
-
-
-
 ]
