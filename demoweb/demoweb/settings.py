@@ -143,3 +143,4 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 	
 AUTH_USER_MODEL = 'order.users'
+

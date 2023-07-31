@@ -4,11 +4,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product, Product_information
 from order.models import Order, Users, Order_detail
 from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm, OrderForm
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.db.models import Q
-
-
+from django.contrib.auth.forms import PasswordChangeForm
 # Create your views here.
 def index(request):
     ds = Category.objects.all()
@@ -293,3 +291,12 @@ def search(request):
         query1 |= item
     sp = Product.objects.filter(query1)
     return render(request,"product/search.html",{'sp':sp})
+# password_change_form
+class MyPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        for fieldname  in ['old_password', 'new_password1', 'new_password2']:
+            self.fields[fieldname].widget.attrs={ 'class': 'form-control'}
+
+
