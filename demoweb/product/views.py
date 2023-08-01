@@ -5,19 +5,16 @@ from .models import Category, Product, Product_information
 from order.models import Order, Users, Order_detail
 from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm,AddAvatar,UpdateUser
 from vi_address.models import City, District, Ward
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.urls import reverse
 
-
+from django.db.models import Q
+from django.contrib.auth.forms import PasswordChangeForm
 # Create your views here.
 def index(request):
     ds = Category.objects.all()
-    sp = Product.objects.all()
-   
-    
-    return render(request, 'product/index.html', {'loaisp':ds, 'sanpham':sp})
+    return render(request, 'product/index.html', {'loaisp':ds})
 
 def detail(request, id):
     
@@ -266,8 +263,44 @@ def contact(request):
     return render(request,"product/contact.html")
 def search(request):
     q=request.GET.get('q')
-    sp=Product.objects.filter(title__icontains=q).order_by('-id')
+    query=q.split()
+    print(query)
+    # if len(query)==1:
+    #     sp=Product.objects.filter(title__icontains=query[0])
+    # elif len(query)==2:
+    #     sp=Product.objects.filter(Q(title__icontains=query[0]) | 
+    #     Q(title__icontains=query[1]) )
+    # elif len(query)==3:
+    #     sp=Product.objects.filter(Q(title__icontains=query[0]) | 
+    #     Q(title__icontains=query[1]) | 
+    #     Q(title__icontains=query[2]) )
+    # elif len(query)==4:
+    #     sp=Product.objects.filter(Q(title__icontains=query[0]) | 
+    #     Q(title__icontains=query[1]) | 
+    #     Q(title__icontains=query[2])| 
+    #     Q(title__icontains=query[3]) )
+    # elif len(query)==5:
+    #     sp=Product.objects.filter(Q(title__icontains=query[0]) | 
+    #     Q(title__icontains=query[1]) | 
+    #     Q(title__icontains=query[2]) | 
+    #     Q(title__icontains=query[3]) | 
+    #     Q(title__icontains=query[4]) 
+    #     ) 
+    queries = [Q(title__icontains=query) for query in query]
+    query1 = queries.pop()
+    for item in queries:
+        query1 |= item
+    sp = Product.objects.filter(query1)
     return render(request,"product/search.html",{'sp':sp})
+# password_change_form
+class MyPasswordChangeForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        for fieldname  in ['old_password', 'new_password1', 'new_password2']:
+            self.fields[fieldname].widget.attrs={ 'class': 'form-control'}
+
+
 
 
 # load districts:

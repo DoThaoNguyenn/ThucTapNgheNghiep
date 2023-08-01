@@ -1,7 +1,10 @@
-from django.urls import path
+from django.urls import path, reverse_lazy
 from django.contrib.auth import views as auth_views
 from . import views
 
+
+from django.contrib.auth.views  import PasswordChangeView, PasswordChangeDoneView
+from .views import MyPasswordChangeForm
 app_name = "product"
 urlpatterns = [
      path('',views.index, name="index"),
@@ -38,10 +41,18 @@ urlpatterns = [
      path('about_us/',views.about_us, name="about_us"),
      path('contact/',views.contact, name="contact"),
      path('search/',views.search,name="search"),
+     
+     path('password_change/',PasswordChangeView.as_view(
+          template_name='product/password.html',
+          success_url= reverse_lazy('product:password_change_done'),
+          form_class=MyPasswordChangeForm
+          ),name="password_chagne"),
+     path('password_change/done/',PasswordChangeDoneView.as_view(template_name='product/passwordone.html'),name="password_change_done"),
 
      path('load-wards/',views.load_wards,name="load-wards"),
      path('load-districts/',views.load_districts,name="load-districts"),
 
      path('profile/',views.profile,name="profile"),
- 
+
 ]
+

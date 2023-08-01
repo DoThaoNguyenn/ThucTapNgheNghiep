@@ -30,12 +30,9 @@
                 <div style="width: 100%;height: 50px;background-color:#66ffff ;font-size: 24px;border-radius: 5px;" class="cat-content-head">
                     {{i.name}}
                 </div>
-                {% comment %} {% for x in i.products.all%}
-                {% endfor%}
-                {% endcomment %}
             <div class="cat-content-body" style="width:100%; margin-bottom:30px;background-color: #fff;padding-top: 10px;">
                 <ul style="display:flex; justify-content:space-between;margin: 0 20px">
-                    {% for x in i.products.all %}
+                    {% for x in i.products.all|slice:":5" %}
                         <div style="text-align:center" >
                             <img style="width:120px;height:150px" src="{{x.image.url}}">
                             <li><a href ="{% url 'product:information' x.id %}">{{x.title}}</a></li>
@@ -50,33 +47,8 @@
         </ul>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('.product-slider').slick({
-            dots: true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            responsive: [
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
-        });
-    });
-</script>
+ádasd
+<div>
+
+
 {% endblock %}

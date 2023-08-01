@@ -1,6 +1,7 @@
 {% load static %}
    
 <!DOCTYPE html>
+{% load static%}
 <html>
     <head>
       <title>Website </title>
@@ -330,15 +331,11 @@ footer{
       
     </header>
         <main class="container">
-            <div class="row">
-                <div class="col">
+
                 {% block content %}
                 {% endblock %}
-                </div>
-            </div>
         </main>
     </body>
-</body>
 
 <footer>
     <div style="color: #f1f1f1;font-size: 30px ;text-align: center;padding-top: 50px;">Copyright@2023</div>

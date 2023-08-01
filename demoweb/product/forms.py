@@ -28,7 +28,7 @@ class Register_form(forms.Form):
     
     username= forms.CharField(label='Tài khoản', max_length=30)
     email=forms.EmailField(label='Email')
-    password1=forms.CharField(label='Mật khẩu', widget=forms.PasswordInput())
+    password1=forms.CharField(label='Mật khẩu', widget=forms.PasswordInput(attrs={'class': 'myform','id':'password'}))
     password2=forms.CharField(label='Nhâp lại mật khẩu',widget=forms.PasswordInput())
 
     def clean_password2(self):
