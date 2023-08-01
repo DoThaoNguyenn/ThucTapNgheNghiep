@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'product',
     'order',
     'django_extensions',
+    'rest_framework',
+    'vi_address',
    
 ]
 

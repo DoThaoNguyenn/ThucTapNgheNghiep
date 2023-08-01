@@ -13,7 +13,7 @@ body {
   padding: 10px;
 }
 
-.btn-add-cart, .order-list, .btn-checkout {
+.add-avt, #btn-updateUser, .btn-add-cart, .order-list, .btn-checkout {
   height: 50px;
   width: 200px;
   font-size: 22px;
@@ -25,18 +25,18 @@ body {
   outline: none;
 }
 
-.btn-add-cart:hover, .order-list:hover, .btn-checkout:hover {
+.add-avt:hover, #btn-updateUser:hover, .btn-add-cart:hover, .order-list:hover, .btn-checkout:hover {
   background-color: lightcoral;
 }
 
-.tb-description, .order-tb, .cart-tb {
+.tb-user-infor, .tb-description, .order-tb, .cart-tb {
   width: 100%;
   border-collapse: collapse;
   border-radius: 5px;
   box-shadow: 4px 4px 5px black;
   text-align: center;
 }
-.tb-description td, .order-tb td, .cart-tb td {
+.tb-user-infor td, .tb-description td, .order-tb td, .cart-tb td {
   border-bottom: 2px solid #ececec;
 }
 
@@ -117,6 +117,22 @@ td {
   border-right: 2px solid #ececec;
   text-align: left;
   padding: 10px;
+}
+
+.tb-user-infor {
+  background-color: burlywood;
+  position: relative;
+}
+.tb-user-infor td {
+  border: 2px solid #ececec;
+  text-align: left;
+  padding: 10px;
+}
+
+#btn-updateUser {
+  position: relative;
+  top: 10px;
+  left: 750px;
 }
 
 /*# sourceMappingURL=product.css.map */

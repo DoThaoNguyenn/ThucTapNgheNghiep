@@ -1,5 +1,10 @@
 {% extends 'product/base.html' %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
 {% block content %}
+
     <div class="sidebar">
         {%for i in loaisp%}
         <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>

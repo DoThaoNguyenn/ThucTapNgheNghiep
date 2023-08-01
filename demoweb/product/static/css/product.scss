@@ -171,3 +171,30 @@ td{
 .order-list {
     @extend %btn;
 }
+
+
+// .col-6 {
+//     @extend %box;
+   
+// }
+.tb-user-infor {
+    @extend %tb;
+    background-color: burlywood;
+    position:relative;
+    td {
+        border: 2px solid #ececec;
+        text-align: left;
+        padding: 10px;
+    }
+}
+#btn-updateUser {
+    @extend %btn;
+    position:relative;
+    top: 10px;
+    left: 750px;
+
+}
+.add-avt {
+    @extend %btn;
+}
+

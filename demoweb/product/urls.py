@@ -38,8 +38,10 @@ urlpatterns = [
      path('about_us/',views.about_us, name="about_us"),
      path('contact/',views.contact, name="contact"),
      path('search/',views.search,name="search"),
-     
 
+     path('load-wards/',views.load_wards,name="load-wards"),
+     path('load-districts/',views.load_districts,name="load-districts"),
 
-
+     path('profile/',views.profile,name="profile"),
+ 
 ]

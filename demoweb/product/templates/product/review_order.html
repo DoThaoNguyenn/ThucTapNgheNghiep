@@ -1,7 +1,11 @@
 {% extends 'product/base.html' %}
-
 {% load static %}
 {% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+</head>
 <br>
 <h4>Đặt hàng thành công !</h4>
 <br>
@@ -13,7 +17,7 @@
         <div class="infor">
             
                 <li>{{order.user.first_name}} {{order.user.last_name}}</li>
-                <li>Địa chỉ: {{order.user.address}}</li>
+                <li>Địa chỉ: {{order.user.street}}, {{order.user.ward}}, {{order.user.district}}, {{order.user.city}}</li>
                 <li>SĐT: {{order.user.phone}}</li>
         </div>
     </div>
@@ -39,4 +43,3 @@
 
 <button type="button" class="order-list"><a style="text-decoration: none;color: #fff;" href ="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a>
 {% endblock %}
-

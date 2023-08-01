@@ -3,7 +3,8 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product, Product_information
 from order.models import Order, Users, Order_detail
-from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm
+from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm,AddAvatar,UpdateUser
+from vi_address.models import City, District, Ward
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.contrib import messages
@@ -267,3 +268,33 @@ def search(request):
     q=request.GET.get('q')
     sp=Product.objects.filter(title__icontains=q).order_by('-id')
     return render(request,"product/search.html",{'sp':sp})
+
+
+# load districts:
+def load_districts(request):
+    city_id = request.GET.get('city')
+    districts = District.objects.filter(parent_code=city_id)
+    return render(request, 'product/district_option.html',{'districts':districts})
+
+def load_wards(request):
+    district_id = request.GET.get('district')
+    wards = Ward.objects.filter(parent_code=district_id)
+    return render(request, 'product/ward_option.html',{'wards':wards})
+
+def profile(request):
+    user = Users.objects.get(pk=request.user.pk)
+    form = AddAvatar
+    form_update = UpdateUser
+    if request.method == 'POST':
+        form = AddAvatar(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+    if request.method == 'POST' and 'username' in request.POST:
+        form_update = UpdateUser(request.POST, instance=user)
+        if form_update.is_valid():
+            user.username = request.POST.get('username')
+            user.email = request.POST.get('email')
+            form_update.save()
+        else:
+            print(form_update.errors.as_data())
+    return render(request, 'product/profile.html',{'user':user,'form_update':form_update,'form':form})

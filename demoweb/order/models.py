@@ -1,19 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-# from .managers import CustomUserManager
-# from django.utils.translation import ugettext_lazy as _
+from vi_address.models import City, District, Ward
 
 from product.models import Product
 
 # Create your models here.
+
+
 class Users(AbstractUser):
     
     phone = models.CharField(max_length=10,null=True, blank=True)
-    address = models.CharField(max_length=255,null=True, blank=True)
-    
+    city = models.ForeignKey(City,on_delete=models.CASCADE, null=True, blank=True)
+    district = models.ForeignKey(District,on_delete=models.CASCADE, null=True, blank=True)
+    ward = models.ForeignKey(Ward,on_delete=models.CASCADE, null=True, blank=True)
+    street = models.CharField(max_length=100,null=True, blank=True)
+    avatar = models.ImageField(upload_to='media', null=True, blank=True)
     class Meta:
         db_table = 'auth_user'
 
+    def show_avt(self):
+        if self.avatar:
+            return self.avatar.url
+        else:
+            return ""
 
 class Order(models.Model):
 
