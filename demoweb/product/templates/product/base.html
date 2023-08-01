@@ -303,7 +303,11 @@ footer{
             </div>
             
             
-            <button type="button" class="btn btn-secondary"><a style="color: #fff;" href="{% url 'product:show_cart' %}"><i class="gg-shopping-cart"></i></a></button>
+            <button type="button" class="btn btn-secondary"><a style="color: #fff;" href="{% url 'product:show_cart' %}"><i class="gg-shopping-cart"></i><span class="badge text-bg-danger">{{request.session.count_cartitem}}</span></a></button>
+            
+
+
+
             <div class="user">
               {% if user.username %}
                   <p >Xin chào <b>{{user.username}}</b></p>

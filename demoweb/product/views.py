@@ -6,7 +6,7 @@ from order.models import Order, Users, Order_detail
 from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm,AddAvatar,UpdateUser
 from vi_address.models import City, District, Ward
 from django.core.paginator import Paginator
-from django.contrib import messages
+from django.contrib import messages,sessions
 from django.urls import reverse
 
 from django.db.models import Q
@@ -150,9 +150,10 @@ def add_to_cart(request,id):
         if not created1:
             orderdetail.quantity += 1
             orderdetail.save()
-  
-        
- 
+
+        orderDetail = Order_detail.objects.filter(order=order) 
+        request.session['count_cartitem'] = orderDetail.count()
+
         return redirect(reverse(viewname='product:information', args=[id]))
         
     else:
@@ -177,6 +178,7 @@ def show_cart(request):
         order.total_price = sum(obj.product.discount_cost()*obj.quantity for obj in orderDetail)
         order.save()
 
+        request.session['count_cartitem'] = orderDetail.count()
         context = {
             'orderDetail':orderDetail,
             'order':order,
@@ -230,6 +232,7 @@ def order_list(request):
             form_user.save()
             order.datetime = timezone.now()
             order.status = 2
+            del request.session['count_cartitem']
         else:
             print(form_user.errors.as_data())
         order.save()
@@ -331,3 +334,5 @@ def profile(request):
         else:
             print(form_update.errors.as_data())
     return render(request, 'product/profile.html',{'user':user,'form_update':form_update,'form':form})
+
+
