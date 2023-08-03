@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Category, Product, Product_information
+from .models import Category, Product,Review
 from order.models import Order, Users, Order_detail
-from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm, OrderForm
+from .forms import Product_create_form, Category_create_form, Register_form,UserInformationForm,AddAvatar,UpdateUser,Add_review
+from vi_address.models import City, District, Ward
 from django.core.paginator import Paginator
+from django.contrib import messages,sessions
+from django.urls import reverse
+
 from django.db.models import Q
 from django.contrib.auth.forms import PasswordChangeForm
 # Create your views here.
@@ -19,12 +23,28 @@ def detail(request, id):
     return render(request, "product/detail.html", {'sanpham':sp,'loaisp':lsp})
     
 def infor(request, id):
-    sp = Product.objects.get(pk=id)
-    inf = Product_information.objects.get(product=id)
-    return render(request,"product/product_detail.html", {'sp':sp,'information':inf})
-
-
-
+    sp = Product.objects.get(pk=id)    
+    form = Add_review
+    if Review.objects.filter(user=request.user,product=sp).count()>0:
+        message = 'Khách hàng đã đánh giá sản phẩm này !'
+        is_review = False
+          
+    else: 
+        is_review = True
+        message = ""
+        if request.method == 'POST':
+            form = Add_review(request.POST)
+            if form.is_valid():
+                new_review = Review.objects.create(
+                    user = request.user,
+                    product = sp,
+                    created_time = timezone.now(),
+                    rating = request.POST.get('rating'),
+                    review = request.POST.get('review')
+                )
+            else:
+                print(form.errors.as_data())
+    return render(request,"product/product_detail.html", {'sp':sp,'form':form,'is_review':is_review,'message':message})
 
 def create_product(request):
     pr = Product_create_form()
@@ -32,7 +52,6 @@ def create_product(request):
         print(request.POST)
         pr=Product_create_form(request.POST, request.FILES)
         if pr.is_valid():
-            print('7777777')
             pr.save()
             return HttpResponse("Save success")
         else:
@@ -43,7 +62,11 @@ def create_product(request):
 
 def list_product(request):
     sp=Product.objects.all()
-    return render (request, 'product/list_product.html',{'sp':sp})
+    s= []
+    for i in range(1,sp.count()):
+        s += [i]
+
+    return render (request, 'product/list_product.html',{'sp':sp,'s':s})
 
 
 
@@ -51,10 +74,8 @@ def update_product(request, id):
     sp = Product.objects.get(pk=id)
     pr = Product_create_form(instance=sp)
     if request.method=="POST":
-        print(request.POST)
         pr=Product_create_form(request.POST, request.FILES, instance=sp)
         if pr.is_valid():
-            print('7777777')
             pr.save()
             return HttpResponse("Update success")
         else:
@@ -70,18 +91,18 @@ def delete_product(request, id):
     return render (request, 'product/delete_product.html',{'sp':sp})
 
 
-def add_product_information(request,id):
-    form = Add_Product_information()
-    sp=Product.objects.get(pk=id)
-    if request.method == 'POST':
-        form = Add_Product_information(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse ('Add information success')
-        else:
-            print(form.errors.as_data())
+# def add_product_information(request,id):
+#     form = Add_Product_information()
+#     sp=Product.objects.get(pk=id)
+#     if request.method == 'POST':
+#         form = Add_Product_information(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponse ('Add information success')
+#         else:
+#             print(form.errors.as_data())
 
-    return render(request, 'product/add_product_information.html',{'form':form})
+#     return render(request, 'product/add_product_information.html',{'form':form})
 
 
 
@@ -137,9 +158,11 @@ def register(request):
 
 
 def add_to_cart(request,id):
+
+    
     user = request.user
-    print(2222)
     if user.is_authenticated:
+
         product = Product.objects.get(pk=id)   
         order, created = Order.objects.get_or_create(user = request.user, status =1)
         orderdetail, created1 = Order_detail.objects.get_or_create(order = order, product = product)
@@ -147,9 +170,11 @@ def add_to_cart(request,id):
             orderdetail.quantity += 1
             orderdetail.save()
 
+        orderDetail = Order_detail.objects.filter(order=order) 
+        request.session['count_cartitem'] = orderDetail.count()
+
+        return redirect(reverse(viewname='product:information', args=[id]))
         
-    
-        return redirect('product:show_cart')
     else:
         return redirect('product:login')
 
@@ -159,10 +184,7 @@ def remove_orderDetail(request, id):
     return redirect('product:show_cart')
 
 def show_cart(request):
-    print(343333)
-
     if Order.objects.filter(user=request.user, status =1).exists() is False: 
-        # error_message = 'Chưa có sản phẩm trong giỏ hàng.'
         context ={
             "error_message":  'Chưa có sản phẩm trong giỏ hàng.',
             "is_order": False
@@ -172,9 +194,10 @@ def show_cart(request):
         order = Order.objects.get(user=request.user, status =1)
         orderDetail = Order_detail.objects.filter(order=order)   
         order.quantity = sum(obj.quantity for obj in orderDetail)
-        order.total = sum(obj.product.discount_cost()*obj.quantity for obj in orderDetail)
+        order.total_price = sum(obj.product.discount_cost()*obj.quantity for obj in orderDetail)
         order.save()
 
+        request.session['count_cartitem'] = orderDetail.count()
         context = {
             'orderDetail':orderDetail,
             'order':order,
@@ -186,23 +209,10 @@ def show_cart(request):
 def checkout(request):
 
     user = Users.objects.get(pk=request.user.pk)
-    print(11, user)
     order = Order.objects.get(user=user, status = 1)
-    print(22, order)
-    orderdetail = Order_detail.objects.filter(order=order)
-    print(999, orderdetail)
+    orderdetail = Order_detail.objects.filter(order=order)    
     form_user = UserInformationForm(instance=user)
-    form_order = OrderForm(instance=order)
-    if request.method == 'POST':
-        form_user = UserInformationForm(request.POST,instance=user)
-        form_order = OrderForm(request.POST,instance=order)
-        if form_user.is_valid():
-            form_order.save()
-            form_user.save()
-        else:
-            print(form_user.errors.as_data())
-            print(form_order.errors.as_data())
-    return render(request, 'product/checkout.html',{'form_user':form_user,'form_order':form_order,'orderdetail':orderdetail,'order':order})
+    return render(request, 'product/checkout.html',{'form_user':form_user,'orderdetail':orderdetail,'order':order})
 
 
 
@@ -224,17 +234,30 @@ def plus_quantity(request,id):
     return redirect('product:show_cart')
 
 
-def review_order(request):
-    
-    order_id = request.POST.get('order_id')
-    order = Order.objects.get(pk=order_id)
-    payment=order.get_menthod_display()
+def review_order(request,id):
+    order = Order.objects.get(pk=id)
     orderdetail = Order_detail.objects.filter(order=order)
+    
+    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail})
+
+
+def order_list(request):
+    
     if request.method == 'POST':
-        order.datetime = timezone.now()
-        order.status = 2
-    order.save()
-    return render(request, 'product/review_order.html', {'order':order,'orderdetail':orderdetail,'payment':payment})
+        order_id = request.POST.get('order_id')
+        order = Order.objects.get(pk=order_id)
+        form_user = UserInformationForm(request.POST,instance=Users.objects.get(pk=request.user.pk))
+        if form_user.is_valid():
+            form_user.save()
+            order.datetime = timezone.now()
+            order.status = 2
+            del request.session['count_cartitem']
+        else:
+            print(form_user.errors.as_data())
+        order.save()
+    list = Order.objects.filter(user=request.user, status =2)
+    return render (request,'product/account.html',{'order':list})
+      
 
 
 
@@ -300,3 +323,39 @@ class MyPasswordChangeForm(PasswordChangeForm):
             self.fields[fieldname].widget.attrs={ 'class': 'form-control'}
 
 
+
+
+# load districts:
+def load_districts(request):
+    city_id = request.GET.get('city')
+    districts = District.objects.filter(parent_code=city_id)
+    return render(request, 'product/district_option.html',{'districts':districts})
+
+def load_wards(request):
+    district_id = request.GET.get('district')
+    wards = Ward.objects.filter(parent_code=district_id)
+    return render(request, 'product/ward_option.html',{'wards':wards})
+
+def profile(request):
+    user = Users.objects.get(pk=request.user.pk)
+    form = AddAvatar
+    form_update = UpdateUser
+    if request.method == 'POST':
+        form = AddAvatar(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+    if request.method == 'POST' and 'username' in request.POST:
+        form_update = UpdateUser(request.POST, instance=user)
+        if form_update.is_valid():
+            user.username = request.POST.get('username')
+            user.email = request.POST.get('email')
+            form_update.save()
+        else:
+            print(form_update.errors.as_data())
+    return render(request, 'product/profile.html',{'user':user,'form_update':form_update,'form':form})
+
+
+def test(request):
+    return render (request,'product/test.html')
+
+    

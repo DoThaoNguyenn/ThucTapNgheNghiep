@@ -1,54 +1,17 @@
+{% extends 'product/base.html' %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    
+    <title>Cart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script> 
-    <style>
-        .tb-head{
-            background-color: red;
-            display: inline-block;
-            
-        } 
-        .cart-tb{
-            width: 100%;
-            border-collapse:collapse;
-            border-radius: 5px;
-            box-shadow:4px 4px 5px black ;
-            text-align: center;
-        }
-        tr{
-            border: 1px solid black;
-        
-        }
-        th{
-            height: 50px;
-        }
-        td{
-            width: auto;
-        }
-        .row-image{
-            width: 120px;
-            height: 120px;
-
-        }
-        .table1{
-            width: 100%;
-        }
-        body{
-            width: 900px;
-            margin-right :auto ;
-            margin-left: auto;
-            
-
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    
 </head>
 <body>
+    <br>
+    <h4>Giỏ hàng</h4>
     {% if error_message %}
   <div class="alert alert-danger" role="alert">
         {{ error_message }}
@@ -57,15 +20,15 @@
     <div class="row">
 		<div class="col-lg-12">
 			<div class="box-element">
-                <a  class="btn btn-outline-dark" href="{% url 'product:index' %}">&#x2190; Quay lại trang chủ</a>
+                <h5><a  class="btn btn-outline-dark" href="{% url 'product:index' %}">&#x2190; Quay lại trang chủ</a></h5>
                 <br>
                 <table class="table1">
                     <tr>
-                        <th><h5>Tổng sản phẩm:</h5>{{order.quantity}}</th>
-                        <th><h5>Tổng tiền:</h5>{{order.total}}</th>
+                        <th><h6>Tổng sản phẩm:</h6>{{order.quantity}}</th>
+                        <th><h6>Tổng tiền:</h6>{{order.total_price}}</th>
                         {% if is_order %}
                         <th>
-                            <a style ="float:right; margin:5px;" class="btn btn success" href="{% url 'product:checkout' %}">Thanh toán</a>
+                            <a style ="float:right; margin:5px;background-color: limegreen;" class="btn btn success" href="{% url 'product:checkout' %}">Thanh toán</a>
                         </th>
                         {% endif %}
                     </tr>
@@ -89,10 +52,10 @@
         
             <tr class="table-content">
             
-                <td><img class="row-image" src="{{i.product.image.url}}"></td>
-                <td><p>{{i.product.title}}</p></td>
+                <td><a href ="{% url 'product:information' i.product.id %}"><img class="row-image" src="{{i.product.image.url}}"></a></td>
+                <td><a href ="{% url 'product:information' i.product.id %}" style="text-decoration: None; color:black"><p>{{i.product.title}}</p></a></td>
                 <td><p>{{i.product.discount_cost}}</p></td>
-                    
+                
                 
                 <td>
                     <div class="Quantity">
@@ -111,3 +74,4 @@
 
 </body>
 </html>
+{% endblock %}

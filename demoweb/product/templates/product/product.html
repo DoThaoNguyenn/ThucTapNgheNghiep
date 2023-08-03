@@ -1,5 +1,10 @@
 {% extends 'product/base.html' %}
+{% load static %}
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
 {% block content %}
+
     <div class="sidebar">
         {%for i in loaisp%}
         <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
@@ -11,10 +16,10 @@
             {% for i in page_obj %}
             <div class="main-product" style="text-align:center;" >
                 <div class="img-product">
-                    <img style="width:150px;height:200px" src="{{i.image.url}}" alt="">
+                    <a href ="{% url 'product:information' i.id %}"><img style="width:150px;height:200px" src="{{i.image.url}}" alt=""></a>
                 </div>
                 <div class="content-product">
-                    <h3 class="content-product-name"><a href ="{% url 'product:infor' i.id %}">{{i.title}}</a></h3>
+                    <h3 class="content-product-name"><a href ="{% url 'product:information' i.id %}">{{i.title}}</a></h3>
                     <div class="content-product-details">
                         <div class="price">
                             <span class="money">{{i.cost}}</span>

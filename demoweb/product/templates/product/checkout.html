@@ -1,82 +1,38 @@
 {% extends 'product/base.html' %}
 
-
+{% load static %}
 {% block content %}
 <head>
-    <!-- <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>  -->
-    <style>
-       
-        
-        th{
-            height: 50px;
-        }
-        td{
-            width: auto;
-        }
-        .row-image{
-            width: 120px;
-            height: 120px;
-
-        }
-
-        .form-check-out{
-            width: 45%;
-            position: relative;
-            left: 55%;
-            top:-450px;
-            margin-left: 50px;
-        }
-        .checkout-main{
-
-
-        }
-        .btn-checkout{
-            height: 50px;
-            width: 200px;
-            font-size: 22px;
-            font-weight: 600;
-            background-color: #ff0000;
-            color: #fff;
-            border-radius: 5px;
-            border: none;
-            outline: none;
-            
-        }
-        #btn-turnback{
-            margin-left: 75px;
-        }
-        .total h5{
-            position: relative;
-            top:-800px
-        }
-        
-    </style>
+    
+    <title>Checkout</title>
+    <script src="https://unpkg.com/htmx.org@1.9.4" integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    
 </head>
-<body>
-<h1>Checkout</h1>
-    <div class="checkout-main">
+    
+<div class="row">
+    <div class="col-6">
         <div class="checkout-cart">
             <h4>Kiểm tra lại đơn hàng:</h4>
             {% include 'product/table_product.html' %}
         </div>
-        <div class="checkout-" id="form_">
-            <form class="form-check-out" action="{% url 'product:review_order' %}" method="post">
+        <div class="total" >
+            <h5>Tổng sản phẩm: {{order.quantity}} </h5>
+            <h5>Tổng tiền: {{order.total_price}}</h5>
+        </div>     
+    </div>
+    <div class="col-6">
+        <div class="checkout-infor" id="form_">
+        
+            <form class="form-check-out" action="{% url 'product:order_list' %}" method="post">
                 {% csrf_token %}
                 <h4>Nhập thông tin khách hàng:</h4>
-                {{form_user.as_p}}
-                <br>
-                <br>
-                <h4>Chọn phương thức thanh toán và ghi chú(nếu có):</h4>
-                {{form_order.as_p}}
+                
+                    {{form_user.as_p}}
                 
                 <input type="hidden" name="order_id" value="{{order.id}}">
                 <button class="btn-checkout" type="submit" >Đặt hàng</a></button>
-                
+            
                 <button class="btn-checkout" id="btn-turnback" type="button" onclick="show_cart1()">Quay lại giỏ hàng </button>
                 <script>
                     function show_cart1()
@@ -87,10 +43,6 @@
             </form>
         </div>
     </div>
-
-<div class="total">
-    <h5>Tổng sản phẩm: {{order.quantity}} </h5>
-    <h5>Tổng tiền: {{order.total}}</h5>
+ 
 </div>
-</body>
 {% endblock %}

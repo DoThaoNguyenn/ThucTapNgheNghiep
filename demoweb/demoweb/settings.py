@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'product',
     'order',
     'django_extensions',
+    'rest_framework',
+    'vi_address',
+   
 ]
 
 MIDDLEWARE = [
@@ -128,7 +131,6 @@ MEDIA_URL = ''
 # MEDIA_ROOT = (
 # BASE_DIR
 # )
-
 
 
 

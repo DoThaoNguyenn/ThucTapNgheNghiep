@@ -1,24 +1,45 @@
 {% extends 'product/base.html' %}
-
-
+{% load static %}
 {% block content %}
-<h2>Đặt hàng thành công !</h2>
-<h3>Thông tin đơn hàng:</h3>
-<br>
-<h4>Địa chỉ nhận hàng:</h4>
-    <li>Họ tên: {{order.user.first_name}} {{order.user.last_name}}</li>
-    <li>Điạ chỉ: {{order.user.address}}</li>
-    <li>SĐT: {{order.user.phone}}</li>
+<head>
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
-<h4>Sản phẩm:</h4>
+</head>
+<br>
+<h4>Đặt hàng thành công !</h4>
+<br>
+<h5>Thông tin đơn hàng:</h5>
+<br>
+<div class="row">
+    <div class="col-4">
+        <h6>Địa chỉ nhận hàng:</h6>
+        <div class="infor">
+            
+                <li>{{order.user.first_name}} {{order.user.last_name}}</li>
+                <li>Địa chỉ: {{order.user.street}}, {{order.user.ward}}, {{order.user.district}}, {{order.user.city}}</li>
+                <li>SĐT: {{order.user.phone}}</li>
+        </div>
+    </div>
+    <div class="col-4">
+        <h6>Thời gian đặt hàng:</h6>
+        <div class="datetime"> 
+            <li> {{order.datetime}}</li>
+        </div>
+    </div>
+    <div class="col-4">
+        <h6>Tổng tiền:</h6> 
+        <div class="total-review">
+            
+            {{order.total_price}}
+        </div>
+    </div>
+</div>
+<h6>Sản phẩm:</h6>
 
     {% include 'product/table_product.html' %}
-
-    <h4>Tổng sản phẩm: {{order.quantity}} </h4>
-    <h4>Tổng tiền: {{order.total}}</h4>
-
 <br>
-<h5>Phương thức thanh toán: {{payment}}</h5>
-<h5>Thời gian đặt hàng: {{order.datetime}}</h5>
-{% endblock %}
+<br>
 
+<button type="button" class="order-list"><a style="text-decoration: none;color: #fff;" href ="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a>
+{% endblock %}
