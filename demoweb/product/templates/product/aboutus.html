@@ -1,11 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'product/base.html' %}
+{% load static %}
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>About us</title>
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
 </head>
 <body>
-    trang about ss
+    
+    <section class="about-us">
+        <div class="container">
+            <h3>About us</h3><br>
+            <div class="row">
+                <div class="col-lg-12">
+                <img src="{% static 'image/about_us.jpg' %}" height="50%" width="100%">
+                <br>
+                <br>
+                    <strong>Chào mừng đến với Website bán sách của chúng tôi!</strong> <br>
+                    <p class = "about-us">
+                    Chúng tôi tự hào giới thiệu đến bạn một không gian trực tuyến đáng tin cậy và phong phú để khám phá, khai thác và mua sắm cho những cuốn sách yêu thích của bạn. Với sứ mệnh tạo ra một trải nghiệm mua sắm sách thuận tiện, đa dạng và thú vị, chúng tôi cam kết mang đến cho bạn những trang sách đa dạng từ các thể loại khác nhau, từ tiểu thuyết, kinh doanh, khoa học, lịch sử, nghệ thuật đến tự truyện và nhiều hơn nữa.<br>
+                    Với giao diện trực quan và dễ sử dụng, trang web của chúng tôi cho phép bạn dễ dàng tìm kiếm và duyệt qua hàng ngàn cuốn sách từ những nhà xuất bản hàng đầu trên thế giới. Bạn có thể tìm kiếm theo tiêu đề, tác giả hoặc thể loại, và chúng tôi sẽ cung cấp cho bạn thông tin chi tiết về mỗi cuốn sách, bao gồm đánh giá của người đọc và mô tả nội dung.<br>
+                    Chúng tôi hy vọng rằng trang web bán sách của chúng tôi sẽ trở thành địa điểm mua sắm trực tuyến ưu tiên của bạn.<br>
+                    Hãy khám phá ngay hôm nay!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
-</html>
+{% endblock %}

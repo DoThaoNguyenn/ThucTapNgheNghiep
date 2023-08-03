@@ -13,7 +13,7 @@ body {
   padding: 10px;
 }
 
-.add-avt, #btn-updateUser, .btn-add-cart, .order-list, .btn-checkout {
+.btn-add-review, .add-avt, #btn-updateUser, .btn-add-cart, .order-list, .btn-checkout {
   height: 50px;
   width: 200px;
   font-size: 22px;
@@ -25,19 +25,20 @@ body {
   outline: none;
 }
 
-.add-avt:hover, #btn-updateUser:hover, .btn-add-cart:hover, .order-list:hover, .btn-checkout:hover {
+.btn-add-review:hover, .add-avt:hover, #btn-updateUser:hover, .btn-add-cart:hover, .order-list:hover, .btn-checkout:hover {
   background-color: lightcoral;
 }
 
-.tb-user-infor, .tb-description, .order-tb, .cart-tb {
+.book, .tb-review, .tb-user-infor, .tb-description, .order-tb, .cart-tb {
   width: 100%;
   border-collapse: collapse;
   border-radius: 5px;
   box-shadow: 4px 4px 5px black;
   text-align: center;
 }
-.tb-user-infor td, .tb-description td, .order-tb td, .cart-tb td {
+.book td, .tb-review td, .tb-user-infor td, .tb-description td, .order-tb td, .cart-tb td {
   border-bottom: 2px solid #ececec;
+  width: auto;
 }
 
 .col-6 {
@@ -133,6 +134,23 @@ td {
   position: relative;
   top: 10px;
   left: 750px;
+}
+
+.tb-review td {
+  text-align: left;
+  padding: 10px;
+}
+
+.about-us {
+  margin-top: 100px;
+  text-align: center;
+}
+.about-us p {
+  text-align: left;
+  margin: 40px 0px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 40px;
+  font-size: 20px;
 }
 
 /*# sourceMappingURL=product.css.map */

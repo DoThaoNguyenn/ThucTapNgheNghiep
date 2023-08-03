@@ -2,8 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from vi_address.models import City, District, Ward
 
-from product.models import Product
-
+# from product.models import Product
+# from django.apps import apps
+# Product = apps.get_model('product', 'Product')
 # Create your models here.
 
 
@@ -43,7 +44,7 @@ class Order(models.Model):
 
 class Order_detail(models.Model):
     order = models.ForeignKey(Order, related_name='order',on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, related_name='product_pr',on_delete=models.CASCADE)
+    product = models.ForeignKey('product.Product', related_name='product_pr',on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
     def total(sefl):

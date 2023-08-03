@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
-from .models import Category, Product, Product_information
+from .models import Category, Product,Review
 from order.models import Order, Users, Order_detail
-from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm,AddAvatar,UpdateUser
+from .forms import Product_create_form, Category_create_form, Register_form,UserInformationForm,AddAvatar,UpdateUser,Add_review
 from vi_address.models import City, District, Ward
 from django.core.paginator import Paginator
 from django.contrib import messages,sessions
@@ -23,13 +23,28 @@ def detail(request, id):
     return render(request, "product/detail.html", {'sanpham':sp,'loaisp':lsp})
     
 def infor(request, id):
-    sp = Product.objects.get(pk=id)
-    inf = Product_information.objects.get(product=id)
-    
-    return render(request,"product/product_detail.html", {'sp':sp,'information':inf})
-
-
-
+    sp = Product.objects.get(pk=id)    
+    form = Add_review
+    if Review.objects.filter(user=request.user,product=sp).count()>0:
+        message = 'Khách hàng đã đánh giá sản phẩm này !'
+        is_review = False
+          
+    else: 
+        is_review = True
+        message = ""
+        if request.method == 'POST':
+            form = Add_review(request.POST)
+            if form.is_valid():
+                new_review = Review.objects.create(
+                    user = request.user,
+                    product = sp,
+                    created_time = timezone.now(),
+                    rating = request.POST.get('rating'),
+                    review = request.POST.get('review')
+                )
+            else:
+                print(form.errors.as_data())
+    return render(request,"product/product_detail.html", {'sp':sp,'form':form,'is_review':is_review,'message':message})
 
 def create_product(request):
     pr = Product_create_form()
@@ -47,7 +62,11 @@ def create_product(request):
 
 def list_product(request):
     sp=Product.objects.all()
-    return render (request, 'product/list_product.html',{'sp':sp})
+    s= []
+    for i in range(1,sp.count()):
+        s += [i]
+
+    return render (request, 'product/list_product.html',{'sp':sp,'s':s})
 
 
 
@@ -72,18 +91,18 @@ def delete_product(request, id):
     return render (request, 'product/delete_product.html',{'sp':sp})
 
 
-def add_product_information(request,id):
-    form = Add_Product_information()
-    sp=Product.objects.get(pk=id)
-    if request.method == 'POST':
-        form = Add_Product_information(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse ('Add information success')
-        else:
-            print(form.errors.as_data())
+# def add_product_information(request,id):
+#     form = Add_Product_information()
+#     sp=Product.objects.get(pk=id)
+#     if request.method == 'POST':
+#         form = Add_Product_information(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponse ('Add information success')
+#         else:
+#             print(form.errors.as_data())
 
-    return render(request, 'product/add_product_information.html',{'form':form})
+#     return render(request, 'product/add_product_information.html',{'form':form})
 
 
 
@@ -336,3 +355,7 @@ def profile(request):
     return render(request, 'product/profile.html',{'user':user,'form_update':form_update,'form':form})
 
 
+def test(request):
+    return render (request,'product/test.html')
+
+    

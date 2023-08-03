@@ -14,7 +14,7 @@
         <ul>
             {% for i in loaisp %}
             <div class="category-content">
-                <img style="width:120px;height:150px" src="{{i.image.url}}">
+                <a href ="{% url 'product:detail' i.id %}"><img style="width:120px;height:150px" src="{{i.image.url}}"></a>
                 <li><a href ="{% url 'product:detail' i.id %}">{{i.name}}</a></li>
             </div> 
             {% endfor %}   
@@ -34,7 +34,7 @@
                 <ul style="display:flex; justify-content:space-between;margin: 0 20px">
                     {% for x in i.products.all|slice:":5" %}
                         <div style="text-align:center" >
-                            <img style="width:120px;height:150px" src="{{x.image.url}}">
+                            <a href ="{% url 'product:information' x.id %}"><img style="width:120px;height:150px" src="{{x.image.url}}"></a>
                             <li><a href ="{% url 'product:information' x.id %}">{{x.title}}</a></li>
                             <li>{{x.cost}}</li>
                             <li>{{x.discount_cost}}</li>
@@ -47,7 +47,7 @@
         </ul>
     </div>
 </div>
-ádasd
+
 <div>
 
 

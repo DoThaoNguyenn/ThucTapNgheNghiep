@@ -16,7 +16,7 @@ urlpatterns = [
      path('list_product/',views.list_product,name='list_product'),
      path('update_product/<int:id>/',views.update_product,name='update_product'),
      path('delete_product/<int:id>/',views.delete_product,name='delete_product'),
-     path('add_product_information/<int:id>/',views.add_product_information,name='add_product_information'),
+     
 
      path('list_category/',views.list_category,name='list_category'),
      path('create_category/',views.create_category,name='create_category'),
@@ -53,6 +53,7 @@ urlpatterns = [
      path('load-districts/',views.load_districts,name="load-districts"),
 
      path('profile/',views.profile,name="profile"),
+     path('test/',views.test,name="test"),
 
 ]
 

@@ -41,6 +41,7 @@ body{
     text-align: center;
     td {
         border-bottom: 2px solid #ececec;
+        width: auto;
     }
 }
 .checkout-cart {
@@ -198,3 +199,33 @@ td{
     @extend %btn;
 }
 
+.btn-add-review {
+    @extend %btn;
+} 
+.tb-review {
+    @extend %tb;
+    td { 
+        text-align: left;
+        padding: 10px;
+        // #name-time {
+        //     width: 30%;
+        // }
+    }
+}
+.about-us {
+	margin-top: 100px;
+	text-align: center;
+    p {
+        text-align: left;
+        margin: 40px 0px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 40px;
+        font-size: 20px;
+        
+    }
+}
+.book {
+    @extend %tb;
+    
+    
+}
