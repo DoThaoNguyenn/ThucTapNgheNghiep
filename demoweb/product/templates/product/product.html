@@ -31,38 +31,35 @@
             {% endfor %}
         </div>
     </br>
-
-    <nav style="background-color: white;" aria-label="Page navigation example">
-        <ul class="pagination">
-        
-        
-
-        {{page_obj.paginator.number_page}}
-        {% if page_obj.has_previous %}
-        
-            <li class="page-item">
-                <a class="page-link" href="?page=1">&laquo First</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{page_obj.previous_page_number }}">trước</a>
-            </li>
+        {% if page_obj %}
+            <nav style="background-color: white;" aria-label="Page navigation example">
+                <ul class="pagination">
+                {{page_obj.paginator.number_page}}
+                {% if page_obj.has_previous %}
+                
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{page_obj.previous_page_number }}">trước</a>
+                    </li>
+                {% endif %}
+                {%for i in nums %}
+                    <li class="page-item"><a href="?page={{forloop.counter}}" class="page-link">{{forloop.counter}}</a>
+                </li>
+                {% endfor%}
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link"href="?page={{page_obj.next_page_number}}">sau</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"href="?page={{page_obj.paginator.num_pages}}">Last &raquo</a>
+                </li>
+                {% endif %}    
+                </ul>
+            </nav>
         {% endif %}
-        {%for i in nums %}
-            <li class="page-item"><a href="?page={{forloop.counter}}" class="page-link">{{forloop.counter}}</a>
-        </li>
-        {% endfor%}
-        
-
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link"href="?page={{page_obj.next_page_number}}">sau</a>
-        </li>
-        <li class="page-item">
-            <a class="page-link"href="?page={{page_obj.paginator.num_pages}}">Last &raquo</a>
-        </li>
-        {% endif %}    
-        </ul>
-    </nav>
     </aside>
+   
 
 {% endblock %}

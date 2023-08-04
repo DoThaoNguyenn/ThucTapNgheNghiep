@@ -1,0 +1,95 @@
+ {% extends 'product/base.html' %}
+ {% block content %} 
+ <div class="sidebar">
+  {%for i in loaisp%}
+  <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
+  {% endfor%}
+</div>
+<aside style="position: relative;top: -365px;left: 200px;margin-right: 20px;">
+    <div class="sanpham" style="display: flex;justify-content: start;">
+        <div class="new-products" style="width: 900px;">
+            <h2>Sản phẩm mới nhất</h2>
+            <div class="row" >
+                {% for product in page_obj %}
+                    {% if forloop.counter0|divisibleby:5 and not forloop.first %}
+                    {% endif %}
+                    <div class="col" style="width: 180px; margin-left: 10px;text-align: center;margin-bottom: 10px;">
+                        <div class="img-product"><img style="width: 150px;height: 200px;" src="{{ product.image.url }}" alt="{{ product.title }}">
+                        </div>
+                        <div class="main-product-content">
+                            <div ><a style="font-size:20px ;" href="{% url 'product:infor' product.id %}">{{ product.title }}</a></div>
+                            <div> {{ product.cost }}</div>
+                            <div> {{product.discount_cost}} </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+    <br>
+        <nav style="background-color: white;width: 500px;" aria-label="Page navigation example">
+            <ul class="pagination">
+            
+            
+
+            {{page_obj.paginator.number_page}}
+            {% if page_obj.has_previous %}
+            
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">&laquo First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{page_obj.previous_page_number }}">trước</a>
+                </li>
+            {% endif %}
+            {%for i in nums %}
+                <li class="page-item"><a href="?page={{forloop.counter}}" class="page-link">{{forloop.counter}}</a>
+            </li>
+            {% endfor%}
+            
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link"href="?page={{page_obj.next_page_number}}">sau</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link"href="?page={{page_obj.paginator.num_pages}}">Last &raquo</a>
+            </li>
+            </ul>
+        </nav>
+        <script>
+            // Lấy tất cả các nút trên trang
+            const buttons = document.querySelectorAll('button');
+
+            // Lặp qua từng nút
+            buttons.forEach(button => {
+                // Kiểm tra xem nút có liên kết đến trang hiện tại không
+                if (button.getAttribute('href') === window.location.pathname) {
+                    // Thêm lớp mới vào nút
+                    button.classList.add('current-page');
+                }
+            });
+        </script>
+</aside>
+
+{% endif %}
+<div class="new-products" style="width: 900px;">
+    <h2>Sản phẩm mới nhất</h2>
+    <div class="row">
+        {% for product in page_obj %}
+            {% if forloop.counter0|divisibleby:5 and not forloop.first %}
+            {% endif %}
+            <div class="col" style="width: 180px; margin-left: 10px;text-align: center;margin-bottom: 360px;">
+                <div class="img-product"><img style="width: 150px;height: 200px;" src="{{ product.image.url }}" alt="{{ product.title }}">
+                </div>
+                <div class="main-product-content">
+                    <div ><a style="font-size:20px ;" href="{% url 'product:infor' product.id %}">{{ product.title }}</a></div>
+                    <div> {{ product.cost }}</div>
+                    <div> {{product.discount_cost}} </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
