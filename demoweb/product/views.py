@@ -2,14 +2,16 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product, Product_information
-from order.models import Order, Users, Order_detail
-from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm, OrderForm
+from order.models import Order, Users, Order_detail,Contact
+from .forms import Product_create_form, Category_create_form, Register_form, Add_Product_information,UserInformationForm, OrderForm,ContactForm
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.forms import PasswordChangeForm
+from django.shortcuts import render
+# from order.forms import ContactForm
 # Create your views here.
 def index(request):
-    ds = Category.objects.all()
+    ds = Category.objects.all()      
     return render(request, 'product/index.html', {'loaisp':ds})
 
 def detail(request, id):
@@ -22,6 +24,8 @@ def infor(request, id):
     sp = Product.objects.get(pk=id)
     inf = Product_information.objects.get(product=id)
     return render(request,"product/product_detail.html", {'sp':sp,'information':inf})
+
+#test
 
 
 
@@ -238,16 +242,27 @@ def review_order(request):
 
 
 
-# trang product
+# trang product 
+#test
+
+def product_list(request):
+    loaisp = Category.objects.all()
+    sp = Product.objects.all()
+    paginator = Paginator(sp,10) # mỗi trang hiển thị 1 đối tượng
+    page= request.GET.get('page')
+    page_obj = paginator.get_page(page)
+    nums="a" * page_obj.paginator.num_pages
+    return render(request,'product/product_list.html',{'loaisp': loaisp,'sp': sp,'page_obj': page_obj,'nums':nums})
+    
+
 #hien sản phẩm khi click vào sidebar
 def product_select_main(request, id):
     lsp = Category.objects.all()
     sp = Product.objects.filter(category=id)
-    paginator = Paginator(sp,1) # mỗi trang hiển thị 1 đối tượng
+    paginator = Paginator(sp,5) # mỗi trang hiển thị 1 đối tượng
     page= request.GET.get('page')
     page_obj = paginator.get_page(page)
     nums="a" * page_obj.paginator.num_pages
-    # return render(request, 'product/product.html', {})
     return render(request, "product/product.html", {'sanpham':sp,'loaisp':lsp,'page_obj': page_obj,'nums':nums})
 #dhien ds loai sp sidebar
 def product_select(request):
@@ -263,7 +278,6 @@ def contact(request):
 def search(request):
     q=request.GET.get('q')
     query=q.split()
-    print(query)
     # if len(query)==1:
     #     sp=Product.objects.filter(title__icontains=query[0])
     # elif len(query)==2:
@@ -298,5 +312,24 @@ class MyPasswordChangeForm(PasswordChangeForm):
         
         for fieldname  in ['old_password', 'new_password1', 'new_password2']:
             self.fields[fieldname].widget.attrs={ 'class': 'form-control'}
+#contact
 
+# def contact(request):
+#     return render(request, 'product/contact.html')
 
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = Contact(
+                name=form.cleaned_data['name'],
+                number=form.cleaned_data['number'],
+                email=form.cleaned_data['email'],
+                message=form.cleaned_data['message']
+            )
+            contact.save()
+            return HttpResponse('sc')
+    else:
+        form = ContactForm()
+
+    return render(request, 'product/contact.html', {'form': form})

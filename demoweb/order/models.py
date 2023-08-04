@@ -10,7 +10,7 @@ class Users(AbstractUser):
     
     phone = models.CharField(max_length=10,null=True, blank=True)
     address = models.CharField(max_length=255,null=True, blank=True)
-
+    
     class Meta:
         db_table = 'auth_user'
 
@@ -43,3 +43,12 @@ class Order_detail(models.Model):
 
     def total(sefl):
         return sefl.quantity*sefl.product.discount_cost()
+
+class Contact(models.Model):
+    name = models.CharField(max_length=255)
+    number = models.IntegerField(default=0)
+    email = models.EmailField(max_length=25)
+    message = models.TextField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.name

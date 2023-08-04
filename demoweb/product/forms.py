@@ -78,4 +78,14 @@ class UserInformationForm(ModelForm):
         fields =['first_name', 'last_name','phone','address']
         labels ={'first_name':'Họ', 'last_name':'Tên','phone':'Số điện thoại', 'address':'Địa chỉ'}
 
-
+class ContactForm(forms.Form):
+    name = forms.CharField(label='Tên của bạn', max_length=255)
+    number = forms.CharField(label='Số điện thoại')
+    email = forms.EmailField(label='Địa chỉ email của bạn')
+    message = forms.CharField(label='Nội dung', widget=forms.Textarea)
+    # widgets = {
+    #     'name': forms.TextInput(atttrs={'class':'form-control'})
+    #     'number': forms.TextInput(atttrs={'class':'form-control'})
+    #     'email': forms.TextInput(atttrs={'class':'form-control'})
+    #     'message': forms.Textarea(atttrs={'class':'form-control'})
+    # }

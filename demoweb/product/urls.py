@@ -45,7 +45,8 @@ urlpatterns = [
           form_class=MyPasswordChangeForm
           ),name="password_chagne"),
      path('password_change/done/',PasswordChangeDoneView.as_view(template_name='product/passwordone.html'),name="password_change_done"),
+     path('product_list/',views.product_list,name='product_list'),
+     path('contact/', views.contact, name='contact'),
 
-     
 ]
 
