@@ -23,28 +23,40 @@ def detail(request, id):
     return render(request, "product/detail.html", {'sanpham':sp,'loaisp':lsp})
     
 def infor(request, id):
-    sp = Product.objects.get(pk=id)    
-    form = Add_review
-    if Review.objects.filter(user=request.user,product=sp).count()>0:
-        message = 'Khách hàng đã đánh giá sản phẩm này !'
-        is_review = False
-          
-    else: 
-        is_review = True
-        message = ""
-        if request.method == 'POST':
-            form = Add_review(request.POST)
-            if form.is_valid():
-                new_review = Review.objects.create(
-                    user = request.user,
-                    product = sp,
-                    created_time = timezone.now(),
-                    rating = request.POST.get('rating'),
-                    review = request.POST.get('review')
-                )
-            else:
-                print(form.errors.as_data())
-    return render(request,"product/product_detail.html", {'sp':sp,'form':form,'is_review':is_review,'message':message})
+    sp = Product.objects.get(pk=id)
+    avg_rating=[]
+    x=sp.rating()
+    for i in range(5):
+        if x >= 1: avg_rating += [1]
+        elif x >= 0.5: avg_rating += [2]
+        else: avg_rating += [3]
+        x -= 1
+    if request.user.is_authenticated:
+        form = Add_review
+        if Review.objects.filter(user=request.user,product=sp).count()>0:
+            message = 'Khách hàng đã đánh giá sản phẩm này !'
+            is_review = False
+            
+        else: 
+            is_review = True
+            message = ""
+            if request.method == 'POST':
+                form = Add_review(request.POST)
+                if form.is_valid():
+                    new_review = Review.objects.create(
+                        user = request.user,
+                        product = sp,
+                        created_time = timezone.now(),
+                        rating = request.POST.get('rating'),
+                        review = request.POST.get('review')
+                    )
+                else:
+                    print(form.errors.as_data())
+        return render(request,"product/product_detail.html", {'sp':sp,'form':form,'is_review':is_review,'message':message, 'avg_rating':avg_rating,})
+    else:
+        login_message = "Vui lòng đăng nhập để có thể đánh giá sản phẩm !"
+    return render(request,"product/product_detail.html", {'sp':sp,'login_message':login_message})
+
 
 def create_product(request):
     pr = Product_create_form()
@@ -364,8 +376,6 @@ def profile(request):
     return render(request, 'product/profile.html',{'user':user,'form_update':form_update,'form':form})
 
 
-def test(request):
-    return render (request,'product/test.html')
 
     
 # trang contact
