@@ -3,7 +3,7 @@ from django.forms import ModelForm
 from .models import Product, Category, Review
 import re
 from django.core.exceptions import ObjectDoesNotExist
-from order.models import Users, Order, Order_detail
+from order.models import Users, Order, Order_detail,Contact
 from vi_address.models import City, District, Ward
 
 class Product_create_form(ModelForm):
@@ -114,3 +114,14 @@ class Add_review(forms.ModelForm):
             'rating': forms.Select(attrs={'class':'form-control'}),
             'review': forms.Textarea(attrs={'class':'form-control'})
         }
+class ContactForm(forms.Form):
+    name = forms.CharField(label='Tên của bạn', max_length=255)
+    number = forms.CharField(label='Số điện thoại')
+    email = forms.EmailField(label='Địa chỉ email của bạn')
+    message = forms.CharField(label='Nội dung', widget=forms.Textarea)
+    # widgets = {
+    #     'name': forms.TextInput(atttrs={'class':'form-control'})
+    #     'number': forms.TextInput(atttrs={'class':'form-control'})
+    #     'email': forms.TextInput(atttrs={'class':'form-control'})
+    #     'message': forms.Textarea(atttrs={'class':'form-control'})
+    # }

@@ -114,7 +114,7 @@ nav .content-nav ul li a:hover {
 
 .products ul {
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   text-align: center;
 }
 .products ul li{
@@ -223,7 +223,7 @@ main{
 }
  
 .sidebar a.active {
-  background-color: #04AA6D;
+  background-color:gray;
   color: white;
 }
 
@@ -312,6 +312,58 @@ footer div h5 {
 .container-slider{
 
 }
+/* usersdropdownlist */
+.dropbtn {
+  background-color: #6c737e;
+  color: white;
+  padding: 5px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #a7adae;
+}
+.note{
+  position: relative;
+  top:22px;
+  left: -50px;
+  display: inline-block;
+  color: #fff;
+  font-weight: 600;
+}
+.current-page {
+  background-color: blue;
+  color: white;
+}
 
          
         </style>
@@ -326,11 +378,11 @@ footer div h5 {
             <div class="content-nav">
                 <ul>
                     <li><a href="{% url 'product:index' %}">Trang Chủ</a></li>
-                    <li><a href="{% url 'product:product' %}">Sản Phẩm</a></li>
+                    <li><a href="{% url 'product:product_list' %}">Sản Phẩm</a></li>
                     <li><a href="{% url 'product:contact' %}">Liên Hệ</a></li>
                     <li><a href="{% url 'product:about_us' %}">Giới Thiệu</a></li>
                 </ul>
-                <form id="myForm" action="{% url 'product:search' %}" >
+                <form style="position: relative;left:50px;" id="myForm" action="{% url 'product:search' %}" >
                     <input  type="text" name="q" placeholder="Tìm kiếm sản phẩm..." required />
                     <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
@@ -373,9 +425,14 @@ footer div h5 {
                   
                   <!-- <p class="user-content"><a href="{% url 'product:logout'%}">Logout</a></p> -->
               {% else %}
-              <p class="user-content"><a href="{% url 'product:register' %}">Đăng ký</a></p>
-              <p class="user-content"><a href="{% url 'product:login'%}">Đăng nhập</a></p>
-
+              <div style="position: relative;top: -5px;">
+                <div class="dropdown">
+                  <button class="dropbtn"><i class="fa-solid fa-user" style="font-size: 20px;"></i></button>
+                  <div class="dropdown-content">
+                  <a href="{% url 'product:register' %}">Đăng ký</a>
+                  <a href="{% url 'product:login'%}">Đăng nhâp</a>
+                  </div>
+                </div>
               {% endif %}
             
       
