@@ -16,7 +16,7 @@
             {% for i in page_obj %}
             <div class="main-product" style="text-align:center;" >
                 <div class="img-product">
-                    <img style="width:150px;height:200px" src="{{i.image.url}}" alt="">
+                    <a href ="{% url 'product:information' i.id %}"><img style="width:150px;height:200px" src="{{i.image.url}}" alt=""></a>
                 </div>
                 <div class="content-product">
                     <h3 class="content-product-name"><a href ="{% url 'product:information' i.id %}">{{i.title}}</a></h3>
@@ -36,7 +36,7 @@
             {% endfor %}
         </div>
     </br>
-
+    {% if page_obj %}
     <nav style="background-color: white;" aria-label="Page navigation example">
         <ul class="pagination">
         
@@ -68,6 +68,7 @@
         {% endif %}    
         </ul>
     </nav>
+    {% endif %}
     </aside>
 
 {% endblock %}

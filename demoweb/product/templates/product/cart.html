@@ -52,10 +52,10 @@
         
             <tr class="table-content">
             
-                <td><img class="row-image" src="{{i.product.image.url}}"></td>
-                <td><p>{{i.product.title}}</p></td>
+                <td><a href ="{% url 'product:information' i.product.id %}"><img class="row-image" src="{{i.product.image.url}}"></a></td>
+                <td><a href ="{% url 'product:information' i.product.id %}" style="text-decoration: None; color:black"><p>{{i.product.title}}</p></a></td>
                 <td><p>{{i.product.discount_cost}}</p></td>
-                    
+                
                 
                 <td>
                     <div class="Quantity">

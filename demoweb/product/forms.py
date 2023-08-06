@@ -1,16 +1,16 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Product, Category, Product_information
+from .models import Product, Category, Review
 import re
 from django.core.exceptions import ObjectDoesNotExist
-from order.models import Users, Order, Order_detail
+from order.models import Users, Order, Order_detail,Contact
 from vi_address.models import City, District, Ward
 
 class Product_create_form(ModelForm):
     class Meta:
         model= Product
-        fields=['category', 'title', 'cost', 'quantity', 'discount', 'image']
-        
+        # fields=['category', 'title', 'cost', 'quantity', 'discount', 'image']
+        fields = '__all__'
   
 
 class Category_create_form(ModelForm):
@@ -18,10 +18,10 @@ class Category_create_form(ModelForm):
         model = Category
         fields = '__all__'
 
-class Add_Product_information(ModelForm):
-    class Meta:
-        model = Product_information
-        fields = '__all__'
+# class Add_Product_information(ModelForm):
+#     class Meta:
+#         model = Product_information
+#         fields = '__all__'
 
 class Register_form(forms.Form):
  
@@ -104,3 +104,24 @@ class UpdateUser(UserInformationForm):
     
     username = forms.CharField(label='Tên tài khoản:', widget=forms.TextInput(attrs={'class': 'form-control'}))
     email=forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+class Add_review(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields =['rating','review']
+        labels = {'rating':'Đánh giá', 'review':'Bình luận'}
+        widgets ={
+            'rating': forms.Select(attrs={'class':'form-control'}),
+            'review': forms.Textarea(attrs={'class':'form-control'})
+        }
+class ContactForm(forms.Form):
+    name = forms.CharField(label='Tên của bạn', max_length=255)
+    number = forms.CharField(label='Số điện thoại')
+    email = forms.EmailField(label='Địa chỉ email của bạn')
+    message = forms.CharField(label='Nội dung', widget=forms.Textarea)
+    # widgets = {
+    #     'name': forms.TextInput(atttrs={'class':'form-control'})
+    #     'number': forms.TextInput(atttrs={'class':'form-control'})
+    #     'email': forms.TextInput(atttrs={'class':'form-control'})
+    #     'message': forms.Textarea(atttrs={'class':'form-control'})
+    # }

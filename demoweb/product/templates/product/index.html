@@ -14,7 +14,7 @@
         <ul>
             {% for i in loaisp %}
             <div class="category-content">
-                <img style="width:120px;height:150px" src="{{i.image.url}}">
+                <a href ="{% url 'product:detail' i.id %}"><img style="width:120px;height:150px" src="{{i.image.url}}"></a>
                 <li><a href ="{% url 'product:detail' i.id %}">{{i.name}}</a></li>
             </div> 
             {% endfor %}   
@@ -26,16 +26,18 @@
     <div style="padding: 0;"  class="product-select">
         <ul style="padding: 0;">
             {% for i in loaisp %}
+            {% if i.products.all %}
             <li class="cat-content" >
-                <div style="width: 100%;height: 50px;background-color:#66ffff ;font-size: 24px;border-radius: 5px;" class="cat-content-head">
+                <div style="width: 100%;height: 50px;background-color:gray ;font-size: 24px;border-radius: 5px;" class="cat-content-head">
                     {{i.name}}
                 </div>
             <div class="cat-content-body" style="width:100%; margin-bottom:30px;background-color: #fff;padding-top: 10px;">
-                <ul style="display:flex; justify-content:space-between;margin: 0 20px">
+                <ul style="display:flex; justify-content:start;margin: 0 20px">
                     {% for x in i.products.all|slice:":5" %}
-                        <div style="text-align:center" >
-                            <img style="width:120px;height:150px" src="{{x.image.url}}">
-                            <li><a href ="{% url 'product:information' x.id %}">{{x.title}}</a></li>
+                    
+                        <div style="text-align:center;margin-left: 10px;" >
+                            <a href ="{% url 'product:information' x.id %}"><img style="width:120px;height:150px;" src="{{x.image.url}}"></a>
+                            <li><a style="text-decoration: none;" href ="{% url 'product:information' x.id %}">{{x.title}}</a></li>
                             <li>{{x.cost}}</li>
                             <li>{{x.discount_cost}}</li>
                         </div>
@@ -43,11 +45,12 @@
                 </ul>
                 </div>
             </li>
+            {% endif%}
             {% endfor %}
         </ul>
     </div>
 </div>
-ádasd
+
 <div>
 
 
