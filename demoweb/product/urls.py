@@ -53,7 +53,6 @@ urlpatterns = [
      path('load-districts/',views.load_districts,name="load-districts"),
 
      path('profile/',views.profile,name="profile"),
-     path('test/',views.test,name="test"),
-
+    
 ]
 

@@ -75,12 +75,14 @@ class UserInformationForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+       
         super().__init__(*args, **kwargs)
       
-
+        
         if 'city' in self.data:
             city_id =self.data.get("city")
             self.fields['district'].queryset = District.objects.filter(parent_code=city_id)
+      
         if 'district' in self.data:
             city_id =self.data.get("district")
             self.fields['ward'].queryset = Ward.objects.filter(parent_code=city_id)
