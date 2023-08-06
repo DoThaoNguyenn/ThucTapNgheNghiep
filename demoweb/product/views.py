@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product,Review
-from order.models import Order, Users, Order_detail
-from .forms import Product_create_form, Category_create_form, Register_form,UserInformationForm,AddAvatar,UpdateUser,Add_review
+from order.models import Order, Users, Order_detail,Contact
+from .forms import Product_create_form, Category_create_form, Register_form,UserInformationForm,AddAvatar,UpdateUser,Add_review,ContactForm
 from vi_address.models import City, District, Ward
 from django.core.paginator import Paginator
 from django.contrib import messages,sessions
@@ -262,6 +262,15 @@ def order_list(request):
 
 
 # trang product
+def product_list(request):
+    loaisp = Category.objects.all()
+    sp = Product.objects.all()
+    paginator = Paginator(sp,10) # mỗi trang hiển thị 1 đối tượng
+    page= request.GET.get('page')
+    page_obj = paginator.get_page(page)
+    nums="a" * page_obj.paginator.num_pages
+    return render(request,'product/product_list.html',{'loaisp': loaisp,'sp': sp,'page_obj': page_obj,'nums':nums})
+    
 #hien sản phẩm khi click vào sidebar
 def product_select_main(request, id):
     lsp = Category.objects.all()
@@ -359,3 +368,21 @@ def test(request):
     return render (request,'product/test.html')
 
     
+# trang contact
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            contact = Contact(
+                name=form.cleaned_data['name'],
+                number=form.cleaned_data['number'],
+                email=form.cleaned_data['email'],
+                message=form.cleaned_data['message']
+            )
+            contact.save()
+            return render(request, 'product/contact_label.html')
+    else:
+        form = ContactForm()
+
+    return render(request, 'product/contact.html', {'form': form})
+

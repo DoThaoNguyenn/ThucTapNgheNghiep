@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Users, Order, Order_detail
+from .models import Users, Order, Order_detail, Contact
 # from .form import UsersCreationFrom
 from django.contrib.auth.admin import UserAdmin
 
@@ -10,4 +10,7 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(Order_detail)
 class OrderDetailAdmin(admin.ModelAdmin):
     list_display = ['order','product','quantity']
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ['name','number','email','message']
 

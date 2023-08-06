@@ -26,7 +26,7 @@
             <h5 style="display:inline-block;font-size: 20px; " >-{{sp.discount}} %</h5>
             </br>
             
-            <button type="button" class="btn-add-cart" onclick="add_success()"><a style="text-decoration: none; color: #fff;" href="{% url 'product:add-cart' sp.id %}">Thêm vào giỏ hàng</button></a> 
+            <button type="button" class="btn-add-cart" onclick="add_success()"><a style="text-decoration: none; color: #fff;" href="{% url 'product:add_to_cart' sp.id %}">Thêm vào giỏ hàng</button></a> 
             <script>
                 function add_success() {
                     alert('Thêm vào giỏ hàng thành công !');
