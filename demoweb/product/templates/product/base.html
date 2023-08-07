@@ -389,8 +389,7 @@ footer div h5 {
             </div>
             
             <div style="text-align: center;position: relative;top: -10px;color: #fff;left: 50px;">
-              <button style="position:relative;left: 100px;" type="button" class="btn btn-secondary" onclick="show_cart()"><i style="color: #fff;" class="gg-shopping-cart"></i><span class="badge text-bg-danger">{{request.session.count_cartitem}}</span></button>
-              <p style="display: inline-block;position: relative;top: 30px;left:  45px;" >Giỏ hàng</p>
+              <button style="position:relative;left: 100px;" type="button" class="btn btn-secondary"  onclick="show_cart()"><i style="color: #fff;" class="gg-shopping-cart" style="position: relative;display: inline-block;"></i><span class="badge text-bg-danger" style=" position: absolute;top: -2px;right:-5px;font-size: 12px;">{{request.session.count_cartitem}}</span></button>              <p style="display: inline-block;position: relative;top: 30px;left:  45px;" >Giỏ hàng</p>
             </div>
             <script>
               function show_cart()
