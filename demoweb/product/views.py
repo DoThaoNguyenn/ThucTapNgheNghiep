@@ -287,7 +287,7 @@ def product_list(request):
 def product_select_main(request, id):
     lsp = Category.objects.all()
     sp = Product.objects.filter(category=id)
-    paginator = Paginator(sp,1) # mỗi trang hiển thị 1 đối tượng
+    paginator = Paginator(sp,5) # mỗi trang hiển thị 1 đối tượng
     page= request.GET.get('page')
     page_obj = paginator.get_page(page)
     nums="a" * page_obj.paginator.num_pages

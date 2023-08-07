@@ -382,14 +382,16 @@ footer div h5 {
                     <li><a href="{% url 'product:contact' %}">Liên Hệ</a></li>
                     <li><a href="{% url 'product:about_us' %}">Giới Thiệu</a></li>
                 </ul>
-                <form style="position: relative;left:50px;" id="myForm" action="{% url 'product:search' %}" >
-                    <input  type="text" name="q" placeholder="Tìm kiếm sản phẩm..." required />
+                <form style="position: relative;left:100px;" id="myForm" action="{% url 'product:search' %}" >
+                    <input style="width: 250px;"  type="text" name="q" placeholder="Tìm kiếm sản phẩm..." required />
                     <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
             </div>
             
-            
-            <button type="button" class="btn btn-secondary" onclick="show_cart()"><i class="gg-shopping-cart"></i><span class="badge text-bg-danger">{{request.session.count_cartitem}}</span></button>
+            <div style="text-align: center;position: relative;top: -10px;color: #fff;left: 50px;">
+              <button style="position:relative;left: 100px;" type="button" class="btn btn-secondary" onclick="show_cart()"><i style="color: #fff;" class="gg-shopping-cart"></i><span class="badge text-bg-danger">{{request.session.count_cartitem}}</span></button>
+              <p style="display: inline-block;position: relative;top: 30px;left:  45px;" >Giỏ hàng</p>
+            </div>
             <script>
               function show_cart()
               {
@@ -406,14 +408,14 @@ footer div h5 {
 
 
 
-            <div class="user">
+            <div class="user" style="position: relative;left: 100px;top: 5px;">
               {% if user.username %}
                   <p >Xin chào <b>{{user.username}}</b></p>
 
            
                   
                   <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button style="position: relative;top: -10px;" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Tài khoản
                     </button>
                     <div class="dropdown-menu">
@@ -425,13 +427,14 @@ footer div h5 {
                   
                   <!-- <p class="user-content"><a href="{% url 'product:logout'%}">Logout</a></p> -->
               {% else %}
-              <div style="position: relative;top: -5px;">
+              <div style="position: relative;top: -18px;">
                 <div class="dropdown">
                   <button class="dropbtn"><i class="fa-solid fa-user" style="font-size: 20px;"></i></button>
                   <div class="dropdown-content">
                   <a href="{% url 'product:register' %}">Đăng ký</a>
                   <a href="{% url 'product:login'%}">Đăng nhâp</a>
                   </div>
+                <p style="display: inline;position: relative;top: 20px;left: -50px;">Tài khoản</p>  
                 </div>
               {% endif %}
             
