@@ -17,12 +17,12 @@
             {% include 'product/table_product.html' %}
         </div>
         <div class="total" >
-            <h5>Tổng sản phẩm: {{order.quantity}} </h5>
+            <h5 >Tổng sản phẩm: {{order.quantity}} </h5>
             <h5>Tổng tiền: {{order.total_price}}</h5>
         </div>     
     </div>
     <div class="col-6">
-        <div class="checkout-infor" id="form_">
+        <div class="checkout-infor" id="form_" style="margin-bottom: 50px;">
         
             <form class="form-check-out" action="{% url 'product:order_list' %}" method="post">
                 {% csrf_token %}

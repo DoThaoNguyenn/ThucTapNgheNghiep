@@ -35,11 +35,13 @@
         </div>
     </div>
 </div>
+<br>
+
 <h6>Sản phẩm:</h6>
 
     {% include 'product/table_product.html' %}
-<br>
-<br>
 
-<button type="button" class="order-list"><a style="text-decoration: none;color: #fff;" href ="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a>
+
+<button type="button" class="order-list" style="margin: 50px"><a style="text-decoration: none;color: #fff; " href ="{% url 'product:order_list' %}">Quản lý đơn hàng</button></a><br>
+
 {% endblock %}
