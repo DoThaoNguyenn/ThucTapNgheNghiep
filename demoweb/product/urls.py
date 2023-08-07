@@ -33,7 +33,7 @@ urlpatterns = [
      path('plus_quantity/<int:id>/',views.plus_quantity, name="plus_quantity" ),
      path('show_cart/',views.show_cart, name="show_cart"),
      path('checkout/',views.checkout, name="checkout"),
-     path('review_order/',views.review_order, name="review_order"),
+     path('review_order/<int:id>/',views.review_order, name="review_order"),
      path('order_list/',views.order_list, name="order_list"),
      path('product/',views.product_select, name="product"),
      path('product/<int:id>/',views.product_select_main, name="product_select_main"),
@@ -53,6 +53,8 @@ urlpatterns = [
     
      path('product_list/',views.product_list,name='product_list'),
      path('contact/', views.contact, name='contact'),
+
+     # path('filter_order/', views.filter_order, name='filter_order'),
 
 ]
 
