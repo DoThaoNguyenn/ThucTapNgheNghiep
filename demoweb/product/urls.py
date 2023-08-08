@@ -44,7 +44,7 @@ urlpatterns = [
           template_name='product/password.html',
           success_url= reverse_lazy('product:password_change_done'),
           form_class=MyPasswordChangeForm
-          ),name="password_chagne"),
+          ),name="password_change"),
      path('password_change/done/',PasswordChangeDoneView.as_view(template_name='product/passwordone.html'),name="password_change_done"),
      path('load-wards/',views.load_wards,name="load-wards"),
      path('load-districts/',views.load_districts,name="load-districts"),
