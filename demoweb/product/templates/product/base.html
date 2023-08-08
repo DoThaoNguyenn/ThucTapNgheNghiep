@@ -121,13 +121,13 @@ nav .content-nav ul li a:hover {
     display: inline-block;
 }
 
-.products ul .main-product {
+/* .products ul .main-product {
   margin-bottom: 2rem;
   margin-right: 1rem;
   display: block;
   float: left;
-  width: 24%;
-}
+  width: 100px;
+} */
 
 .products ul .no-margin {
   margin-right: 0;
@@ -137,7 +137,9 @@ nav .content-nav ul li a:hover {
   width: 100%;
 }
 
-
+a{
+  text-decoration: none;
+}
 
 
 main{
@@ -233,7 +235,7 @@ main{
 }
 .product-content-list{
   position: relative;
-  top: -450px;
+  top: -230px;
 }
 
 /* header user */
@@ -365,6 +367,7 @@ footer div h5 {
   color: white;
 }
 
+
          
         </style>
     </head>
@@ -383,13 +386,14 @@ footer div h5 {
                     <li><a href="{% url 'product:about_us' %}">Giới Thiệu</a></li>
                 </ul>
                 <form style="position: relative;left:100px;" id="myForm" action="{% url 'product:search' %}" >
-                    <input style="width: 250px;"  type="text" name="q" placeholder="Tìm kiếm sản phẩm..." required />
+                    <input style="width: 300px;"  type="text" name="q" placeholder="Tìm kiếm sản phẩm..." required />
                     <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
             </div>
             
-            <div style="text-align: center;position: relative;top: -10px;color: #fff;left: 50px;">
-              <button style="position:relative;left: 100px;" type="button" class="btn btn-secondary"  onclick="show_cart()"><i style="color: #fff;" class="gg-shopping-cart" style="position: relative;display: inline-block;"></i><span class="badge text-bg-danger" style=" position: absolute;top: -2px;right:-5px;font-size: 12px;">{{request.session.count_cartitem}}</span></button>              <p style="display: inline-block;position: relative;top: 30px;left:  45px;" >Giỏ hàng</p>
+            <div style="text-align: center;position: relative;top: -10px;color: #fff;">
+              <button style="position:relative;left: 100px;" type="button" class="btn btn-secondary"  onclick="show_cart()"><i style="color: #fff;" class="gg-shopping-cart" style="position: relative;display: inline-block;"></i><span class="badge text-bg-danger" style=" position: absolute;top: -2px;right:-5px;font-size: 12px;">{{request.session.count_cartitem}}</span></button>
+              <p style="display: inline-block;position: relative;top: 30px;left:  45px;" >Giỏ hàng</p>
             </div>
             <script>
               function show_cart()
@@ -407,7 +411,7 @@ footer div h5 {
 
 
 
-            <div class="user" style="position: relative;left: 100px;top: 5px;">
+            <div class="user" style="position: relative;left: 50px;top: 5px;">
               {% if user.username %}
                   <p >Xin chào <b>{{user.username}}</b></p>
 

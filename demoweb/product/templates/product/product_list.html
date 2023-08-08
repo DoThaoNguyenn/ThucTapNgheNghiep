@@ -1,9 +1,44 @@
 {% extends 'product/base.html' %}
  {% block content %} 
+    <head>
+        <style>
 
+        .col1 {
+        position: relative;
+        width: 200px;
+        transition: transform 0.6s ease; /* Thời gian và hiệu ứng chuyển đổi */
+        }
+
+        .col1:hover {
+        transform: scale(1.1); /* Phóng to sản phẩm lên 1.2 lần khi hover */
+        border: 1px solid gray;
+        border-radius: 4px;
+        background-color: blanchedalmond;
+        }
+
+        .discount {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 1px; /* Vị trí từ phía trên cùng */
+        right: 10px; /* Vị trí từ phía bên phải */
+        padding: 5px 10px;
+        background-color: red;
+        color: white;
+        font-weight: bold;
+        border-radius: 50%;
+        }
+        .discount-values{
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            font-size: 12px;
+        }
+        </style>
+    </head>
  <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;" class="sidebar">
   {%for i in loaisp%}
-  <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
+  <a  class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
   {% endfor%}
    <!-- Lọc sản phẩm theo giá: -->
   <form method="GET" action="" >
@@ -63,6 +98,7 @@
 
     </div>
     <br>
+        {% if page_obj %}
         <nav style="background-color: white;width: 500px;" aria-label="Page navigation example">
             <ul class="pagination">
 
@@ -93,6 +129,7 @@
             </li>
             </ul>
         </nav>
+        {% endif%}
         <script>
             // Lấy tất cả các nút trên trang
             const buttons = document.querySelectorAll('button');
