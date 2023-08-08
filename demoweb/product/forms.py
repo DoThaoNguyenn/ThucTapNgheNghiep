@@ -57,10 +57,10 @@ class Register_form(forms.Form):
 
 
 class UserInformationForm(forms.ModelForm):
-    
+   
     city =forms.ModelChoiceField(label = 'Tỉnh/Thành phố',queryset = City.objects.all(), widget=forms.Select(attrs={"class": "form-control","hx-get":"/load-districts/","hx-target":"#id_district"}))
-    district =forms.ModelChoiceField(label = 'Quận/Huyện:',queryset = District.objects.none(), widget=forms.Select(attrs={"class": "form-control","hx-get":"/load-wards/","hx-target":"#id_ward"}))
-    ward =forms.ModelChoiceField(label = 'Phường/Xã:',queryset = Ward.objects.none(), widget=forms.Select(attrs={"class": "form-control"}))
+    district =forms.ModelChoiceField(label = 'Quận/Huyện:', queryset = District.objects.none(), widget=forms.Select(attrs={"class": "form-control","hx-get":"/load-wards/","hx-target":"#id_ward"}))
+    ward =forms.ModelChoiceField(label = 'Phường/Xã:', queryset = Ward.objects.none(), widget=forms.Select(attrs={"class": "form-control"}))
 
     class Meta:
         model = Users
@@ -82,11 +82,11 @@ class UserInformationForm(forms.ModelForm):
         if 'city' in self.data:
             city_id =self.data.get("city")
             self.fields['district'].queryset = District.objects.filter(parent_code=city_id)
-      
+            self.fields['district'].initial = self.cleaned_data['district']
         if 'district' in self.data:
             city_id =self.data.get("district")
             self.fields['ward'].queryset = Ward.objects.filter(parent_code=city_id)
-
+            self.fields['ward'].initial = self.cleaned_data['ward']
         # if self.instance.city:
         #     self.fields['district'].queryset = District.objects.filter(parent_code=self.instance.city)
         # if self.instance.district:

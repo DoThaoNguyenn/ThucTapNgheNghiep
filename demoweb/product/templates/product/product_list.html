@@ -40,22 +40,34 @@
   {%for i in loaisp%}
   <a  class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
   {% endfor%}
+
+  <!-- Lọc sản phẩm theo giá: -->
+  <form method="GET" action="" >
+    {% csrf_token %}
+    <label for="min_cost" style="margin-top: 10px;">Giá từ: </label>
+    <input type="number" name="min_cost" id="min_cost" value="{{ get_mincost }}" required style="width: 200px; height:fit-content; ">
+    <label for="max_cost" >Đến: </label>
+    <input type="number" name="max_cost" id="max_cost" value="{{ get_maxcost }}" required style="width: 200px; height:fit-content">
+    
+    <button type="submit" class="btn btn-info btn-sm" style="float: right;margin-top: 10px;">Lọc</button>
+</form>
+
+
 </div>
-<aside style="position: relative;left: 200px;margin-right: 20px;margin-left: 100px; width: 1000px;">
-    <div class="sanpham" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;position: relative;top: -120px;">
+<aside style="position: relative;top: -550px;left: 200px;margin-right: 20px;margin-left: 100px; width: 1000px;">
+    <div class="sanpham" style="display: flex;justify-content: start;box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;">
         <div class="new-products" style="width: 900px;">
-            <h2 style="margin: 20px;">Sản phẩm mới nhất</h2>
-            <div class="row" style="margin-left: 10px;display: flex;justify-content: start;" >
+            <h2 style="margin-bottom: 20px;">Sản phẩm mới nhất</h2>
+            <div class="row" >
                 {% for product in page_obj %}
                     {% if forloop.counter0|divisibleby:5 and not forloop.first %}
                     {% endif %}
-                    <div class="col1" style="width: 180px;text-align: center;margin-bottom: 10px;">
-                        <div class="img-product"><img style="width: 120px;height: 150px;" src="{{ product.image.url }}" alt="{{ product.title }}">
+                    <div class="col" style="width: 180px; margin-left: 10px;text-align: center;margin-bottom: 10px;">
+                        <div class="img-product"><img style="width: 150px;height: 200px;" src="{{ product.image.url }}" alt="{{ product.title }}">
                         </div>
                         <div class="main-product-content">
                             <div ><a style="font-size:20px ;" href="{% url 'product:information' product.id %}">{{ product.title }}</a></div>
                             <div> {{ product.cost }}</div>
-                            <div class="discount"> <div class="discount-values">{{product.discount}}%</div>  </div>
                             <div> {{product.discount_cost}} </div>
                         </div>
                     </div>

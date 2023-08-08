@@ -11,6 +11,7 @@ from django.urls import reverse
 
 from django.db.models import Q
 from django.contrib.auth.forms import PasswordChangeForm
+from datetime import datetime, timedelta
 # Create your views here.
 def index(request):
     ds = Category.objects.all()
@@ -271,8 +272,19 @@ def order_list(request):
         else:
             print(form_user.errors.as_data())
         order.save()
+    # lọc đơn hàng theo thời gian:
+    get_startdate = request.GET.get('start_date')
+    get_enddate = request.GET.get('end_date')
+    if get_startdate and get_enddate:
+        startdate = datetime.strptime(get_startdate, '%Y-%m-%d')
+        enddate = datetime.strptime(get_enddate, '%Y-%m-%d') + timedelta(days=1)
+
+        #lọc:
+        orders_filtered = Order.objects.filter(datetime__range=(startdate, enddate))
+        
+        return render(request,'product/order_list.html',{'orders_filtered':orders_filtered})
     list = Order.objects.filter(user=request.user, status =2)
-    return render (request,'product/account.html',{'order':list})
+    return render (request,'product/order_list.html',{'order':list})
       
 
 
@@ -285,6 +297,12 @@ def product_list(request):
     page= request.GET.get('page')
     page_obj = paginator.get_page(page)
     nums="a" * page_obj.paginator.num_pages
+    # lọc sản phẩm theo giá:
+    mincost = request.GET.get('min_cost')
+    maxcost = request.GET.get('max_cost')
+    if mincost and maxcost:
+        product_filtered = Product.objects.filter(cost__range=(mincost,maxcost))
+        return render(request,'product/product_list.html',{'loaisp': loaisp,'product_filtered':product_filtered})
     return render(request,'product/product_list.html',{'loaisp': loaisp,'sp': sp,'page_obj': page_obj,'nums':nums})
     
 #hien sản phẩm khi click vào sidebar
@@ -400,3 +418,16 @@ def contact(request):
 
     return render(request, 'product/contact.html', {'form': form})
 
+# lọc đơn hàng theo thời gian:
+# def filter_order(request):
+#     get_startdate = request.GET.get('start_date')
+#     get_enddate = request.GET.get('end_date')
+#     if get_startdate and get_enddate:
+#         startdate = datetime.strptime(get_startdate, '%Y-%m-%d')
+#         enddate = datetime.strptime(get_enddate, '%Y-%m-%d')
+
+#         #lọc:
+#         orders_filtered = Order.objects.filter(datetime__range=(startdate, enddate))
+#         return render(request,'product/account.html',{'orders_filtered':orders_filtered})
+#     order = Order.objects.all()
+#     return render(request, 'product/account.html', {'order': order})
