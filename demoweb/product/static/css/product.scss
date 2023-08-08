@@ -152,6 +152,7 @@ td{
 }
 .order-tb {
     @extend %tb;
+    margin: 30px;
     .tb-h {
         border-bottom: 2px solid #ececec;
     }
@@ -163,8 +164,9 @@ td{
     @extend %btn;
 }
 .tb-description {
-    
+    @extend %box;
     @extend %tb;
+    
     
     td {
         border-right: 2px solid #ececec;
@@ -172,6 +174,7 @@ td{
         padding: 10px;
     }
 }
+
 .order-list {
     @extend %btn;
 }
@@ -183,7 +186,9 @@ td{
 // }
 .tb-user-infor {
     @extend %tb;
-    background-color: burlywood;
+    margin-top: 20px;
+    margin-left: 20%;
+    background-color: #BACDDB;
     position:relative;
     td {
         border: 2px solid #ececec;
@@ -194,16 +199,19 @@ td{
 #btn-updateUser {
     @extend %btn;
     position:relative;
-    top: 10px;
-    left: 750px;
-
+    // top: -10px;
+    left: 490px;
+    margin-top: 30px;
+    width: 250px;
 }
 .add-avt {
     @extend %btn;
+    
 }
 
 .btn-add-review {
     @extend %btn;
+    margin: 20px;
 } 
 .tb-review {
     @extend %tb;

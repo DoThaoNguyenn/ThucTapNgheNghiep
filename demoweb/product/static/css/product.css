@@ -6,7 +6,7 @@ body {
   margin-left: auto;
 }
 
-.product-information, .table1, .total-review, .datetime, .infor, .checkout-infor, .checkout-cart {
+.tb-description, .product-information, .table1, .total-review, .datetime, .infor, .checkout-infor, .checkout-cart {
   box-shadow: hsl(0, 0%, 80%) 0 0 16px;
   background-color: #fff;
   border-radius: 4px;
@@ -99,6 +99,9 @@ td {
   border-bottom: 2px solid #ececec;
 }
 
+.order-tb {
+  margin: 30px;
+}
 .order-tb .tb-h {
   border-bottom: 2px solid #ececec;
 }
@@ -110,7 +113,9 @@ td {
 }
 
 .tb-user-infor {
-  background-color: burlywood;
+  margin-top: 20px;
+  margin-left: 20%;
+  background-color: #BACDDB;
   position: relative;
 }
 .tb-user-infor td {
@@ -121,8 +126,13 @@ td {
 
 #btn-updateUser {
   position: relative;
-  top: 10px;
-  left: 750px;
+  left: 490px;
+  margin-top: 30px;
+  width: 250px;
+}
+
+.btn-add-review {
+  margin: 20px;
 }
 
 .tb-review td {

@@ -15,7 +15,7 @@ class Product(models.Model):
     title = models.CharField(max_length=100)
     cost = models.PositiveIntegerField(null=True, blank=True)
     quantity = models.PositiveIntegerField(null=True, blank=True)
-    discount = models.DecimalField(default=0, max_digits=5, decimal_places=2)
+    discount = models.PositiveIntegerField(null=True, blank=True)
     image = models.ImageField(upload_to='media',null=True, blank=True)
     author =  models.CharField(max_length=50,null=True, blank=True)
     pages = models.PositiveIntegerField(null=True, blank=True)
@@ -24,7 +24,7 @@ class Product(models.Model):
    
 
     def discount_cost(self):
-        return self.cost*(1-(self.discount/100))
+        return round(self.cost*(1-(self.discount/100)))
 
     def rating(self):
         s = 0

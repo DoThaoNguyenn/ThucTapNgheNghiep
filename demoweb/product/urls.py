@@ -54,7 +54,7 @@ urlpatterns = [
      path('product_list/',views.product_list,name='product_list'),
      path('contact/', views.contact, name='contact'),
 
-     # path('filter_order/', views.filter_order, name='filter_order'),
+    
 
 ]
 

@@ -36,7 +36,7 @@ class Order(models.Model):
     )
     
   
-    total_price = models.FloatField(default=0)
+    total_price = models.PositiveIntegerField(default=0)
     quantity = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(Users, related_name='users', on_delete=models.CASCADE, null=True, blank=True)
     status = models.IntegerField(choices=status_choices, default=1)
