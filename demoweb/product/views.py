@@ -21,7 +21,11 @@ def detail(request, id):
     
     lsp = Category.objects.all()
     sp = Product.objects.filter(category=id)
-    return render(request, "product/detail.html", {'sanpham':sp,'loaisp':lsp})
+    paginator = Paginator(sp,10) # mỗi trang hiển thị 1 đối tượng
+    page= request.GET.get('page')
+    page_obj = paginator.get_page(page)
+    nums="a" * page_obj.paginator.num_pages
+    return render(request, "product/detail.html", {'sanpham':sp,'loaisp':lsp,'page_obj': page_obj,'nums': nums})
     
 def infor(request, id):
     sp = Product.objects.get(pk=id)
@@ -93,7 +97,7 @@ def update_product(request, id):
             return HttpResponse("Update success")
         else:
             return HttpResponse('Fail')
-    return render (request, 'product/create_product.html',{'sp':sp,'pr':pr})
+    return render (request, 'product/create_product.html',{'sp':sp,'pr':pr,})
 
 
 def delete_product(request, id):

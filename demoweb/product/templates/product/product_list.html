@@ -1,9 +1,44 @@
 {% extends 'product/base.html' %}
  {% block content %} 
+    <head>
+        <style>
 
+        .col1 {
+        position: relative;
+        width: 200px;
+        transition: transform 0.6s ease; /* Thời gian và hiệu ứng chuyển đổi */
+        }
+
+        .col1:hover {
+        transform: scale(1.1); /* Phóng to sản phẩm lên 1.2 lần khi hover */
+        border: 1px solid gray;
+        border-radius: 4px;
+        background-color: blanchedalmond;
+        }
+
+        .discount {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        top: 1px; /* Vị trí từ phía trên cùng */
+        right: 10px; /* Vị trí từ phía bên phải */
+        padding: 5px 10px;
+        background-color: red;
+        color: white;
+        font-weight: bold;
+        border-radius: 50%;
+        }
+        .discount-values{
+            position: absolute;
+            top: 10px;
+            right: 5px;
+            font-size: 12px;
+        }
+        </style>
+    </head>
  <div style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;" class="sidebar">
   {%for i in loaisp%}
-  <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
+  <a  class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
   {% endfor%}
 
   <!-- Lọc sản phẩm theo giá: -->
@@ -19,43 +54,30 @@
 
 
 </div>
-<aside style="position: relative;top: -600px;left: 200px;margin-right: 20px;margin-left: 100px; width: 1000px;">
+<aside style="position: relative;top: -550px;left: 200px;margin-right: 20px;margin-left: 100px; width: 1000px;">
     <div class="sanpham" style="display: flex;justify-content: start;box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;">
         <div class="new-products" style="width: 900px;">
             <h2 style="margin-bottom: 20px;">Sản phẩm mới nhất</h2>
             <div class="row" >
-                {% if product_filtered %}
-                    {% for product in product_filtered %}
-                        <div class="col" style="width: 180px; margin-left: 10px;text-align: center;margin-bottom: 10px;">
-                            <div class="img-product"><img style="width: 150px;height: 200px;" src="{{ product.image.url }}" alt="{{ product.title }}">
-                            </div>
-                            <div class="main-product-content">
-                                <div ><a style="font-size:20px ;" href="{% url 'product:information' product.id %}">{{ product.title }}</a></div>
-                                <div> {{ product.cost }}</div>
-                                <div> {{product.discount_cost}} </div>
-                            </div>
+                {% for product in page_obj %}
+                    {% if forloop.counter0|divisibleby:5 and not forloop.first %}
+                    {% endif %}
+                    <div class="col" style="width: 180px; margin-left: 10px;text-align: center;margin-bottom: 10px;">
+                        <div class="img-product"><img style="width: 150px;height: 200px;" src="{{ product.image.url }}" alt="{{ product.title }}">
                         </div>
-                    {% endfor %}
-                {% else %}
-                    {% for product in page_obj %}
-                        {% if forloop.counter0|divisibleby:5 and not forloop.first %}
-                        {% endif %}
-                        <div class="col" style="width: 180px; margin-left: 10px;text-align: center;margin-bottom: 10px;">
-                            <div class="img-product"><img style="width: 150px;height: 200px;" src="{{ product.image.url }}" alt="{{ product.title }}">
-                            </div>
-                            <div class="main-product-content">
-                                <div ><a style="font-size:20px ;" href="{% url 'product:information' product.id %}">{{ product.title }}</a></div>
-                                <div> {{ product.cost }}</div>
-                                <div> {{product.discount_cost}} </div>
-                            </div>
+                        <div class="main-product-content">
+                            <div ><a style="font-size:20px ;" href="{% url 'product:information' product.id %}">{{ product.title }}</a></div>
+                            <div> {{ product.cost }}</div>
+                            <div> {{product.discount_cost}} </div>
                         </div>
-                    {% endfor %}
-                {% endif %}
+                    </div>
+                {% endfor %}
             </div>
         </div>
 
     </div>
     <br>
+        {% if page_obj %}
         <nav style="background-color: white;width: 500px;" aria-label="Page navigation example">
             <ul class="pagination">
 
@@ -86,6 +108,7 @@
             </li>
             </ul>
         </nav>
+        {% endif%}
         <script>
             // Lấy tất cả các nút trên trang
             const buttons = document.querySelectorAll('button');
