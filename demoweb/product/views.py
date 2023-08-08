@@ -292,8 +292,20 @@ def order_list(request):
 # trang product
 def product_list(request):
     loaisp = Category.objects.all()
-    sp = Product.objects.all()
-    paginator = Paginator(sp,10) # mỗi trang hiển thị 1 đối tượng
+    
+    
+    # sắp xếp sản phẩm theo giá:
+    
+    sort_by = request.GET.get("sort","page")
+    
+    
+    if sort_by == "l2h" :
+        sort_sp = Product.objects.order_by("cost")
+    elif sort_by == "h2l":
+        sort_sp = Product.objects.order_by("-cost")
+    else:
+        sort_sp = Product.objects.order_by('-id') 
+    paginator = Paginator(sort_sp,10) # mỗi trang hiển thị 1 đối tượng
     page= request.GET.get('page')
     page_obj = paginator.get_page(page)
     nums="a" * page_obj.paginator.num_pages
@@ -303,7 +315,7 @@ def product_list(request):
     if mincost and maxcost:
         product_filtered = Product.objects.filter(cost__range=(mincost,maxcost))
         return render(request,'product/product_list.html',{'loaisp': loaisp,'product_filtered':product_filtered})
-    return render(request,'product/product_list.html',{'loaisp': loaisp,'sp': sp,'page_obj': page_obj,'nums':nums})
+    return render(request,'product/product_list.html',{'loaisp': loaisp,'page_obj': page_obj,'nums':nums,'sort_sp':sort_sp})
     
 #hien sản phẩm khi click vào sidebar
 def product_select_main(request, id):
@@ -330,27 +342,7 @@ def search(request):
     q=request.GET.get('q')
     query=q.split()
     print(query)
-    # if len(query)==1:
-    #     sp=Product.objects.filter(title__icontains=query[0])
-    # elif len(query)==2:
-    #     sp=Product.objects.filter(Q(title__icontains=query[0]) | 
-    #     Q(title__icontains=query[1]) )
-    # elif len(query)==3:
-    #     sp=Product.objects.filter(Q(title__icontains=query[0]) | 
-    #     Q(title__icontains=query[1]) | 
-    #     Q(title__icontains=query[2]) )
-    # elif len(query)==4:
-    #     sp=Product.objects.filter(Q(title__icontains=query[0]) | 
-    #     Q(title__icontains=query[1]) | 
-    #     Q(title__icontains=query[2])| 
-    #     Q(title__icontains=query[3]) )
-    # elif len(query)==5:
-    #     sp=Product.objects.filter(Q(title__icontains=query[0]) | 
-    #     Q(title__icontains=query[1]) | 
-    #     Q(title__icontains=query[2]) | 
-    #     Q(title__icontains=query[3]) | 
-    #     Q(title__icontains=query[4]) 
-    #     ) 
+   
     queries = [Q(title__icontains=query) for query in query]
     query1 = queries.pop()
     for item in queries:
@@ -418,16 +410,3 @@ def contact(request):
 
     return render(request, 'product/contact.html', {'form': form})
 
-# lọc đơn hàng theo thời gian:
-# def filter_order(request):
-#     get_startdate = request.GET.get('start_date')
-#     get_enddate = request.GET.get('end_date')
-#     if get_startdate and get_enddate:
-#         startdate = datetime.strptime(get_startdate, '%Y-%m-%d')
-#         enddate = datetime.strptime(get_enddate, '%Y-%m-%d')
-
-#         #lọc:
-#         orders_filtered = Order.objects.filter(datetime__range=(startdate, enddate))
-#         return render(request,'product/account.html',{'orders_filtered':orders_filtered})
-#     order = Order.objects.all()
-#     return render(request, 'product/account.html', {'order': order})
