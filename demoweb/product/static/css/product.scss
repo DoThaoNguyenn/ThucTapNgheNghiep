@@ -86,12 +86,7 @@ body{
     height: 120px;
 
 }
-.total h5{
-    position: relative;
-    top:-800px;
-    margin: 20px;
-    // font-weight: normal;
-}
+
 // th{
 //     height: 50px;
 // }
@@ -268,3 +263,7 @@ td{
 input:checked ~ label, label:hover ~ label{
     color: #ffb503;
 }
+.lbl, #start_date, #end_date, #filter-order, #cancel  {
+    display: inline-block;
+    vertical-align: middle;
+  }

@@ -36,13 +36,22 @@
             </br>
             
             <button type="button" class="btn-add-cart" onclick="add_success()"><a style="text-decoration: none; color: #fff;" href="{% url 'product:add_to_cart' sp.id %}">Thêm vào giỏ hàng</button></a> 
-            <script>
-                function add_success() {
-                    alert('Thêm vào giỏ hàng thành công !');
-                    
-                }
-            </script>
-            
+            {% if user.is_authenticated%}
+                <script>
+                    function add_success(){
+                        
+                        alert('Thêm vào giỏ hàng thành công !');
+                    }
+                </script>
+            {% else %}
+                <script>
+                    function add_success(){
+                        
+                        alert('Đăng nhập để thêm vào giỏ hàng !');
+                        
+                    }
+                </script>
+            {% endif %}
         </div>
         <br>
         <br>

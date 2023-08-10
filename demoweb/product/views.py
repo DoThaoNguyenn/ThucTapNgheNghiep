@@ -224,11 +224,16 @@ def show_cart(request):
         
 
 def checkout(request):
-
+    
     user = Users.objects.get(pk=request.user.pk)
+    initial_dict = {
+        "district" : user.district,
+        "ward" : user.ward,
+    }
     order = Order.objects.get(user=user, status = 1)
     orderdetail = Order_detail.objects.filter(order=order)    
-    form_user = UserInformationForm(instance=user)
+    form_user = UserInformationForm(instance=user,initial = initial_dict)
+    
     return render(request, 'product/checkout.html',{'form_user':form_user,'orderdetail':orderdetail,'order':order})
 
 
@@ -259,7 +264,12 @@ def review_order(request,id):
 
 
 def order_list(request):
+    user = Users.objects.get(pk=request.user.pk)
     
+    # initial_dict = {
+    #     "district" : user.district,
+    #     "ward" : user.ward,
+    # }
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
         order = Order.objects.get(pk=order_id)
@@ -275,19 +285,20 @@ def order_list(request):
     # lọc đơn hàng theo thời gian:
     get_startdate = request.GET.get('start_date')
     get_enddate = request.GET.get('end_date')
+    print(type(get_enddate))
+    
     if get_startdate and get_enddate:
         startdate = datetime.strptime(get_startdate, '%Y-%m-%d')
         enddate = datetime.strptime(get_enddate, '%Y-%m-%d') + timedelta(days=1)
-
-        #lọc:
-        orders_filtered = Order.objects.filter(datetime__range=(startdate, enddate))
         
-        return render(request,'product/order_list.html',{'orders_filtered':orders_filtered})
-    list = Order.objects.filter(user=request.user, status =2)
-    return render (request,'product/order_list.html',{'order':list})
+        #lọc:
+        order = Order.objects.filter(datetime__range=(startdate, enddate))
+    else:    
+        
+        order = Order.objects.filter(user=request.user, status =2)
+    get_enddate = request.GET.get('end_date')
+    return render (request,'product/order_list.html',{'order':order,'get_startdate':get_startdate,'get_enddate':get_enddate})
       
-
-
 
 # trang product
 def product_list(request):
@@ -362,19 +373,36 @@ class MyPasswordChangeForm(PasswordChangeForm):
 
 # load districts:
 def load_districts(request):
+    # user = Users.objects.get(pk=request.user.pk)
+    # city = City.objects.get(name=user.city.name)
+    # city_id = city.id
+    # districts = District.objects.filter(parent_code=city_id)
+
     city_id = request.GET.get('city')
     districts = District.objects.filter(parent_code=city_id)
     return render(request, 'product/district_option.html',{'districts':districts})
 
 def load_wards(request):
+    # user = Users.objects.get(pk=request.user.pk)
+    # district = District.objects.get(name=user.district.name)
+    # district_id = district.id
+    # wards = Ward.objects.filter(parent_code=district_id)
+
     district_id = request.GET.get('district')
     wards = Ward.objects.filter(parent_code=district_id)
     return render(request, 'product/ward_option.html',{'wards':wards})
 
 def profile(request):
     user = Users.objects.get(pk=request.user.pk)
+    
+    initial_dict = {
+        "email" : user.email,
+        "username" : user.username,
+        "district" : user.district,
+        "ward" : user.ward,
+    }
     form = AddAvatar
-    form_update = UpdateUser
+    form_update = UpdateUser(instance=user,initial = initial_dict)
     if request.method == 'POST':
         form = AddAvatar(request.POST, request.FILES, instance=user)
         if form.is_valid():

@@ -81,17 +81,14 @@ class UserInformationForm(forms.ModelForm):
         
         if 'city' in self.data:
             city_id =self.data.get("city")
+            
             self.fields['district'].queryset = District.objects.filter(parent_code=city_id)
-            # self.fields['district'].initial = self.cleaned_data['district']
+            # self.fields['district'].initial = self.request.user.district
         if 'district' in self.data:
             city_id =self.data.get("district")
             self.fields['ward'].queryset = Ward.objects.filter(parent_code=city_id)
             # self.fields['ward'].initial = self.cleaned_data['ward']
-        # if self.instance.city:
-        #     self.fields['district'].queryset = District.objects.filter(parent_code=self.instance.city)
-        # if self.instance.district:
-        #     self.fields['ward'].queryset = Ward.objects.filter(parent_code=self.instance.district)
-
+        
 
 class AddAvatar(forms.ModelForm):
     class Meta:
@@ -104,8 +101,10 @@ class AddAvatar(forms.ModelForm):
 
 class UpdateUser(UserInformationForm):
     
-    username = forms.CharField(label='Tên tài khoản:', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(label='Tên tài khoản:',widget=forms.TextInput(attrs={'class': 'form-control'}))
     email=forms.EmailField(label='Email', widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    
 
 class Add_review(forms.ModelForm):
     class Meta:

@@ -13,7 +13,7 @@
                 {% for key,value in form.errors.items %}
                     {{value}}
                 {% endfor %}
-                <h2>Đăng nhâp</h2>
+                <h2>Đăng nhập</h2>
                 <div class="inputbox" >
                     <i class="fa-regular fa-user"></i>
                     {{form.username}}
@@ -27,13 +27,13 @@
                 </div>
                 <div class="forget">
                     
-                    <label for=""><input type="checkbox">Nhớ mật khẩu  </label>
-                    <a href="#">Quên mật khẩu</a>
+                    <!-- <label for=""><input type="checkbox">Nhớ mật khẩu  </label> -->
+                    <a href="#" style="font-size: large;">Quên mật khẩu</a>
                 </div>
                 <input type="hidden" name="next" value="/">
                 <input class="login" type="submit" value="Login">
                 <div class="register">
-                    <p>Không có tài khoản <a href="#">Đăng ký </a></p>
+                    <p>Không có tài khoản?  <a href="#">Đăng ký </a></p>
                 </div>
             </form>
         </div>
