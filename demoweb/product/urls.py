@@ -3,7 +3,7 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 
-from django.contrib.auth.views  import PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views  import PasswordChangeView, PasswordChangeDoneView, PasswordResetDoneView, PasswordResetCompleteView, PasswordResetConfirmView,PasswordResetView
 from .views import MyPasswordChangeForm
 app_name = "product"
 urlpatterns = [
@@ -55,6 +55,9 @@ urlpatterns = [
      path('contact/', views.contact, name='contact'),
 
      # path('filter_order/', views.filter_order, name='filter_order'),
+
+     path('forgot_password_question/', views.forgot_password_question, name='forgot_password_question'),
+     path('reset_password_question/<int:user_id>/', views.reset_password_question, name='reset_password_question'),
 
 ]
 

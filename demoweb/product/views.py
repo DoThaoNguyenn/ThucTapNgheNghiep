@@ -12,6 +12,14 @@ from django.urls import reverse
 from django.db.models import Q
 from django.contrib.auth.forms import PasswordChangeForm
 from datetime import datetime, timedelta
+from django.core.mail import send_mail,BadHeaderError
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 # Create your views here.
 def index(request):
     ds = Category.objects.all()
@@ -161,6 +169,7 @@ def delete_category(request, id):
 
 def register(request):
     form = Register_form()
+
     if request.method == 'POST':
         form=Register_form(request.POST)
         if form.is_valid():
@@ -168,7 +177,9 @@ def register(request):
             return HttpResponseRedirect('/')
     return render(request,'product/register.html',{'form':form})
 
-
+# def show_question(request):
+#     form_question=Question()
+#     return render(request,'product/show_question.html',{'form_question1':form_question})
 
 def add_to_cart(request,id):
 
@@ -324,6 +335,7 @@ def contact(request):
     return render(request,"product/contact.html")
 def search(request):
     q=request.GET.get('q')
+    q.lower()
     query=q.split()
     print(query)
     # if len(query)==1:
@@ -427,3 +439,164 @@ def contact(request):
 #         return render(request,'product/account.html',{'orders_filtered':orders_filtered})
 #     order = Order.objects.all()
 #     return render(request, 'product/account.html', {'order': order})
+#View password
+
+# accounts/views.py
+
+# from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+# from .forms import CustomPasswordResetForm
+
+
+# class CustomPasswordResetView(PasswordResetView):
+#     form_class = CustomPasswordResetForm
+#     template_name  'product/forgot_password.html'
+#     success_url '/product/forgot-password/done/'
+
+
+# class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+#     template_name  'product/reset_password.html'
+#     success_url  '/product/reset-password/complete/'
+# forgot_password  CustomPasswordResetView.as_view()
+# reset_password  CustomPasswordResetConfirmView.as_view()
+# def password_reset_request(request):
+#     if request.method == 'POST':
+#         password_form = PasswordResetForm(request.POST)
+#         if password_form.is_valid():
+#             data = password_form.cleaned_data['email']
+#             user_email=Users.objects.filter(Q(email=data))
+#             user=user_email.first()
+#             print(user.email)
+#             if user_email.exists():
+#                 for user in user_email:
+#                     subject = 'Password Request'
+#                     email_template_name = 'product/password_message.txt'
+#                     parameters = {
+#                         'email': user.email,
+#                         'domain':'127.0.0.1:8000',
+#                         'site_name':'PostScribers',
+#                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#                         'token': default_token_generator.make_token(user),
+#                         'protocol':'http',
+
+#                     }
+#                     email= render_to_string(email_template_name,parameters)
+#                     print([user.email],11)
+#                     try:
+#                         send_mail(subject,email,'odooFM2023@gmail.com',[user.email],fail_silently=False)
+#                     except:
+#                         return HttpResponse('Invalid Header')
+
+#     else:
+#         password_form = PasswordResetForm()
+#     context={
+#         'password_form':password_form,
+#     }
+#     return render (request,'product/password_reset_form.html',context)
+# from django.contrib import messages, auth
+# from django.contrib.sites.shortcuts import get_current_site
+# from django.core.mail import EmailMessage
+# def forgotPassword(request):
+
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+#         print(email)
+#         user = Users.objects.get(email__exact=email)
+  
+#         current_site = get_current_site(request=request)
+#         mail_subject = 'Reset your password'
+#         message = render_to_string('product/reset_password_email.html', {
+#             'user': user,
+#             'domain': current_site.domain,
+#             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#             'token': default_token_generator.make_token(user)
+#         })
+#         # send_email = EmailMessage(mail_subject, message, to=[email])
+#         # send_email.send()
+#         send_mail(mail_subject,message,'',[email],fail_silently=False)
+
+#         messages.success(
+#             request=request, message="Password reset email has been sent to your email address")
+#     else:
+#         messages.error(request=request, message="Account does not exist!")
+
+#     context = {
+#         'email': email if 'email' in locals() else '',
+#     }
+#     return render(request, "product/forgot_password.html", context=context)
+
+
+# def reset_password_validate(request, uidb64, token):
+#     try:
+#         uid = urlsafe_base64_decode(uidb64).decode()
+#         user = Users.objects.get(pk=uid)
+#     except Exception:
+#         user = None
+
+#     if user is not None and default_token_generator.check_token(user, token):
+#         request.session['uid'] = uid
+#         messages.info(request=request, message='Please reset your password')
+#         return redirect('reset_password')
+#     else:
+#         messages.error(request=request, message="This link has been expired!")
+#         return redirect('home')
+
+
+# def reset_password(request):
+#     if request.method == 'POST':
+#         password = request.POST.get('password')
+#         confirm_password = request.POST.get('confirm_password')
+
+#         if password == confirm_password:
+#             uid = request.session.get('uid')
+#             user = Users.objects.get(pk=uid)
+#             user.set_password(password)
+#             user.save()
+#             messages.success(request, message="Password reset successful!")
+#             return redirect('login')
+#         else:
+#             messages.error(request, message="Password do not match!")
+#     return render(request, 'product/reset_password.html')
+
+from django.contrib import messages
+
+def forgot_password_question(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        answer = request.POST['answer']
+
+        try:
+            user = Users.objects.get(username=username)
+            if user.question and user.answer:
+                if answer == user.answer:
+                    print(user.id)
+                    # Cung cấp câu trả lời khớp, cho phép người dùng nhập mật khẩu mới
+                    return render(request, 'product/reset_password_question.html', {'user_id': user.id})
+                else:
+                    # Câu trả lời không khớp
+                    messages.error(request, 'Câu trả lời không đúng.')
+            else:
+                # Người dùng không có câu hỏi xác thực
+                messages.error(request, 'Người dùng không có câu hỏi xác thực.')
+        except User.DoesNotExist:
+            # Người dùng không tồn tại
+            messages.error(request, 'Người dùng không tồn tại.')
+
+    return render(request, 'product/forgot_password_question.html')
+from django.contrib.auth.hashers import make_password
+
+def reset_password_question(request):
+    if request.method == 'POST':
+        user_id = request.POST['user_id']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        if new_password == confirm_password:
+            user = Users.objects.get(id=user_id)
+            user.password = make_password(new_password)
+            user.save()
+            messages.success(request, 'Mật khẩu đã được thay đổi thành công.')
+            return redirect('product:login')
+        else:
+            messages.error(request, 'Xác nhận mật khẩu không khớp.')
+
+    return render(request, 'product/reset_password_question.html')

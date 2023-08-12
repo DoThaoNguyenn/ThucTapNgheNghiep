@@ -3,7 +3,7 @@ from .models import Users, Order, Order_detail, Contact
 # from .form import UsersCreationFrom
 from django.contrib.auth.admin import UserAdmin
 
-admin.site.register(Users, UserAdmin)
+admin.site.register(Users,UserAdmin)
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['user','quantity','total_price']
@@ -14,3 +14,6 @@ class OrderDetailAdmin(admin.ModelAdmin):
 class ContactAdmin(admin.ModelAdmin):
     list_display = ['name','number','email','message']
 
+# @admin.register(Users)
+# class Show_question(admin.ModelAdmin):
+#     list_display = ['username','email','password1','password2','question','answer']

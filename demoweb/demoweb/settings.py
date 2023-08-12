@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from django.contrib.messages import constants as messages
+import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,7 +45,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'vi_address',
-   
+    # 'send_email.apps.SendEmailConfig',
+
+
    
 ]
 
@@ -61,7 +66,7 @@ ROOT_URLCONF = 'demoweb.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -146,4 +151,29 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 	
 AUTH_USER_MODEL = 'order.users'
+
+#Cấu hình email
+# myproject/settings.py
+
+# ...
+
+
+# ...
+
+# settings.py
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'dinhminh060102@gmail.com'  # Địa chỉ email của bạn
+EMAIL_HOST_PASSWORD = 'minh060102'  # Mật khẩu email của bạn
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'dinhminh060102@gmail.com'  # Địa chỉ email mặc định
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+    messages.WARNING: 'warning',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.DEBUG: 'secondary'
+}
 
