@@ -24,17 +24,17 @@ class Category_create_form(ModelForm):
 
 # class Question(forms.Form):
 #    
-class Register_form(forms.Form):
+class Register_form(forms.ModelForm):
 
     username= forms.CharField(label='Tài khoản', max_length=30)
     email=forms.EmailField(label='Email')
     password1=forms.CharField(label='Mật khẩu', widget=forms.PasswordInput(attrs={'class': 'myform','id':'password'}))
     password2=forms.CharField(label='Nhâp lại mật khẩu',widget=forms.PasswordInput()) 
-    question = forms.CharField(label='Câu hỏi bảo mật',widget=forms.TextInput())
-    answer = forms.CharField(label='Câu trả lời',widget=forms.TextInput())
-    # class Meta:
-    #     model = Users
-    #     fields = ['question','answer']
+    # question = forms.CharField(label='Câu hỏi bảo mật',widget=forms.TextInput())
+    # answer = forms.CharField(label='Câu trả lời',widget=forms.TextInput())
+    class Meta:
+        model = Users
+        fields = ['question','answer']
     def clean_password2(self):
         if 'password1' in self.cleaned_data:
             password1=self.cleaned_data['password1']

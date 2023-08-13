@@ -563,14 +563,13 @@ def forgot_password_question(request):
     if request.method == 'POST':
         username = request.POST['username']
         answer = request.POST['answer']
-
+        question = request.POST['question']
         try:
             user = Users.objects.get(username=username)
             if user.question and user.answer:
-                if answer == user.answer:
-                    print(user.id)
+                if answer == user.answer and question == user.question:
                     # Cung cấp câu trả lời khớp, cho phép người dùng nhập mật khẩu mới
-                    return render(request, 'product/reset_password_question.html', {'user_id': user.id})
+                    return redirect('product:reset_password_question', user_id=user.id)
                 else:
                     # Câu trả lời không khớp
                     messages.error(request, 'Câu trả lời không đúng.')
@@ -584,7 +583,7 @@ def forgot_password_question(request):
     return render(request, 'product/forgot_password_question.html')
 from django.contrib.auth.hashers import make_password
 
-def reset_password_question(request):
+def reset_password_question(request,user_id):
     if request.method == 'POST':
         user_id = request.POST['user_id']
         new_password = request.POST['new_password']
@@ -599,4 +598,4 @@ def reset_password_question(request):
         else:
             messages.error(request, 'Xác nhận mật khẩu không khớp.')
 
-    return render(request, 'product/reset_password_question.html')
+    return render(request, 'product/reset_password_question.html', {'user_id': user_id})
