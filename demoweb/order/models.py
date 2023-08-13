@@ -10,9 +10,9 @@ from vi_address.models import City, District, Ward
 
 class Users(AbstractUser):
     QUESTION_CHOICE = (
-        (1, "Cuốn sách yêu thích nhất của bạn?"),
-        (2, "Cuốn sách đầu tiên bạn đọc?"),
-        (3, "Loài động vật bản yêu thích nhất?"),
+        ("1", "Cuốn sách yêu thích nhất của bạn?"),
+        ("2", "Cuốn sách đầu tiên bạn đọc?"),
+        ("3", "Loài động vật bản yêu thích nhất?"),
         
     )
     

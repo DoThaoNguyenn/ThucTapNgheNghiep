@@ -567,7 +567,7 @@ def forgot_password_question(request):
         try:
             user = Users.objects.get(username=username)
             if user.question and user.answer:
-                if answer == user.answer and question == user.question:
+                if answer == user.answer :
                     # Cung cấp câu trả lời khớp, cho phép người dùng nhập mật khẩu mới
                     return redirect('product:reset_password_question', user_id=user.id)
                 else:
