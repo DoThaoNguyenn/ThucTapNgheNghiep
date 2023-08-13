@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from order.models import Users, Order, Order_detail,Contact
 from vi_address.models import City, District, Ward
 
+
 class Product_create_form(ModelForm):
     class Meta:
         model= Product
@@ -19,18 +20,21 @@ class Category_create_form(ModelForm):
         fields = '__all__'
 
 # class Add_Product_information(ModelForm):
-#     class Meta:
-#         model = Product_information
-#         fields = '__all__'
+#     
 
-class Register_form(forms.Form):
- 
-    
+# class Question(forms.Form):
+#    
+class Register_form(forms.ModelForm):
+
     username= forms.CharField(label='Tài khoản', max_length=30)
     email=forms.EmailField(label='Email')
     password1=forms.CharField(label='Mật khẩu', widget=forms.PasswordInput(attrs={'class': 'myform','id':'password'}))
-    password2=forms.CharField(label='Nhâp lại mật khẩu',widget=forms.PasswordInput())
-
+    password2=forms.CharField(label='Nhâp lại mật khẩu',widget=forms.PasswordInput()) 
+    # question = forms.CharField(label='Câu hỏi bảo mật',widget=forms.TextInput())
+    # answer = forms.CharField(label='Câu trả lời',widget=forms.TextInput())
+    class Meta:
+        model = Users
+        fields = ['question','answer']
     def clean_password2(self):
         if 'password1' in self.cleaned_data:
             password1=self.cleaned_data['password1']
@@ -51,7 +55,7 @@ class Register_form(forms.Form):
 
     def save(self):
 
-        Users.objects.create_user(username=self.cleaned_data['username'],email=self.cleaned_data['email'],password=self.cleaned_data['password1'])
+        Users.objects.create_user(username=self.cleaned_data['username'],email=self.cleaned_data['email'],password=self.cleaned_data['password1'],question=self.cleaned_data['question'],answer=self.cleaned_data['answer'])
             
 
 
@@ -127,3 +131,13 @@ class ContactForm(forms.Form):
     #     'email': forms.TextInput(atttrs={'class':'form-control'})
     #     'message': forms.Textarea(atttrs={'class':'form-control'})
     # }
+
+    #
+
+from django import forms
+from django.contrib.auth.forms import PasswordResetForm
+
+
+# class CustomPasswordResetForm(PasswordResetForm):
+#     email = forms.EmailField(label='Email', max_length=254, widget=forms.EmailInput(attrs={'autocomplete': 'email'}))
+

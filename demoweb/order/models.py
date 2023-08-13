@@ -9,13 +9,22 @@ from vi_address.models import City, District, Ward
 
 
 class Users(AbstractUser):
+    QUESTION_CHOICE = (
+        ("1", "Cuốn sách yêu thích nhất của bạn?"),
+        ("2", "Cuốn sách đầu tiên bạn đọc?"),
+        ("3", "Loài động vật bản yêu thích nhất?"),
+        
+    )
     
+    question = models.CharField(choices=QUESTION_CHOICE,default="1",max_length=255)
+    answer = models.CharField(max_length=255, blank=True,null=True)
     phone = models.CharField(max_length=10,null=True, blank=True)
     city = models.ForeignKey(City,on_delete=models.CASCADE, null=True, blank=True)
     district = models.ForeignKey(District,on_delete=models.CASCADE, null=True, blank=True)
     ward = models.ForeignKey(Ward,on_delete=models.CASCADE, null=True, blank=True)
     street = models.CharField(max_length=100,null=True, blank=True)
     avatar = models.ImageField(upload_to='media', null=True, blank=True)
+    
     class Meta:
         db_table = 'auth_user'
 
