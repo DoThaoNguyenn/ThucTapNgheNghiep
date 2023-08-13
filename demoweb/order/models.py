@@ -16,7 +16,7 @@ class Users(AbstractUser):
         
     )
     
-    question = models.CharField(choices=QUESTION_CHOICE,default=1,max_length=255)
+    question = models.CharField(choices=QUESTION_CHOICE,default="1",max_length=255)
     answer = models.CharField(max_length=255, blank=True,null=True)
     phone = models.CharField(max_length=10,null=True, blank=True)
     city = models.ForeignKey(City,on_delete=models.CASCADE, null=True, blank=True)
