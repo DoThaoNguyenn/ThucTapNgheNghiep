@@ -198,10 +198,18 @@ def add_to_cart(request,id):
 def remove_orderDetail(request, id):
     item = Order_detail.objects.get(pk=id)
     item.delete()
+    request.session['count_cartitem'] -= 1
+    if request.session['count_cartitem'] ==0:
+        context ={
+            "error_message":  'Chưa có sản phẩm trong giỏ hàng.',
+            "is_order": False
+        }
+        return render (request, 'product/cart.html',context)
     return redirect('product:show_cart')
 
 def show_cart(request):
-    if Order.objects.filter(user=request.user, status =1).exists() is False: 
+    
+    if Order.objects.filter(user=request.user, status =1).exists() is False or Order.objects.filter(order__isnull=True).exists() is True:
         context ={
             "error_message":  'Chưa có sản phẩm trong giỏ hàng.',
             "is_order": False
@@ -224,12 +232,13 @@ def show_cart(request):
         
 
 def checkout(request):
-    
+
     user = Users.objects.get(pk=request.user.pk)
     initial_dict = {
         "district" : user.district,
         "ward" : user.ward,
     }
+    print(222222222222, user.city  )
     order = Order.objects.get(user=user, status = 1)
     orderdetail = Order_detail.objects.filter(order=order)    
     form_user = UserInformationForm(instance=user,initial = initial_dict)
@@ -265,11 +274,6 @@ def review_order(request,id):
 
 def order_list(request):
     user = Users.objects.get(pk=request.user.pk)
-    
-    # initial_dict = {
-    #     "district" : user.district,
-    #     "ward" : user.ward,
-    # }
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
         order = Order.objects.get(pk=order_id)
@@ -285,7 +289,6 @@ def order_list(request):
     # lọc đơn hàng theo thời gian:
     get_startdate = request.GET.get('start_date')
     get_enddate = request.GET.get('end_date')
-    print(type(get_enddate))
     
     if get_startdate and get_enddate:
         startdate = datetime.strptime(get_startdate, '%Y-%m-%d')
@@ -295,8 +298,8 @@ def order_list(request):
         order = Order.objects.filter(datetime__range=(startdate, enddate))
     else:    
         
-        order = Order.objects.filter(user=request.user, status =2)
-    get_enddate = request.GET.get('end_date')
+        order = Order.objects.filter(user=request.user, status =2).order_by("-id")
+    
     return render (request,'product/order_list.html',{'order':order,'get_startdate':get_startdate,'get_enddate':get_enddate})
       
 
@@ -316,7 +319,7 @@ def product_list(request):
         sort_sp = Product.objects.order_by("-cost")
     else:
         sort_sp = Product.objects.order_by('-id') 
-    paginator = Paginator(sort_sp,10) # mỗi trang hiển thị 1 đối tượng
+    paginator = Paginator(sort_sp,10) # mỗi trang hiển thị 10 đối tượng
     page= request.GET.get('page')
     page_obj = paginator.get_page(page)
     nums="a" * page_obj.paginator.num_pages
@@ -325,19 +328,24 @@ def product_list(request):
     maxcost = request.GET.get('max_cost')
     if mincost and maxcost:
         product_filtered = Product.objects.filter(cost__range=(mincost,maxcost))
-        return render(request,'product/product_list.html',{'loaisp': loaisp,'product_filtered':product_filtered})
+        if product_filtered.count() > 0:
+            message = ""
+        else:
+            message = "Không tìm thấy sản phẩm !"
+        return render(request,'product/product_list.html',{'loaisp': loaisp,'product_filtered':product_filtered,'mincost':mincost,'maxcost':maxcost,'message':message})
     return render(request,'product/product_list.html',{'loaisp': loaisp,'page_obj': page_obj,'nums':nums,'sort_sp':sort_sp})
     
 #hien sản phẩm khi click vào sidebar
 def product_select_main(request, id):
     lsp = Category.objects.all()
+    lsp_name = Category.objects.get(id=id)
     sp = Product.objects.filter(category=id)
-    paginator = Paginator(sp,5) # mỗi trang hiển thị 1 đối tượng
+    paginator = Paginator(sp,5) # mỗi trang hiển thị 5 đối tượng
     page= request.GET.get('page')
     page_obj = paginator.get_page(page)
     nums="a" * page_obj.paginator.num_pages
     # return render(request, 'product/product.html', {})
-    return render(request, "product/product.html", {'sanpham':sp,'loaisp':lsp,'page_obj': page_obj,'nums':nums})
+    return render(request, "product/product.html", {'sanpham':sp,'loaisp':lsp,'lsp_name':lsp_name,'page_obj': page_obj,'nums':nums})
 #dhien ds loai sp sidebar
 def product_select(request):
     lsp = Category.objects.all()
@@ -359,7 +367,8 @@ def search(request):
     for item in queries:
         query1 |= item
     sp = Product.objects.filter(query1)
-    return render(request,"product/search.html",{'sp':sp})
+    
+    return render(request,"product/search.html",{'sp':sp,'q':q})
 # password_change_form
 class MyPasswordChangeForm(PasswordChangeForm):
     def __init__(self, *args, **kwargs):
@@ -438,3 +447,27 @@ def contact(request):
 
     return render(request, 'product/contact.html', {'form': form})
 
+def test(request):
+    city= request.user.city
+    print(1111,city)
+    district = request.user.district
+    print(2222,district)
+    ward = request.user.ward
+
+    selected_city_id = city.id
+    selected_district_id = district.id
+    selected_ward_id = ward.id
+
+    cities = City.objects.all()
+    city_id = city.id 
+
+
+    # city_id = request.POST.get('city')
+    districts = District.objects.filter(parent_code=city_id)
+    
+    district_id = district.id
+    # district_id = request.POST.get('district')
+    wards = Ward.objects.filter(parent_code=district_id)
+  
+    form = UserInformationForm(instance=request.user)
+    return render(request, 'product/test.html',{'form':form,'city':city, 'district':district,'ward':ward,'cities':cities, 'districts':districts,'wards':wards,'selected_district_id':selected_district_id,'selected_ward_id':selected_ward_id,'selected_city_id':selected_city_id})

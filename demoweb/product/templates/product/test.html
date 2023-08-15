@@ -1,0 +1,99 @@
+{% extends 'product/base.html' %}
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+{% block content %} 
+<form method="post" id="form-address" class="form-control" action="{% url 'product:test' %}">
+
+    {% csrf_token %}
+  
+    <!-- Trường "Họ" -->
+    <div class="form-group">
+      <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+      {{ form.first_name }}
+    </div>
+  
+    <!-- Trường "Tên" -->
+    <div class="form-group">
+      <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+      {{ form.last_name }}
+    </div>
+  
+    <!-- Trường "Số điện thoại" -->
+    <div class="form-group">
+      <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+      {{ form.phone }}
+    </div>
+  
+    <!-- Trường "Tỉnh/Thành phố" -->
+    <div class="form-group">
+      <label for="{{ form.city.id_for_label }}">{{ form.city.label }} {{ city }}</label>
+     
+      <select class="form-control" id="id_city" name="city" value="{{ city }}">
+        <option value="{{ selected_city_id }}" selected hidden>{{ city }}</option>
+        {% for i in cities %}
+        
+          <option value="{{ i.id }}"  >{{ i.name}}</option>
+          <!-- <option value="{{ i.id }}" {% if i.id == selected_city_id %}selected{% endif %} >{{ i.name}}</option> -->
+
+        {% endfor %}
+      </select>
+    </div>
+  
+    <!-- Trường "Quận/Huyện" -->
+    <div class="form-group">
+      <label for="{{ form.district.id_for_label }}" >{{ form.district.label }} {{ district }}</label> 
+      
+      <select class="form-control" id="id_district" name="district" value="{{ district }}">
+        <option value="{{ selected_district_id }}" selected hidden>{{ district }}</option>
+        {% for i in districts %}
+          <option value="{{ i.id }}"  >{{ i.name}}</option>
+          
+          <!-- <option value="{{ i.id }}" {% if i.id == selected_district_id %}selected{% endif %} >{{ i.name}}</option> -->
+        {% endfor %}
+      </select>
+    </div>
+    
+    <!-- Trường "Phường/Xã" -->
+    <div class="form-group">
+      <label for="{{ form.ward.id_for_label }}" >{{ form.ward.label }} {{ ward }} {{ selected_ward_id }}</label>
+      <!-- <p>{{ ward }}</p> -->
+      <select class="form-control" id="id_ward" value="{{ ward }}" >
+        <option value="{{ selected_ward_id }}" selected hidden>{{ ward }}</option>
+        {% for i in wards %}
+          <option value="{{ i.id }}" >{{ i.name}}</option>
+         
+          <!-- <option value="{{ i.id }}" {% if i.id == selected_ward_id %}selected{% endif %} >{{ i.name}}</option> -->
+
+        {% endfor %}
+      </select>
+    </div>
+  
+    <!-- Trường "Tên đường" -->
+    <div class="form-group">
+      <label for="{{ form.street.id_for_label }}">{{ form.street.label }}</label>
+      {{ form.street }}
+    </div>
+  
+    <button type="submit" class="btn btn-primary">Submit</button>
+  
+  </form>
+  <script>
+    var city_id = document.getElementById('id_city')
+    var district_id = document.getElementById('id_district')
+
+    var endpointUrl = "{% url 'product:test' %}";
+
+    city_id.addEventListener('change', function() {
+      var selectedCity = this.value;
+      console.log(selectedCity);
+      // document.getElementById('form-address').submit();
+    });
+    district_id.addEventListener('change', function() {
+      var selectedDistrict = this.value;
+      console.log(selectedDistrict);
+      axios.post('endpointUrl', { selectedDistrict: selectedDistrict })
+      // document.getElementById('form-address').submit();
+    });
+  </script>
+  {% endblock %}

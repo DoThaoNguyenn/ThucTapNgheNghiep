@@ -8,13 +8,8 @@
 <br>
 <h5>Quản lý đơn hàng</h5>
 <br>
-<button id="cancel" type="button" class="btn btn-info btn-sm" style="float: right" onclick="cancel()">Xóa lọc</button>
-<script>
-    function cancel()
-    {
-        location.assign("{% url 'product:order_list'  %}");
-    }
-</script> 
+
+
 <form method="get" action="" style="margin-bottom: 40px; text-align: center;">
     {% csrf_token %}
     <label class="lbl" for="start_date" >Từ ngày:</label>
@@ -23,9 +18,15 @@
     <input class="form-control" id="end_date" type="date" name="end_date" id="end_date" value="{{ get_enddate }}" required style="width: 150px;">
     
     <button id="filter-order" type="submit" class="btn btn-info btn-sm" style="margin-left: 30px;">Lọc</button>
-    
+    <button id="cancel" type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" onclick="cancel()">Xóa lọc</button>
+    <script>
+        function cancel()
+        {
+            location.assign("{% url 'product:order_list'  %}");
+        }
+    </script>
 </form>
-  
+   
     
 <table class ="order-tb"> 
     <tr class="tb-h">
