@@ -138,7 +138,24 @@
             font-size: 12px;
         }
 
+        .cat-content-body {
 
+  overflow: hidden; /* Ẩn phần bị tràn ra ngoài */
+}
+
+.slider {
+
+  transition: transform 0.5s; /* Hiệu ứng trượt mượt mà */
+}
+
+.home-product {
+
+  flex-shrink: 0; /* Sản phẩm không co dãn */
+}
+
+button {
+    position: relative;
+}
     </style>
 </head> 
 <!-- Slideshow container -->
@@ -202,8 +219,8 @@
                 <div class="cat-content-body" style="width:100%; margin-bottom:30px;background-color: #fff;padding-top: 10px;height: 250px;">
 
                         
-                    <ul style="display:flex; justify-content:start;margin: 0 20px">
-                        {% for x in i.products.all|slice:":7" %}
+                    <ul id="slider" class="slider" style="display:flex; justify-content:start;margin: 0 20px">
+                        {% for x in i.products.all|slice:":10" %}
                         
                             <div class="home-product" style="text-align:center;margin-right: 30px;width: 120px;" >
                                 <a href ="{% url 'product:information' x.id %}"><img style="width:120px;height:150px;" src="{{x.image.url}}"></a>
@@ -216,6 +233,8 @@
                     </ul>
  
                 </div>
+                <button id="prev-button"> < </button>
+                <button id="next-button"> > </button>
             </li>
             {% endif%}
             {% endfor %}
@@ -256,5 +275,33 @@
         }
 </script>
 
+<script>
+    const slider = document.getElementById('slider');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+
+    prevButton.addEventListener('click', () => {
+    slide('prev');
+    });
+
+    nextButton.addEventListener('click', () => {
+    slide('next');
+    });
+
+    function slide(direction) {
+    const itemWidth = slider.querySelector('.home-product').offsetWidth;
+    const currentPosition = slider.style.transform ? parseInt(slider.style.transform.match(/-?\d+/)[0]) : 0;
+    const newPosition = direction === 'prev' ? currentPosition + itemWidth : currentPosition - itemWidth;
+    
+    const minPosition = 0;
+    const maxPosition = -(slider.scrollWidth - slider.clientWidth);
+
+    if ((direction === 'prev' && currentPosition === minPosition) || (direction === 'next' && currentPosition <= maxPosition)) {
+        return; // Không thực hiện trượt nếu điều kiện không đáp ứng
+    }
+
+    slider.style.transform = `translateX(${newPosition}px)`;
+}
+</script>
 
 {% endblock %}

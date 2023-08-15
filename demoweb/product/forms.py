@@ -57,7 +57,11 @@ class Register_form(forms.ModelForm):
 
         Users.objects.create_user(username=self.cleaned_data['username'],email=self.cleaned_data['email'],password=self.cleaned_data['password1'],question=self.cleaned_data['question'],answer=self.cleaned_data['answer'])
             
-
+class Reset_form(forms.ModelForm):
+    username= forms.CharField(label='Tài khoản', max_length=30)
+    class Meta:
+        model = Users
+        fields = ['question','answer']
 
 
 class UserInformationForm(forms.ModelForm):

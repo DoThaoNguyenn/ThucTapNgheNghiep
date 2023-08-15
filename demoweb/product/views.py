@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.http import HttpResponseRedirect, HttpResponse
 from .models import Category, Product,Review
 from order.models import Order, Users, Order_detail,Contact
-from .forms import Product_create_form, Category_create_form, Register_form,UserInformationForm,AddAvatar,UpdateUser,Add_review,ContactForm
+from .forms import Product_create_form, Category_create_form, Register_form,UserInformationForm,AddAvatar,UpdateUser,Add_review,ContactForm,Reset_form
 from vi_address.models import City, District, Ward
 from django.core.paginator import Paginator
 from django.contrib import messages,sessions
@@ -556,9 +556,11 @@ def contact(request):
 from django.contrib import messages
 
 def forgot_password_question(request):
+    form = Reset_form(request.POST)
     if request.method == 'POST':
         username = request.POST['username']
         answer = request.POST['answer']
+
         question = request.POST['question']
         try:
             user = Users.objects.get(username=username)
@@ -572,11 +574,12 @@ def forgot_password_question(request):
             else:
                 # Người dùng không có câu hỏi xác thực
                 messages.error(request, 'Người dùng không có câu hỏi xác thực.')
-        except User.DoesNotExist:
+        except Users.DoesNotExist:
             # Người dùng không tồn tại
             messages.error(request, 'Người dùng không tồn tại.')
+    
 
-    return render(request, 'product/forgot_password_question.html')
+    return render(request, 'product/forgot_password_question.html',{'form':form})
 from django.contrib.auth.hashers import make_password
 
 def reset_password_question(request,user_id):
