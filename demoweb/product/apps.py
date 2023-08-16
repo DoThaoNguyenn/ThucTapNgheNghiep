@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class QlbhConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'product'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "product"

@@ -20,7 +20,7 @@
             <br>{{user.first_name}} {{user.last_name}}
             <form action="{% url 'product:profile' %}", method="post", enctype="multipart/form-data" style="margin: 20px">
                 {% csrf_token %}
-                {{form.as_p}}
+                {{form_avt.as_p}}
                 <button class="add-avt" type="submit">Lưu</button>
             </form>
             
@@ -73,7 +73,90 @@
       </div>
       <div class="modal-body">
         {% csrf_token %}
-        {{form_update.as_p}}  
+        
+        <!-- Trường "Họ" -->
+        <div class="form-group">
+          <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+          {{ form.first_name }}
+      </div>
+      
+      <!-- Trường "Tên" -->
+      <div class="form-group">
+          <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+          {{ form.last_name }}
+      </div>
+      
+      <!-- Trường "Số điện thoại" -->
+      <div class="form-group">
+          <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+          {{ form.phone }}
+      </div>
+
+      <!-- Trường "Tỉnh/Thành phố" -->
+      <div class="form-group">
+          <label for="city">Tỉnh/Thành phố:</label>
+          <select class="form-select" id="city" name="city" onchange="cityField()">
+              <option selected >{{selectedcity}}</option>
+              {% for i in city %}
+                <option value="{{ i.id }}" {% if request.GET.city == i.id|lower %}selected{% endif %} >{{ i.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+      <!-- Trường "Quận/Huyện" -->
+      <div class="form-group">
+          <label for="district" >Quận/Huyện: </label> 
+          <select class="form-select" id="district" name="district" onchange="districtField()" >
+              <option id="selecteddistrict" selected >{{selecteddistrict}}</option>
+              {% for i in district %}
+                <option value="{{ i.id }}" {% if request.GET.district == i.id|lower %}selected{% endif %} >{{ i.name}}</option> 
+              {% endfor %}
+            </select>
+          </div>
+
+      <!-- Trường "Phường/Xã" -->
+      <div class="form-group">
+          <label for="ward" >Phường/Xã: </label>
+          <select class="form-select" id="ward" name="ward" >
+              <option selected>{{selectedward}}</option>
+        
+              {% for i in ward %}
+                <option value="{{ i.id }}" >{{ i.name}}</option> 
+        
+              {% endfor %}
+            </select>
+          </div>
+      <!-- Trường "Tên đường" -->
+      <div class="form-group">
+          <label for="{{ form.street.id_for_label }}">{{ form.street.label }}</label>
+          {{ form.street }}
+      </div>
+      
+      <script>
+
+          function cityField(){
+              city_id = document.getElementById('city').value;
+              window.location = "/profile/?city="+city_id;
+             
+          }
+          function districtField(){ 
+              district_id = document.getElementById('district').value;
+              window.location = "/profile/?city="+'{{request.GET.city}}'+ "&district="+district_id;
+              
+          }
+        </script>     
+
+      <!-- Trường "username" -->
+      <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+        {{ form.username }}
+    </div>
+    <!-- Trường "Số điện thoại" -->
+    <div class="form-group">
+      <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+      {{ form.email }}
+    </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Xóa</button>

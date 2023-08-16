@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Order, Users, Order_detail
 from product.models import Product
+
 # Create your views here.
 
 # def add_to_cart(request,id):
@@ -12,5 +13,3 @@ from product.models import Product
 #     cartitem.product.add(product)
 #     cartitem.save()
 #     return render(request, 'product/cart.html',{'cartitem':cartitem})
-
-

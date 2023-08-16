@@ -5,26 +5,38 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0004_alter_product_image'),
-        ('order', '0004_remove_cart_product_remove_order_product_cart_total_and_more'),
+        ("product", "0004_alter_product_image"),
+        ("order", "0004_remove_cart_product_remove_order_product_cart_total_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='order',
-            name='status',
-            field=models.IntegerField(choices=[(1, 'processing'), (2, 'Shipping'), (3, 'Cancelled')], default=1),
+            model_name="order",
+            name="status",
+            field=models.IntegerField(
+                choices=[(1, "processing"), (2, "Shipping"), (3, "Cancelled")],
+                default=1,
+            ),
         ),
         migrations.AlterField(
-            model_name='cart_item',
-            name='cart',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cart_items', to='order.cart'),
+            model_name="cart_item",
+            name="cart",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="cart_items",
+                to="order.cart",
+            ),
         ),
         migrations.AlterField(
-            model_name='cart_item',
-            name='product',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='cart_products', to='product.product'),
+            model_name="cart_item",
+            name="product",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="cart_products",
+                to="product.product",
+            ),
         ),
     ]

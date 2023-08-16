@@ -5,6 +5,7 @@ from . import views
 
 from django.contrib.auth.views  import PasswordChangeView, PasswordChangeDoneView, PasswordResetDoneView, PasswordResetCompleteView, PasswordResetConfirmView,PasswordResetView
 from .views import MyPasswordChangeForm
+
 app_name = "product"
 urlpatterns = [
      path('',views.index, name="index"),
@@ -60,4 +61,3 @@ urlpatterns = [
      path('reset_password_question/<int:user_id>/', views.reset_password_question, name='reset_password_question'),
 
 ]
-

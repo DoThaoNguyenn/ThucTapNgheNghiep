@@ -11,7 +11,7 @@
             <form action="" method="post">
                 {% csrf_token %}
                 {% for key,value in form.errors.items %}
-                    {{value}}
+                    <em style="font-size: 18px; float:center">{{value}}</em>
                 {% endfor %}
                 <h2>Đăng ký</h2>
                 <div class="inputbox" >
@@ -52,7 +52,7 @@
                 <input type="hidden" name="next" value="/">
                 <input class="login" type="submit" value="Đăng ký">
                 <div class="register">
-                    <p>Đã có tài khoản <a href="#">Đăng nhâp </a></p>
+                    <p>Đã có tài khoản <a href="{% url 'product:login'%}">Đăng nhâp </a></p>
                 </div>
             </form>
         </div>

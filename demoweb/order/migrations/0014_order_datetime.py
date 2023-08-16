@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('order', '0013_alter_order_menthod_alter_order_note_and_more'),
+        ("order", "0013_alter_order_menthod_alter_order_note_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='order',
-            name='datetime',
+            model_name="order",
+            name="datetime",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

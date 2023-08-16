@@ -5,47 +5,90 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0004_alter_product_image'),
-        ('order', '0003_remove_cart_product_cart_product'),
+        ("product", "0004_alter_product_image"),
+        ("order", "0003_remove_cart_product_cart_product"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cart',
-            name='product',
+            model_name="cart",
+            name="product",
         ),
         migrations.RemoveField(
-            model_name='order',
-            name='product',
+            model_name="order",
+            name="product",
         ),
         migrations.AddField(
-            model_name='cart',
-            name='total',
+            model_name="cart",
+            name="total",
             field=models.FloatField(default=0),
         ),
         migrations.AlterField(
-            model_name='order',
-            name='total',
+            model_name="order",
+            name="total",
             field=models.FloatField(default=0),
         ),
         migrations.CreateModel(
-            name='Order_detail',
+            name="Order_detail",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveIntegerField(default=0)),
-                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='order', to='order.order')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='product', to='product.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantity", models.PositiveIntegerField(default=0)),
+                (
+                    "order",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="order",
+                        to="order.order",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="product",
+                        to="product.product",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Cart_item',
+            name="Cart_item",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveIntegerField(default=0)),
-                ('cart', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cart', to='order.cart')),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='cartproduct', to='product.product')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantity", models.PositiveIntegerField(default=0)),
+                (
+                    "cart",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="cart",
+                        to="order.cart",
+                    ),
+                ),
+                (
+                    "product",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="cartproduct",
+                        to="product.product",
+                    ),
+                ),
             ],
         ),
     ]
