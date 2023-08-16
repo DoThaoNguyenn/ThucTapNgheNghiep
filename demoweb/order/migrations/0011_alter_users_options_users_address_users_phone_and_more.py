@@ -4,28 +4,27 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('order', '0010_alter_order_total'),
+        ("order", "0010_alter_order_total"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='users',
+            name="users",
             options={},
         ),
         migrations.AddField(
-            model_name='users',
-            name='address',
+            model_name="users",
+            name="address",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AddField(
-            model_name='users',
-            name='phone',
+            model_name="users",
+            name="phone",
             field=models.CharField(blank=True, max_length=10, null=True),
         ),
         migrations.AlterModelTable(
-            name='users',
-            table='auth_user',
+            name="users",
+            table="auth_user",
         ),
     ]

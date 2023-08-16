@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0006_review_category_slug_product_author_and_more'),
+        ("product", "0006_review_category_slug_product_author_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='review',
-            name='rating',
-            field=models.IntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], default=1),
+            model_name="review",
+            name="rating",
+            field=models.IntegerField(
+                choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], default=1
+            ),
         ),
     ]

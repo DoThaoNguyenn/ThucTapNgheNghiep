@@ -5,20 +5,25 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0002_remove_product_is_in_cart_alter_product_cost_and_more'),
-        ('order', '0002_rename_product_incart_order_product_alter_order_note_and_more'),
+        ("product", "0002_remove_product_is_in_cart_alter_product_cost_and_more"),
+        ("order", "0002_rename_product_incart_order_product_alter_order_note_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='cart',
-            name='product',
+            model_name="cart",
+            name="product",
         ),
         migrations.AddField(
-            model_name='cart',
-            name='product',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='product', to='product.product'),
+            model_name="cart",
+            name="product",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="product",
+                to="product.product",
+            ),
         ),
     ]

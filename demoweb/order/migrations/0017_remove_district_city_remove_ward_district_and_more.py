@@ -5,43 +5,57 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('vi_address', '0001_initial'),
-        ('order', '0016_city_district_remove_users_address_ward_users_city_and_more'),
+        ("vi_address", "0001_initial"),
+        ("order", "0016_city_district_remove_users_address_ward_users_city_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='district',
-            name='city',
+            model_name="district",
+            name="city",
         ),
         migrations.RemoveField(
-            model_name='ward',
-            name='district',
+            model_name="ward",
+            name="district",
         ),
         migrations.AlterField(
-            model_name='users',
-            name='city',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='vi_address.city'),
+            model_name="users",
+            name="city",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="vi_address.city",
+            ),
         ),
         migrations.AlterField(
-            model_name='users',
-            name='district',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='vi_address.district'),
+            model_name="users",
+            name="district",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="vi_address.district",
+            ),
         ),
         migrations.AlterField(
-            model_name='users',
-            name='ward',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='vi_address.ward'),
+            model_name="users",
+            name="ward",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="vi_address.ward",
+            ),
         ),
         migrations.DeleteModel(
-            name='City',
+            name="City",
         ),
         migrations.DeleteModel(
-            name='District',
+            name="District",
         ),
         migrations.DeleteModel(
-            name='Ward',
+            name="Ward",
         ),
     ]

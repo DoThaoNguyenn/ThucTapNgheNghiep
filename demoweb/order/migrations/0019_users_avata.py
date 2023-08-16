@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('order', '0018_users_street'),
+        ("order", "0018_users_street"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='users',
-            name='avata',
-            field=models.ImageField(blank=True, null=True, upload_to='media'),
+            model_name="users",
+            name="avata",
+            field=models.ImageField(blank=True, null=True, upload_to="media"),
         ),
     ]
