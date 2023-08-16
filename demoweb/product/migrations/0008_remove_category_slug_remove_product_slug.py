@@ -4,18 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0007_alter_review_rating'),
+        ("product", "0007_alter_review_rating"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='category',
-            name='slug',
+            model_name="category",
+            name="slug",
         ),
         migrations.RemoveField(
-            model_name='product',
-            name='slug',
+            model_name="product",
+            name="slug",
         ),
     ]

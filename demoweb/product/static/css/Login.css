@@ -1,3 +1,4 @@
+
 *{
     margin: 0;
     padding: 0;
@@ -8,10 +9,10 @@ section{
     align-items: center;
     min-height: 100vh;
     width: 100%;
-    background:url('/media/digital-digital-art-artwork-illustration-minimalism-hd-wallpaper-preview.jpg') no-repeat;
-
+    
+    background:url('/static/image/background1.jpg') no-repeat;
     background-size: cover;
-
+    
 }
 .form-box{
     position: relative;
@@ -21,57 +22,66 @@ section{
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #fff;
+    border: 2px solid rgb(104, 104, 104);
+    border-radius: 10px;
+    
 }
 h2{
-    font-size: 2em;
-    color:#fff;
+    font-size: 2.3em;
+    color:rgb(80, 80, 80);
     text-align: center;
+    margin-bottom: 50px;
 }
 .inputbox{
     position: relative;
-    margin: 30px 0;
+    margin: 35px 0;
     width: 310px;
-    border-bottom:2px solid #FFF ;
+    border:2px solid rgb(0, 0, 0) ;
+    border-radius: 10px;
+   
 }
+
 .inputbox label {
     position: absolute;
     top: 50%;
     left: 5px;
     transform: translateY(-50%);
-    color: #fff;
+    color: rgb(0, 0, 0);
     pointer-events: none;
     transition: .5s;
-
+    font-size: large;
 }
+
 .inputbox input[type='text'], .inputbox input[type='password']{
     width: 100%;
-    height: 50px;
-    background: transparent;
-    border: none;
+    height: 40px;
+    /* background: transparent; */
+    border: 1px;
     outline: none;
     font-size: 1em;
     padding:0 35px 0 5px;
-    color: #fff;
+    color: rgb(0, 0, 0);
+    border-radius: 10px;
 }
 
 input[type='text']:focus ~ label,
 input[type='text']:valid ~ label{
-    top:-5px;
+    top:-12px;
+    
 }
 
 input[type='password']:focus ~ label,
 input[type='password']:valid ~ label{
-    top:-5px;
+    top:-12px;
 }
 
 .inputbox .fa-regular, .inputbox .fa-solid{
     position: absolute;
     right: 8px;
-    color: #fff;
+    color: rgb(0, 0, 0);
     font-size:1.2em;
-    top: 20px;
-    
+    top: 15px;
+    /* padding-bottom: 1px; */
 }
 .forget{
     margin: -15px 0 15px;
@@ -82,10 +92,12 @@ input[type='password']:valid ~ label{
 }
 .forget label input{
     margin-right:3px ;
+    font-size: large;
 }
 .forget label a{
     color: #fff;
     text-decoration:none ;
+    font-size: large;
 }
 .forget label a:hover{
     text-decoration: underline ;
@@ -103,12 +115,14 @@ input[type='password']:valid ~ label{
     color: #000;
     text-align: center;
     margin: 25px 0 10px;
+    font-size: large;
 }
 .register{
     text-decoration: none;
-    color: #fff;
+    color: rgb(80, 80, 80);
     font-weight: 600;
     text-align: center;
+    font-size: large;
 }
 .register p a:hover{
     text-decoration: underlivalid

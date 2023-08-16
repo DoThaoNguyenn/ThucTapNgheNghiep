@@ -13,7 +13,7 @@ body {
   padding: 10px;
 }
 
-.btn-add-review, .add-avt, #btn-updateUser, .btn-add-cart, .order-list, .btn-checkout {
+#btn-cancel, #btn-save, .btn-add-review, .add-avt, #btn-updateUser, .btn-add-cart, .order-list, .btn-checkout {
   height: 50px;
   width: 200px;
   font-size: 22px;
@@ -25,7 +25,7 @@ body {
   outline: none;
 }
 
-.btn-add-review:hover, .add-avt:hover, #btn-updateUser:hover, .btn-add-cart:hover, .order-list:hover, .btn-checkout:hover {
+#btn-cancel:hover, #btn-save:hover, .btn-add-review:hover, .add-avt:hover, #btn-updateUser:hover, .btn-add-cart:hover, .order-list:hover, .btn-checkout:hover {
   background-color: lightcoral;
 }
 
@@ -52,12 +52,6 @@ body {
 .row-image {
   width: 120px;
   height: 120px;
-}
-
-.total h5 {
-  position: relative;
-  top: -800px;
-  margin: 20px;
 }
 
 td {
@@ -180,6 +174,38 @@ td {
 /* Click and hover */
 input:checked ~ label, label:hover ~ label {
   color: #ffb503;
+}
+
+.lbl, #start_date, #end_date, #filter-order, #cancel {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.form-group {
+  display: flex;
+  justify-content: start;
+  height: 50px;
+  align-items: center;
+}
+.form-group label {
+  width: 250px;
+}
+
+#btn-cancel, #btn-save {
+  left: 700px;
+  margin-left: 50px;
+}
+
+#btn-form {
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+  margin-left: 150px;
+}
+
+#in4 {
+  font-size: 26px;
+  font-weight: normal;
 }
 
 /*# sourceMappingURL=product.css.map */

@@ -4,30 +4,29 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0002_remove_product_is_in_cart_alter_product_cost_and_more'),
+        ("product", "0002_remove_product_is_in_cart_alter_product_cost_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='cost',
+            model_name="product",
+            name="cost",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='discount',
+            model_name="product",
+            name="discount",
             field=models.FloatField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='image',
-            field=models.ImageField(blank=True, null=True, upload_to='media'),
+            model_name="product",
+            name="image",
+            field=models.ImageField(blank=True, null=True, upload_to="media"),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='quantity',
+            model_name="product",
+            name="quantity",
             field=models.PositiveIntegerField(blank=True, null=True),
         ),
     ]

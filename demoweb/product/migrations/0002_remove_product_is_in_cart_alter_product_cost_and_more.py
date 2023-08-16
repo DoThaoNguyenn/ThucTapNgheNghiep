@@ -4,29 +4,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('product', '0001_initial'),
+        ("product", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='product',
-            name='is_in_cart',
+            model_name="product",
+            name="is_in_cart",
         ),
         migrations.AlterField(
-            model_name='product',
-            name='cost',
+            model_name="product",
+            name="cost",
             field=models.PositiveIntegerField(),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='quantity',
+            model_name="product",
+            name="quantity",
             field=models.PositiveIntegerField(),
         ),
         migrations.AlterField(
-            model_name='product_information',
-            name='pages',
+            model_name="product_information",
+            name="pages",
             field=models.PositiveIntegerField(),
         ),
     ]

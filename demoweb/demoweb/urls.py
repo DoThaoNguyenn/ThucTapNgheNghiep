@@ -20,11 +20,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('product.urls')),
-    path('order/', include('order.urls')),
-    path('api/address/', include('vi_address.urls')),
+    path("admin/", admin.site.urls),
+    path("", include("product.urls")),
+    path("order/", include("order.urls")),
+    path("api/address/", include("vi_address.urls")),
 ]
 
 if settings.DEBUG:
-    urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns = urlpatterns + static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )

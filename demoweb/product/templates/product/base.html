@@ -210,7 +210,7 @@ main{
   margin-top: 50px;
   padding: 0;
   width: 200px;
-  background-color: #f1f1f1;
+  background-color: #f4f4f4;
   height: auto;
   overflow: auto;
   top:200px;
@@ -225,8 +225,10 @@ main{
 }
  
 .sidebar a.active {
-  background-color:gray;
-  color: white;
+  /* background-color:gray; */
+  color: black;
+  font-size: 18px;
+  padding-left: 30px;
 }
 
 .sidebar a:hover:not(.active) {
@@ -386,7 +388,7 @@ footer div h5 {
                     <li><a href="{% url 'product:about_us' %}">Giới Thiệu</a></li>
                 </ul>
                 <form style="position: relative;left:100px;" id="myForm" action="{% url 'product:search' %}" >
-                    <input style="width: 300px;"  type="text" name="q" placeholder="Tìm kiếm sản phẩm..." required />
+                    <input style="width: 300px;"  type="text" name="q" placeholder="Tìm kiếm tên sản phẩm..." value="{{ q }}" required />
                     <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                 </form>
             </div>
@@ -435,7 +437,7 @@ footer div h5 {
                   <button class="dropbtn"><i class="fa-solid fa-user" style="font-size: 20px;"></i></button>
                   <div class="dropdown-content">
                   <a href="{% url 'product:register' %}">Đăng ký</a>
-                  <a href="{% url 'product:login'%}">Đăng nhâp</a>
+                  <a href="{% url 'product:login'%}">Đăng nhập</a>
                   </div>
                 <p style="display: inline;position: relative;top: 20px;left: -50px;">Tài khoản</p>  
                 </div>
