@@ -153,31 +153,31 @@
   flex-shrink: 0; /* Sản phẩm không co dãn */
 }
 #prev-button {
-    position: relative;
-    font-size: 26px;
-    border: none;
-    width: auto; /* Điều chỉnh kích thước bán nguyệt */
-    height: auto;
-    border-radius: 50%; /* Để tạo hình dạng bán nguyệt */
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+  position: relative;
+  font-size: 26px;
+  border: none;
+  width: auto; /* Điều chỉnh kích thước bán nguyệt */
+  height: auto;
+  border-radius: 50%; /* Để tạo hình dạng bán nguyệt */
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 #next-button {
-    position: relative;
-    font-size: 26px;
-    border: none;
-    width: auto; /* Điều chỉnh kích thước bán nguyệt */
-    height: auto;
-  
-    border-radius: 50%; /* Để tạo hình dạng bán nguyệt */
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+  position: relative;
+  font-size: 26px;
+  border: none;
+  width: auto; /* Điều chỉnh kích thước bán nguyệt */
+  height: auto;
+
+  border-radius: 50%; /* Để tạo hình dạng bán nguyệt */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 
 button:hover{
-    background-color: #717171;
-    
+  background-color: #717171;
+  
 }
 
 button {
@@ -254,13 +254,14 @@ button {
                             </div>
                         {% endfor %}
                     </ul>
-                    <div style="display: flex;justify-content: space-between;position: relative;width: 100%;top: -100px;" > 
+                    <div style="display: flex;justify-content: space-between;position: relative;width: 100%;top: -100px;" >
                         <button id="prev-button"> < </button>
                         <button id="next-button"> > </button>
                     </div>
  
                 </div>
- 
+                
+               
             </li>
             {% endif%}
             {% endfor %}
@@ -270,6 +271,36 @@ button {
 
 <div>
 
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+// Next/previous controls
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+// Thumbnail image controls
+    function currentSlide(n) {
+        showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("mySlides");
+        let dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+        }
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
+        }
+</script>
 
 <script>
     const slider = document.getElementById('slider');
