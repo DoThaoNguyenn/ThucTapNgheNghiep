@@ -267,3 +267,31 @@ input:checked ~ label, label:hover ~ label{
     display: inline-block;
     vertical-align: middle;
   }
+
+//trang profile:
+
+.form-group {
+    display:flex ;
+    justify-content:start ;
+    height: 50px;
+    align-items: center;
+    label {
+        width:250px;
+    }
+    
+}
+#btn-cancel, #btn-save {
+    @extend %btn;
+    left: 700px;
+    margin-left: 50px;
+}
+#btn-form {
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+    margin-left: 150px;
+}
+#in4 {
+    font-size: 26px;
+    font-weight:normal;
+}

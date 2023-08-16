@@ -28,18 +28,96 @@
                 {% csrf_token %}
                 <h4>Nhập thông tin khách hàng:</h4>
                 
-                    {{form_user.as_p}}
+                    <!-- Trường "Tỉnh/Thành phố" -->
+                    <div class="form-group">
+                        <label for="city">Tỉnh/Thành phố:</label>
+                        <select class="form-select" id="city" name="city" onchange="cityField()">
+                            <option selected >{{selectedcity}}</option>
+                            {% for i in city %}
+                              <option value="{{ i.id }}" {% if request.GET.city == i.id|lower %}selected{% endif %} >{{ i.name}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+
+                    <!-- Trường "Quận/Huyện" -->
+                    <div class="form-group">
+                        <label for="district" >Quận/Huyện: </label> 
+                        <select class="form-select" id="district" name="district" onchange="districtField()" >
+                            <option id="selecteddistrict" selected >{{selecteddistrict}}</option>
+                            {% for i in district %}
+                              <option value="{{ i.id }}" {% if request.GET.district == i.id|lower %}selected{% endif %} >{{ i.name}}</option> 
+                            {% endfor %}
+                          </select>
+                        </div>
+
+                    <!-- Trường "Phường/Xã" -->
+                    <div class="form-group">
+                        <label for="ward" >Phường/Xã: </label>
+                        <select class="form-select" id="ward" name="ward" >
+                            <option selected>{{selectedward}}</option>
+                      
+                            {% for i in ward %}
+                              <option value="{{ i.id }}" >{{ i.name}}</option> 
+                      
+                            {% endfor %}
+                          </select>
+                        </div>
+                    <!-- Trường "Tên đường" -->
+                    <div class="form-group">
+                        <label for="{{ form.street.id_for_label }}">{{ form.street.label }}</label>
+                        {{ form.street }}
+                    </div>
+
+                    <!-- Trường "Họ" -->
+                    <div class="form-group">
+                        <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                        {{ form.first_name }}
+                    </div>
+                    
+                    <!-- Trường "Tên" -->
+                    <div class="form-group">
+                        <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                        {{ form.last_name }}
+                    </div>
+                    
+                    <!-- Trường "Số điện thoại" -->
+                    <div class="form-group">
+                        <label for="{{ form.phone.id_for_label }}">{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                    </div>
+
+                    
+                    
+                    <script>
+    
+                        function cityField(){
+                            city_id = document.getElementById('city').value;
+                            window.location = "/checkout/?city="+city_id;
+                           
+                        }
+                        function districtField(){ 
+                            district_id = document.getElementById('district').value;
+                            window.location = "/checkout/?city="+'{{request.GET.city}}'+ "&district="+district_id;
+                            
+                        }
+                      </script>     
+                    
+            
+    
+
                 
                 <input type="hidden" name="order_id" value="{{order.id}}">
-                <button class="btn-checkout" type="submit" >Đặt hàng</a></button>
-            
-                <button class="btn-checkout" id="btn-turnback" type="button" onclick="show_cart1()">Quay lại giỏ hàng </button>
-                <script>
-                    function show_cart1()
-                    {
-                        location.assign("{% url 'product:show_cart'  %}");
-                    }
-                </script>
+                <div class="form-group" id="btn-form">
+                    <button class="btn-checkout" type="submit" >Đặt hàng</a></button>
+                
+                    <button class="btn-checkout" id="btn-turnback" type="button" onclick="show_cart1()">Quay lại giỏ hàng </button>
+                    <script>
+                        function show_cart1()
+                        {
+                            location.assign("{% url 'product:show_cart'  %}");
+                        }
+                    </script>
+                </div>
             </form>
         </div>
     </div>
