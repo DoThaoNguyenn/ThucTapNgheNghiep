@@ -28,7 +28,7 @@
               {% if sp %}
                 {% for i in sp %}
                   <div class="col" style="width: 180px; margin-left: 10px;text-align: center;margin-bottom: 10px;">
-                      <div class="img-product"><img style="width: 150px;height: 200px;" src="{{ i.image.url }}" alt="{{ i.title }}">
+                      <div class="img-product"><a href ="{% url 'product:information' i.id %}"><img style="width: 150px;height: 200px;" src="{{ i.image.url }}" alt="{{ i.title }}"></a>
                       </div>
                       <div class="main-product-content">
                           <div ><a style="font-size:20px ;" href="{% url 'product:information' i.id %}">{{ i.title }}</a></div>

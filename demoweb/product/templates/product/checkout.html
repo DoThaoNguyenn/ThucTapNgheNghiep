@@ -30,9 +30,9 @@
                 
                     <!-- Trường "Tỉnh/Thành phố" -->
                     <div class="form-group">
-                        <label for="city">Tỉnh/Thành phố:</label>
+                        <label for="city">Tỉnh/Thành phố: {{ selectedcity_id }}</label>
                         <select class="form-select" id="city" name="city" onchange="cityField()">
-                            <option selected >{{selectedcity}}</option>
+                            <option value="{{ selectedcity_id }}" selected >{{selectedcity}}</option>
                             {% for i in city %}
                               <option value="{{ i.id }}" {% if request.GET.city == i.id|lower %}selected{% endif %} >{{ i.name}}</option>
                             {% endfor %}
@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label for="district" >Quận/Huyện: </label> 
                         <select class="form-select" id="district" name="district" onchange="districtField()" >
-                            <option id="selecteddistrict" selected >{{selecteddistrict}}</option>
+                            <option id="selecteddistrict" value="{{ selecteddistrict_id }}" selected >{{selecteddistrict}}</option>
                             {% for i in district %}
                               <option value="{{ i.id }}" {% if request.GET.district == i.id|lower %}selected{% endif %} >{{ i.name}}</option> 
                             {% endfor %}
@@ -54,7 +54,7 @@
                     <div class="form-group">
                         <label for="ward" >Phường/Xã: </label>
                         <select class="form-select" id="ward" name="ward" >
-                            <option selected>{{selectedward}}</option>
+                            <option value="{{ selectedward_id }}" selected>{{selectedward}}</option>
                       
                             {% for i in ward %}
                               <option value="{{ i.id }}" >{{ i.name}}</option> 

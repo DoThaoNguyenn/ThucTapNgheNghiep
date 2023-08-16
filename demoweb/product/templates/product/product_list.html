@@ -53,11 +53,11 @@
         <form method="GET" action="" >
             {% csrf_token %}
             <label for="min_cost" style="margin-top: 10px; font-size: 18px;">Giá từ: </label>
-            <input type="number" name="min_cost" class="form-control" id="min_cost" value="{{ mincost }}" required style="width: 160px; height:fit-content; ">
+            <input type="number" name="min_cost"  class="form-control" id="min_cost" value="{{ mincost }}" required style="width: 160px; height:fit-content; " >
             <label for="max_cost" style="font-size: 18px;">Đến: </label>
-            <input type="number" name="max_cost" class="form-control" id="max_cost" value="{{ maxcost }}" required style="width: 160px; height:fit-content">
+            <input type="number" name="max_cost" class="form-control" id="max_cost" value="{{ maxcost }}" required style="width: 160px; height:fit-content" >
             
-            <button type="submit" class="btn btn-info btn-sm" style="float: right;margin-top: 10px; margin-bottom: 10px;font-size: 18px;">Lọc</button>
+            <button type="submit" class="btn btn-info btn-sm" style="float: right;margin-top: 10px; margin-bottom: 10px;font-size: 18px; ">Lọc</button>
             <button type="button" class="btn btn-info btn-sm" onclick="turnback()" style="float: left;margin-top: 10px; margin-bottom: 10px;font-size: 18px;">Xóa lọc</button>
         </form>
    </div>
@@ -72,8 +72,8 @@
 
 <div style="position: relative;top: -600px;left: 300px;" class="sort">
     
-    <a class="btn btn-light" href="{% url 'product:product_list' %}?sort=l2h" role="button" style=" font-size: 20px;">Giá thấp đến cao</a>
-    <a class="btn btn-light" href="{% url 'product:product_list' %}?sort=h2l" role="button" style=" font-size: 20px;">Giá cao đến thấp</a>
+    <a class="btn btn-light" href="{% url 'product:product_list' %}?sort=l2h" role="button" style=" font-size: 20px;border: 1px solid;color: rgb(76, 76, 76); ">Giá thấp đến cao</a>
+    <a class="btn btn-light" href="{% url 'product:product_list' %}?sort=h2l" role="button" style=" font-size: 20px;border: 1px solid;color: rgb(76, 76, 76);">Giá cao đến thấp</a>
 
 </div>
 

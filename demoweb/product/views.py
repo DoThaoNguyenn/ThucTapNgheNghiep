@@ -510,21 +510,12 @@ class MyPasswordChangeForm(PasswordChangeForm):
 
 # load districts:
 def load_districts(request):
-    # user = Users.objects.get(pk=request.user.pk)
-    # city = City.objects.get(name=user.city.name)
-    # city_id = city.id
-    # districts = District.objects.filter(parent_code=city_id)
-
     city_id = request.GET.get("city")
     districts = District.objects.filter(parent_code=city_id)
     return render(request, "product/district_option.html", {"districts": districts})
 
 
 def load_wards(request):
-    # user = Users.objects.get(pk=request.user.pk)
-    # district = District.objects.get(name=user.district.name)
-    # district_id = district.id
-    # wards = Ward.objects.filter(parent_code=district_id)
 
     district_id = request.GET.get("district")
     wards = Ward.objects.filter(parent_code=district_id)
@@ -544,16 +535,23 @@ def profile(request):
     user = request.user
     if user.city == None:
         selectedcity = "Chọn Tỉnh/Thành phố"
+        selectedcity_id = ""
     else:
         selectedcity = user.city
+        selectedcity_id=user.city.id
     if user.district == None:
         selecteddistrict = "Chọn Quận/Huyện"
+        selecteddistrict_id=""
     else:
         selecteddistrict = user.district
+        selecteddistrict_id=user.district.id
     if user.ward == None:
         selectedward = "Chọn Phường/Xã"
+        selectedward_id=""
     else:
         selectedward = user.ward
+        selectedward_id=user.ward.id
+        print(798,selectedward_id)
     cityId = request.GET.get("city", None)
     districtId = request.GET.get("district", None)
     ward = None
@@ -576,7 +574,9 @@ def profile(request):
     if request.method == "POST" and "username" in request.POST:
         form = UpdateUser(request.POST, instance=user)
         if form.is_valid():
+            print(222,request.POST.get("city"))
             user.city = City.objects.get(pk=request.POST.get("city"))
+            print(111,user.city)
             user.district = District.objects.get(pk=request.POST.get("district"))
             user.ward = Ward.objects.get(pk=request.POST.get("ward"))
             user.username = request.POST.get("username")
@@ -598,6 +598,9 @@ def profile(request):
             "selectedcity": selectedcity,
             "selecteddistrict": selecteddistrict,
             "selectedward": selectedward,
+            "selectedcity_id": selectedcity_id,
+            "selecteddistrict_id": selecteddistrict_id,
+            "selectedward_id": selectedward_id,
         },
     )
 
@@ -621,177 +624,6 @@ def contact(request):
     return render(request, "product/contact.html", {"form": form})
 
 
-def test(request):
-    city = request.user.city
-    district = request.user.district
-    ward = request.user.ward
-
-    selected_city_id = city.id
-    selected_district_id = district.id
-    selected_ward_id = ward.id
-
-    cities = City.objects.all()
-    districts = District.objects.all()
-    wards = Ward.objects.all()
-
-    city_id = city.id
-
-    # city_id = request.POST.get('city')
-    # districts = District.objects.filter(parent_code=city_id)
-
-    # district_id = district.id
-    # district_id = request.POST.get('district')
-    # wards = Ward.objects.filter(parent_code=district_id)
-
-    form = UserInformationForm(instance=request.user)
-    return render(
-        request,
-        "product/test.html",
-        {
-            "form": form,
-            "city": city,
-            "district": district,
-            "ward": ward,
-            "cities": cities,
-            "districts": districts,
-            "wards": wards,
-            "selected_district_id": selected_district_id,
-            "selected_ward_id": selected_ward_id,
-            "selected_city_id": selected_city_id,
-        },
-    )
-
-
-# lọc đơn hàng theo thời gian:
-# def filter_order(request):
-#     get_startdate = request.GET.get('start_date')
-#     get_enddate = request.GET.get('end_date')
-#     if get_startdate and get_enddate:
-#         startdate = datetime.strptime(get_startdate, '%Y-%m-%d')
-#         enddate = datetime.strptime(get_enddate, '%Y-%m-%d')
-
-#         #lọc:
-#         orders_filtered = Order.objects.filter(datetime__range=(startdate, enddate))
-#         return render(request,'product/account.html',{'orders_filtered':orders_filtered})
-#     order = Order.objects.all()
-#     return render(request, 'product/account.html', {'order': order})
-#View password
-
-# accounts/views.py
-
-# from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
-# from .forms import CustomPasswordResetForm
-
-
-# class CustomPasswordResetView(PasswordResetView):
-#     form_class = CustomPasswordResetForm
-#     template_name  'product/forgot_password.html'
-#     success_url '/product/forgot-password/done/'
-
-
-# class CustomPasswordResetConfirmView(PasswordResetConfirmView):
-#     template_name  'product/reset_password.html'
-#     success_url  '/product/reset-password/complete/'
-# forgot_password  CustomPasswordResetView.as_view()
-# reset_password  CustomPasswordResetConfirmView.as_view()
-# def password_reset_request(request):
-#     if request.method == 'POST':
-#         password_form = PasswordResetForm(request.POST)
-#         if password_form.is_valid():
-#             data = password_form.cleaned_data['email']
-#             user_email=Users.objects.filter(Q(email=data))
-#             user=user_email.first()
-#             print(user.email)
-#             if user_email.exists():
-#                 for user in user_email:
-#                     subject = 'Password Request'
-#                     email_template_name = 'product/password_message.txt'
-#                     parameters = {
-#                         'email': user.email,
-#                         'domain':'127.0.0.1:8000',
-#                         'site_name':'PostScribers',
-#                         'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-#                         'token': default_token_generator.make_token(user),
-#                         'protocol':'http',
-
-#                     }
-#                     email= render_to_string(email_template_name,parameters)
-#                     print([user.email],11)
-#                     try:
-#                         send_mail(subject,email,'odooFM2023@gmail.com',[user.email],fail_silently=False)
-#                     except:
-#                         return HttpResponse('Invalid Header')
-
-#     else:
-#         password_form = PasswordResetForm()
-#     context={
-#         'password_form':password_form,
-#     }
-#     return render (request,'product/password_reset_form.html',context)
-# from django.contrib import messages, auth
-# from django.contrib.sites.shortcuts import get_current_site
-# from django.core.mail import EmailMessage
-# def forgotPassword(request):
-
-#     if request.method == 'POST':
-#         email = request.POST.get('email')
-#         print(email)
-#         user = Users.objects.get(email__exact=email)
-  
-#         current_site = get_current_site(request=request)
-#         mail_subject = 'Reset your password'
-#         message = render_to_string('product/reset_password_email.html', {
-#             'user': user,
-#             'domain': current_site.domain,
-#             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-#             'token': default_token_generator.make_token(user)
-#         })
-#         # send_email = EmailMessage(mail_subject, message, to=[email])
-#         # send_email.send()
-#         send_mail(mail_subject,message,'',[email],fail_silently=False)
-
-#         messages.success(
-#             request=request, message="Password reset email has been sent to your email address")
-#     else:
-#         messages.error(request=request, message="Account does not exist!")
-
-#     context = {
-#         'email': email if 'email' in locals() else '',
-#     }
-#     return render(request, "product/forgot_password.html", context=context)
-
-
-# def reset_password_validate(request, uidb64, token):
-#     try:
-#         uid = urlsafe_base64_decode(uidb64).decode()
-#         user = Users.objects.get(pk=uid)
-#     except Exception:
-#         user = None
-
-#     if user is not None and default_token_generator.check_token(user, token):
-#         request.session['uid'] = uid
-#         messages.info(request=request, message='Please reset your password')
-#         return redirect('reset_password')
-#     else:
-#         messages.error(request=request, message="This link has been expired!")
-#         return redirect('home')
-
-
-# def reset_password(request):
-#     if request.method == 'POST':
-#         password = request.POST.get('password')
-#         confirm_password = request.POST.get('confirm_password')
-
-#         if password == confirm_password:
-#             uid = request.session.get('uid')
-#             user = Users.objects.get(pk=uid)
-#             user.set_password(password)
-#             user.save()
-#             messages.success(request, message="Password reset successful!")
-#             return redirect('login')
-#         else:
-#             messages.error(request, message="Password do not match!")
-#     return render(request, 'product/reset_password.html')
 
 from django.contrib import messages
 
