@@ -351,9 +351,9 @@ def contact(request):
     return render(request,"product/contact.html")
 def search(request):
     q=request.GET.get('q')
-    q.lower()
-    query=q.split()
-    print(query)
+    a=q.lower()
+    query=a.split()
+ 
    
     queries = [Q(title__icontains=query) for query in query]
     query1 = queries.pop()
