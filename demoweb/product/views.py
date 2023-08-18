@@ -71,6 +71,7 @@ def infor(request, id):
                         rating=request.POST.get("rating"),
                         review=request.POST.get("review"),
                     )
+                    return redirect('product:information',id)
                 else:
                     print(form.errors.as_data())
         return render(
@@ -284,16 +285,25 @@ def checkout(request):
     user = request.user
     if user.city == None:
         selectedcity = "Chọn Tỉnh/Thành phố"
+        selectedcity_id=""
+        print(111,selectedcity,selectedcity_id)
     else:
         selectedcity = user.city
+        selectedcity_id=user.city.id
+        print(222,selectedcity,selectedcity_id)
     if user.district == None:
         selecteddistrict = "Chọn Quận/Huyện"
+        selecteddistrict_id=""
     else:
         selecteddistrict = user.district
+        selecteddistrict_id=user.district.id
     if user.ward == None:
         selectedward = "Chọn Phường/Xã"
+        selectedward_id=""
+
     else:
         selectedward = user.ward
+        selectedward_id=user.ward.id
     cityId = request.GET.get("city", None)
     districtId = request.GET.get("district", None)
     ward = None
@@ -323,6 +333,9 @@ def checkout(request):
             "selectedcity": selectedcity,
             "selecteddistrict": selecteddistrict,
             "selectedward": selectedward,
+            "selectedcity_id": selectedcity_id,
+            "selecteddistrict_id": selecteddistrict_id,
+            "selectedward_id": selectedward_id,
         },
     )
 
@@ -359,13 +372,12 @@ def review_order(request, id):
 
 def order_list(request):
     user = Users.objects.get(pk=request.user.pk)
-    print(request.method)
     if request.method == "POST":
         order_id = request.POST.get("order_id")
         order = Order.objects.get(pk=order_id)
 
         form = UserInformationForm(
-            request.POST, instance=Users.objects.get(pk=request.user.pk)
+            request.POST, instance=user
         )
         if form.is_valid():
             user.city = City.objects.get(pk=request.POST.get("city"))
@@ -486,8 +498,8 @@ def contact(request):
 
 def search(request):
     q=request.GET.get('q')
-    q.lower()
-    query=q.split()
+    a=q.lower()
+    query=a.split()
     print(query)
 
     queries = [Q(title__icontains=query) for query in query]
@@ -536,22 +548,25 @@ def profile(request):
     if user.city == None:
         selectedcity = "Chọn Tỉnh/Thành phố"
         selectedcity_id = ""
+        print(111,selectedcity,selectedcity_id)
     else:
         selectedcity = user.city
         selectedcity_id=user.city.id
+        print(222,selectedcity,selectedcity_id)
     if user.district == None:
         selecteddistrict = "Chọn Quận/Huyện"
         selecteddistrict_id=""
     else:
         selecteddistrict = user.district
         selecteddistrict_id=user.district.id
+        
     if user.ward == None:
         selectedward = "Chọn Phường/Xã"
         selectedward_id=""
     else:
         selectedward = user.ward
         selectedward_id=user.ward.id
-        print(798,selectedward_id)
+        
     cityId = request.GET.get("city", None)
     districtId = request.GET.get("district", None)
     ward = None
@@ -571,20 +586,20 @@ def profile(request):
         form_avt = AddAvatar(request.POST, request.FILES, instance=user)
         if form_avt.is_valid():
             form_avt.save()
-    if request.method == "POST" and "username" in request.POST:
+    if request.method == "POST" and "city" in request.POST:
         form = UpdateUser(request.POST, instance=user)
         if form.is_valid():
-            print(222,request.POST.get("city"))
             user.city = City.objects.get(pk=request.POST.get("city"))
-            print(111,user.city)
             user.district = District.objects.get(pk=request.POST.get("district"))
             user.ward = Ward.objects.get(pk=request.POST.get("ward"))
             user.username = request.POST.get("username")
             user.email = request.POST.get("email")
             form.save()
+            return redirect('product:profile')
         else:
             print(form.errors.as_data())
         user.save()
+        
     return render(
         request,
         "product/test_profile.html",
@@ -603,7 +618,6 @@ def profile(request):
             "selectedward_id": selectedward_id,
         },
     )
-
 
 # trang contact
 def contact(request):
@@ -670,42 +684,4 @@ def reset_password_question(request,user_id):
             messages.error(request, 'Xác nhận mật khẩu không khớp.')
 
     return render(request, 'product/reset_password_question.html', {'user_id': user_id})
-def test1(request):
-    user = request.user
-    if user.city == None:
-        selectedcity = "Chọn Tỉnh/Thành phố"
-    else:
-        selectedcity = user.city
-    if user.district == None:
-        selecteddistrict = "Chọn Quận/Huyện"
-    else:
-        selecteddistrict = user.district
-    if user.ward == None:
-        selectedward = "Chọn Phường/Xã"
-    else:
-        selectedward = user.ward
-    cityId = request.GET.get("city", None)
-    districtId = request.GET.get("district", None)
-    ward = None
-    district = None
-    if cityId:
-        getCity = City.objects.get(pk=cityId)
-        district = District.objects.filter(parent_code=getCity)
-        selecteddistrict = "Chọn Quận/Huyện"
-    if districtId:
-        getDistrict = District.objects.get(pk=districtId)
-        ward = Ward.objects.filter(parent_code=getDistrict)
-        selectedward = "Chọn Phường/Xã"
-    city = City.objects.all()
-    return render(
-        request,
-        "product/test1.html",
-        {
-            "city": city,
-            "district": district,
-            "ward": ward,
-            "selectedcity": selectedcity,
-            "selecteddistrict": selecteddistrict,
-            "selectedward": selectedward,
-        },
-    )
+

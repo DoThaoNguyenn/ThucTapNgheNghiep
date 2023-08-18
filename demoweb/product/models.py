@@ -1,6 +1,6 @@
 from django.db import models
 from order.models import Users
-
+from django.utils.html import mark_safe
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -9,6 +9,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="100px" height="100px" />'%(self.image.url))
+    image_tag.short_description = 'Image'
 
 class Product(models.Model):
     category = models.ForeignKey(
@@ -36,6 +39,9 @@ class Product(models.Model):
         else:
             return s
 
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="100px" height="100px" />'%(self.image.url))
+    image_tag.short_description = 'Image'
 
 class Review(models.Model):
     user = models.ForeignKey(
