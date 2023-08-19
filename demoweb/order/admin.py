@@ -11,12 +11,17 @@ admin.site.register(Users, UserAdmin)
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ["user", "quantity", "total_price"]
+    list_display = ["user", "quantity", "total_price",]
     list_filter = (
         ("datetime", DateRangeFilterBuilder()),
         
     )
 
+    def sum_price():
+        order = Order.objects.all()
+        sum = sum(obj.total_price for obj in order)
+        return sum
+    sum_price.short_description = "Sum Price"
 
 @admin.register(Order_detail)
 class OrderDetailAdmin(admin.ModelAdmin):
