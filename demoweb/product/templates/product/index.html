@@ -145,7 +145,7 @@
 
 .slider {
 
-  transition: transform 0.1s; /* Hiệu ứng trượt mượt mà */
+  transition: transform 0.5s; /* Hiệu ứng trượt mượt mà */
 }
 
 .home-product {
@@ -183,10 +183,49 @@ button:hover{
 button {
     position: relative;
 }
+/*  */
+.category {
+
+overflow: hidden; /* Ẩn phần bị tràn ra ngoài */
+}
+
+.slider1 {
+
+transition: transform 0.5s; /* Hiệu ứng trượt mượt mà */
+}
+
+.category-content{
+
+flex-shrink: 0; /* Sản phẩm không co dãn */
+}
+#prev-button1 {
+  position: relative;
+  font-size: 26px;
+  border: none;
+  width: auto; 
+  height: auto;
+  border-radius: 50%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+#next-button1 {
+  position: relative;
+  font-size: 26px;
+  border: none;
+  width: auto; 
+  height: auto;
+
+  border-radius: 50%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+
+
     </style>
 </head> 
 <!-- Slideshow container -->
-<div class="slideshow-container">
+<div style="width: 850px;height: 500px;" class="slideshow-container">
 
     <!-- Full-width images with number and caption text -->
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -215,11 +254,11 @@ button {
           <span class="sr-only">Next</span>
         </a>
   </div>
-
+</div>
 <div class="index-main-content" >
     <h2>Danh mục loại sản phẩm</h2>
     <div  class="category">
-        <ul style="display: flex;justify-content: start;" >
+        <ul id="slider1" class="slider1" style="display: flex;justify-content: start;" >
             {% for i in loaisp %}
             <div class="category-content" style="margin-right: 30px;text-align: center;">
                 <a href ="{% url 'product:product_select_main' i.id %}"><img style="width:120px;height:150px" src="{{i.image.url}}"></a>
@@ -227,8 +266,40 @@ button {
             </div> 
             {% endfor %}   
         </ul>
+        <div style="display: flex;justify-content: space-between;position: relative;width: 100%;top: -100px;" > 
+            <button id="prev-button1"> < </button>
+            <button id="next-button1"> > </button>
+        </div>
     </div>
 </div>
+<script>
+    const slider1 = document.getElementById('slider1');
+    const prevButton1 = document.getElementById('prev-button1');
+    const nextButton1 = document.getElementById('next-button1');
+
+    prevButton1.addEventListener('click', () => {
+    slide1('prev');
+    });
+
+    nextButton1.addEventListener('click', () => {
+    slide1('next');
+    });
+
+    function slide1(direction) {
+    const itemWidth1 = slider1.querySelector('.category-content').offsetWidth;
+    const currentPosition1 = slider1.style.transform ? parseInt(slider1.style.transform.match(/-?\d+/)[0]) : 0;
+    const newPosition1 = direction === 'prev' ? currentPosition1 + itemWidth1 : currentPosition1 - itemWidth1;
+    
+    const minPosition1 = 0;
+    const maxPosition1 = -(slider1.scrollWidth - slider1.clientWidth);
+
+    if ((direction === 'prev' && currentPosition1 === minPosition1) || (direction === 'next' && currentPosition1 <= maxPosition1)) {
+        return; // Không thực hiện trượt nếu điều kiện không đáp ứng
+    }
+
+    slider1.style.transform = `translateX(${newPosition1}px)`;
+}
+</script>
 <div style="width: 85%;margin-left: auto;margin-right: auto;margin-top: 50px;">
     <h2>Danh mục sản phẩm</h2>
     <div style="padding: 0;"  class="product-select">
@@ -238,6 +309,7 @@ button {
             <li class="cat-content" style="box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;" >
                 <div style="width: 100%;height: 50px;background-color:gray ;font-size: 24px;border-top-left-radius: 5px; text-transform: uppercase;" class="cat-content-head">
                     <p style="margin:30px; padding-top: 7px; color:#fff">{{i.name}}</p>
+                    
                 </div>
                 <div class="cat-content-body" style="width:100%; margin-bottom:30px;background-color: #fff;padding-top: 10px;height: 250px;">
 
