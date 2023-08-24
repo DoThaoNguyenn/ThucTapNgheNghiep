@@ -1,4 +1,9 @@
+{% extends "admin/index.html" %}
+{% load i18n admin_urls %}
 {% load static %}
+{% block content %}
+
+
 <head>
     <link rel="stylesheet" href="{% static 'css/product.css' %}">
 </head>
@@ -12,9 +17,9 @@
     <input class="form-control" id="end_date" type="date" name="end_date" id="end_date" value="{{ get_enddate }}" required style="width: 150px;">
     
     <button id="filter-order" type="submit" class="btn btn-info btn-sm" style="margin-left: 30px;">Lọc</button>
-    <button id="cancel" type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" onclick="cancel()">Xóa lọc</button>
+    <button id="cancel" type="button" class="btn btn-info btn-sm" style="margin-left: 20px;" onclick="back()">Xóa lọc</button>
     <script>
-        function cancel()
+        function back()
         {
             location.assign("{% url 'order:total'  %}");
         }
@@ -44,3 +49,6 @@
     
     </tr>
 </table>
+{% endblock content %}
+{% block sidebar  %}
+{% endblock %}

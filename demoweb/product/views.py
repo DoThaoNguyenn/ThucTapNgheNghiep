@@ -421,8 +421,10 @@ def product_list(request):
 
     if sort_by == "l2h":
         sort_sp = Product.objects.order_by("cost")
+        # sort_sp = Product.objects.annotate(discountcost=round('cost' * (1 - ('discount' / 100)))).order_by("discountcost")
     elif sort_by == "h2l":
         sort_sp = Product.objects.order_by("-cost")
+        # sort_sp = Product.objects.annotate(discountcost=round('cost' * (1 - ('discount' / 100)))).order_by("-discountcost")
     else:
         sort_sp = Product.objects.order_by("-id")
     paginator = Paginator(sort_sp, 10)  # mỗi trang hiển thị 10 đối tượng

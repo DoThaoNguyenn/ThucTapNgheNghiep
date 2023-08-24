@@ -38,8 +38,21 @@ def percent(request):
     pr_inventory = sum(obj.quantity for obj in inventory)
     x = round((pr_sold/pr_inventory)*100,2)
     y = 100 - x
-    return render (request, 'order/percent.html',{'x':x,'y':y,'pr_sold':pr_sold,'pr_inventory':pr_inventory})
 
-def top5(request):
+    # pie chart:
+    labels = ['Tỉ lệ hàng đã bán', 'Tỉ lệ hàng tồn kho']
+    data = [x,y]
+
+    #bar chart:
+    labels_bar =[]
+    data_bar = []
     top5 = Order_detail.objects.values('product__title').annotate(total_sold = Sum('quantity')).order_by("-total_sold")[:5]
-    return render (request, 'order/top5.html',{'top5':top5})
+    for i in top5:
+        labels_bar.append(i['product__title'])
+        data_bar.append(i['total_sold'])
+    # labels_bar=top5
+    
+    return render (request, 'order/percent.html',{'x':x,'y':y,'pr_sold':pr_sold,'pr_inventory':pr_inventory,'labels': labels,'data': data,'labels_bar': labels_bar,'data_bar': data_bar,})
+
+
+

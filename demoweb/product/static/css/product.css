@@ -45,8 +45,12 @@ body {
   margin-top: 10px;
 }
 
+.btn-checkout {
+  margin-left: 20px;
+}
+
 #btn-turnback {
-  margin-left: 75px;
+  margin-left: 20px;
 }
 
 .row-image {

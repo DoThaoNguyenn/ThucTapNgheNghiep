@@ -26,5 +26,6 @@ class ProductAdmin(admin.ModelAdmin):
 
     
 
-admin.site.register(Review)
-  
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ['user','product','review','rating','created_time']
