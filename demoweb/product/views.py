@@ -23,7 +23,7 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 # Create your views here.
 def index(request):
     ds = Category.objects.all()
-    return render(request, "product/index.html", {"loaisp": ds})
+    return render(request, "product/index1.html", {"loaisp": ds})
 
 
 def detail(request, id):
