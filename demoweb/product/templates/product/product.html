@@ -55,7 +55,7 @@
         <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
         {% endfor%}
     </div>
-    <aside class="product-content-list" style="margin:100px 0 0 300px;position: relative;top: -200px;">
+    <aside class="product-content-list" style="margin:100px 0 0 300px;position: relative;top: -500px;">
         <h1 style="margin-bottom:50px">Các sản phẩm thuộc: {{lsp_name.name}}</h1>
         <div style="display:flex" >
             {% for i in page_obj %}
@@ -90,7 +90,7 @@
         {% if page_obj.has_previous %}
         
             <li class="page-item">
-                <a class="page-link" href="?page=1">&laquo First</a>
+                <a class="page-link" href="?page=1">&laquo Đầu</a>
             </li>
             <li class="page-item">
                 <a class="page-link" href="?page={{page_obj.previous_page_number }}">trước</a>
@@ -107,7 +107,7 @@
             <a class="page-link"href="?page={{page_obj.next_page_number}}">sau</a>
         </li>
         <li class="page-item">
-            <a class="page-link"href="?page={{page_obj.paginator.num_pages}}">Last &raquo</a>
+            <a class="page-link"href="?page={{page_obj.paginator.num_pages}}">Cuối &raquo</a>
         </li>
         {% endif %}    
         </ul>

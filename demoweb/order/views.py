@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db.models import Sum
 # Create your views here.
-def total(request):
+def revenue(request):
    
     
 
@@ -24,14 +24,15 @@ def total(request):
 
     sumquantity = sum(obj.quantity for obj in order)
     sumprice = sum(obj.total_price for obj in order)
-
-    return render(request, 'order/order_filter.html',{'sumprice':sumprice,'sumquantity':sumquantity, 'order':order, "get_startdate": get_startdate, "get_enddate": get_enddate})
+    sumorder = order.count()
+    sumorder = order.count()
+    return render(request, 'order/revenue.html',{'sumprice':sumprice,'sumquantity':sumquantity, 'order':order, "get_startdate": get_startdate, "get_enddate": get_enddate,'sumorder':sumorder})
 
 
 # def bestseller(request):
 #     pass
 
-def percent(request):
+def statistics(request):
     order = Order.objects.filter(status=2)
     inventory = Product.objects.all()
     pr_sold = sum(obj.quantity for obj in order)
@@ -52,7 +53,7 @@ def percent(request):
         data_bar.append(i['total_sold'])
     # labels_bar=top5
     
-    return render (request, 'order/percent.html',{'x':x,'y':y,'pr_sold':pr_sold,'pr_inventory':pr_inventory,'labels': labels,'data': data,'labels_bar': labels_bar,'data_bar': data_bar,})
+    return render (request, 'order/statistics.html',{'x':x,'y':y,'pr_sold':pr_sold,'pr_inventory':pr_inventory,'labels': labels,'data': data,'labels_bar': labels_bar,'data_bar': data_bar,})
 
 
 
