@@ -82,8 +82,8 @@
 <div class="row">
     <div class="col-6">
     {% if login_message %}
-        <div class="alert alert-danger" role="alert">
-        {{ login_message }}
+        <div class="alert alert-warning" role="alert">
+        {{ login_message }} <a href="{% url 'product:login' %}">Đăng nhập tại đây</a>
     {% endif %}
     {% if request.user.is_authenticated %}
         {% if is_review %}

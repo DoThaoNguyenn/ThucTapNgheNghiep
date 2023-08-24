@@ -6,7 +6,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <section>
+    
     <div class="form-box">
+ 
+        <div style="position: absolute;top: -100px;left: 0px;">
+    
+            {% if form.errors.password %}
+                <p class="error-message">{{ form.errors.password }}</p>
+            {% endif %}
+         
+        </div>
         <div class="form-values">
             <form action="" method="post">
                 {% csrf_token %}
@@ -28,7 +37,7 @@
                 <div class="forget">
                     
                     <!-- <label for=""><input type="checkbox">Nhớ mật khẩu  </label> -->
-                    <a href="#" style="font-size: large;">Quên mật khẩu</a>
+                    <a href="{% url 'product:forgot_password_question' %}" style="font-size: large;">Quên mật khẩu</a>
                 </div>
                 <input type="hidden" name="next" value="/">
                 <input class="login" type="submit" value="Đăng nhập">

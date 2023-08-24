@@ -23,7 +23,7 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 # Create your views here.
 def index(request):
     ds = Category.objects.all()
-    return render(request, "product/index.html", {"loaisp": ds})
+    return render(request, "product/index1.html", {"loaisp": ds})
 
 
 def detail(request, id):
@@ -71,6 +71,7 @@ def infor(request, id):
                         rating=request.POST.get("rating"),
                         review=request.POST.get("review"),
                     )
+                    return redirect('product:information',id)
                 else:
                     print(form.errors.as_data())
         return render(
@@ -95,7 +96,7 @@ def infor(request, id):
 
 def create_product(request):
     pr = Product_create_form()
-    if request.method == "POST":
+    if request.method=="POST":
         print(request.POST)
         pr = Product_create_form(request.POST, request.FILES)
         if pr.is_valid():
@@ -284,16 +285,25 @@ def checkout(request):
     user = request.user
     if user.city == None:
         selectedcity = "Chọn Tỉnh/Thành phố"
+        selectedcity_id=""
+        print(111,selectedcity,selectedcity_id)
     else:
         selectedcity = user.city
+        selectedcity_id=user.city.id
+        print(222,selectedcity,selectedcity_id)
     if user.district == None:
         selecteddistrict = "Chọn Quận/Huyện"
+        selecteddistrict_id=""
     else:
         selecteddistrict = user.district
+        selecteddistrict_id=user.district.id
     if user.ward == None:
         selectedward = "Chọn Phường/Xã"
+        selectedward_id=""
+
     else:
         selectedward = user.ward
+        selectedward_id=user.ward.id
     cityId = request.GET.get("city", None)
     districtId = request.GET.get("district", None)
     ward = None
@@ -323,6 +333,9 @@ def checkout(request):
             "selectedcity": selectedcity,
             "selecteddistrict": selecteddistrict,
             "selectedward": selectedward,
+            "selectedcity_id": selectedcity_id,
+            "selecteddistrict_id": selecteddistrict_id,
+            "selectedward_id": selectedward_id,
         },
     )
 
@@ -359,13 +372,12 @@ def review_order(request, id):
 
 def order_list(request):
     user = Users.objects.get(pk=request.user.pk)
-    print(request.method)
     if request.method == "POST":
         order_id = request.POST.get("order_id")
         order = Order.objects.get(pk=order_id)
 
         form = UserInformationForm(
-            request.POST, instance=Users.objects.get(pk=request.user.pk)
+            request.POST, instance=user
         )
         if form.is_valid():
             user.city = City.objects.get(pk=request.POST.get("city"))
@@ -409,8 +421,10 @@ def product_list(request):
 
     if sort_by == "l2h":
         sort_sp = Product.objects.order_by("cost")
+        # sort_sp = Product.objects.annotate(discountcost=round('cost' * (1 - ('discount' / 100)))).order_by("discountcost")
     elif sort_by == "h2l":
         sort_sp = Product.objects.order_by("-cost")
+        # sort_sp = Product.objects.annotate(discountcost=round('cost' * (1 - ('discount' / 100)))).order_by("-discountcost")
     else:
         sort_sp = Product.objects.order_by("-id")
     paginator = Paginator(sort_sp, 10)  # mỗi trang hiển thị 10 đối tượng
@@ -486,10 +500,10 @@ def contact(request):
 
 def search(request):
     q=request.GET.get('q')
-    q.lower()
-    query=q.split()
-    print(query)
-
+    a=q.lower()
+    query=a.split()
+ 
+   
     queries = [Q(title__icontains=query) for query in query]
     query1 = queries.pop()
     for item in queries:
@@ -499,13 +513,6 @@ def search(request):
     return render(request, "product/search.html", {"sp": sp, "q": q})
 
 
-# password_change_form
-class MyPasswordChangeForm(PasswordChangeForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for fieldname in ["old_password", "new_password1", "new_password2"]:
-            self.fields[fieldname].widget.attrs = {"class": "form-control"}
 
 
 # load districts:
@@ -536,22 +543,25 @@ def profile(request):
     if user.city == None:
         selectedcity = "Chọn Tỉnh/Thành phố"
         selectedcity_id = ""
+        print(111,selectedcity,selectedcity_id)
     else:
         selectedcity = user.city
         selectedcity_id=user.city.id
+        print(222,selectedcity,selectedcity_id)
     if user.district == None:
         selecteddistrict = "Chọn Quận/Huyện"
         selecteddistrict_id=""
     else:
         selecteddistrict = user.district
         selecteddistrict_id=user.district.id
+        
     if user.ward == None:
         selectedward = "Chọn Phường/Xã"
         selectedward_id=""
     else:
         selectedward = user.ward
         selectedward_id=user.ward.id
-        print(798,selectedward_id)
+        
     cityId = request.GET.get("city", None)
     districtId = request.GET.get("district", None)
     ward = None
@@ -571,20 +581,20 @@ def profile(request):
         form_avt = AddAvatar(request.POST, request.FILES, instance=user)
         if form_avt.is_valid():
             form_avt.save()
-    if request.method == "POST" and "username" in request.POST:
+    if request.method == "POST" and "city" in request.POST:
         form = UpdateUser(request.POST, instance=user)
         if form.is_valid():
-            print(222,request.POST.get("city"))
             user.city = City.objects.get(pk=request.POST.get("city"))
-            print(111,user.city)
             user.district = District.objects.get(pk=request.POST.get("district"))
             user.ward = Ward.objects.get(pk=request.POST.get("ward"))
             user.username = request.POST.get("username")
             user.email = request.POST.get("email")
             form.save()
+            return redirect('product:profile')
         else:
             print(form.errors.as_data())
         user.save()
+        
     return render(
         request,
         "product/test_profile.html",
@@ -603,7 +613,6 @@ def profile(request):
             "selectedward_id": selectedward_id,
         },
     )
-
 
 # trang contact
 def contact(request):
@@ -634,15 +643,21 @@ def forgot_password_question(request):
         answer = request.POST['answer']
 
         question = request.POST['question']
+        print(question)
         try:
             user = Users.objects.get(username=username)
             if user.question and user.answer:
-                if answer == user.answer :
-                    # Cung cấp câu trả lời khớp, cho phép người dùng nhập mật khẩu mới
-                    return redirect('product:reset_password_question', user_id=user.id)
+                if question == user.question :  
+                
+                    if answer == user.answer :
+                        # Cung cấp câu trả lời khớp, cho phép người dùng nhập mật khẩu mới
+                        return redirect('product:reset_password_question', user_id=user.id)
+                    else:
+                        # Câu trả lời không khớp
+                        messages.error(request, 'Câu trả lời không đúng.')
                 else:
-                    # Câu trả lời không khớp
-                    messages.error(request, 'Câu trả lời không đúng.')
+                # Câu hỏi không khớp
+                    messages.error(request, 'Câu hỏi không đúng.')
             else:
                 # Người dùng không có câu hỏi xác thực
                 messages.error(request, 'Người dùng không có câu hỏi xác thực.')
@@ -670,6 +685,16 @@ def reset_password_question(request,user_id):
             messages.error(request, 'Xác nhận mật khẩu không khớp.')
 
     return render(request, 'product/reset_password_question.html', {'user_id': user_id})
+from django.http import JsonResponse
+
+
+def check_username(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        exists = Users.objects.filter(username=username).exists()
+        print(username)
+        return JsonResponse({'exists': exists})
+
 def test1(request):
     user = request.user
     if user.city == None:

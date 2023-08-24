@@ -61,7 +61,7 @@ body{
 
 .btn-checkout {
     @extend %btn;
-    
+    margin-left: 20px;
 }
     
 // h4,h5 {
@@ -78,7 +78,7 @@ body{
 //     }
 // }
 #btn-turnback{
-    margin-left: 75px;
+    margin-left: 20px;
 }
 
 .row-image{
@@ -219,7 +219,7 @@ td{
     }
 }
 .about-us {
-	margin-top: 100px;
+	margin-top: 50px;
 	text-align: center;
     p {
         text-align: left;
