@@ -55,7 +55,7 @@
         <a class="active" href="{% url 'product:product_select_main' i.id  %}">{{i.name}}</a>
         {% endfor%}
     </div>
-    <aside class="product-content-list" style="margin:100px 0 0 300px;position: relative;top: -500px;">
+    <aside class="product-content-list" style="margin:100px 0 0 300px;position: relative;top: -200px;">
         <h1 style="margin-bottom:50px">Các sản phẩm thuộc: {{lsp_name.name}}</h1>
         <div style="display:flex" >
             {% for i in page_obj %}

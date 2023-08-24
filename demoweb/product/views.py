@@ -96,7 +96,7 @@ def infor(request, id):
 
 def create_product(request):
     pr = Product_create_form()
-    if request.method == "POST":
+    if request.method=="POST":
         print(request.POST)
         pr = Product_create_form(request.POST, request.FILES)
         if pr.is_valid():
@@ -502,8 +502,8 @@ def search(request):
     q=request.GET.get('q')
     a=q.lower()
     query=a.split()
-    print(query)
-
+ 
+   
     queries = [Q(title__icontains=query) for query in query]
     query1 = queries.pop()
     for item in queries:
@@ -513,13 +513,6 @@ def search(request):
     return render(request, "product/search.html", {"sp": sp, "q": q})
 
 
-# password_change_form
-class MyPasswordChangeForm(PasswordChangeForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        for fieldname in ["old_password", "new_password1", "new_password2"]:
-            self.fields[fieldname].widget.attrs = {"class": "form-control"}
 
 
 # load districts:
@@ -650,15 +643,21 @@ def forgot_password_question(request):
         answer = request.POST['answer']
 
         question = request.POST['question']
+        print(question)
         try:
             user = Users.objects.get(username=username)
             if user.question and user.answer:
-                if answer == user.answer :
-                    # Cung cấp câu trả lời khớp, cho phép người dùng nhập mật khẩu mới
-                    return redirect('product:reset_password_question', user_id=user.id)
+                if question == user.question :  
+                
+                    if answer == user.answer :
+                        # Cung cấp câu trả lời khớp, cho phép người dùng nhập mật khẩu mới
+                        return redirect('product:reset_password_question', user_id=user.id)
+                    else:
+                        # Câu trả lời không khớp
+                        messages.error(request, 'Câu trả lời không đúng.')
                 else:
-                    # Câu trả lời không khớp
-                    messages.error(request, 'Câu trả lời không đúng.')
+                # Câu hỏi không khớp
+                    messages.error(request, 'Câu hỏi không đúng.')
             else:
                 # Người dùng không có câu hỏi xác thực
                 messages.error(request, 'Người dùng không có câu hỏi xác thực.')
@@ -686,4 +685,52 @@ def reset_password_question(request,user_id):
             messages.error(request, 'Xác nhận mật khẩu không khớp.')
 
     return render(request, 'product/reset_password_question.html', {'user_id': user_id})
+from django.http import JsonResponse
 
+
+def check_username(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        exists = Users.objects.filter(username=username).exists()
+        print(username)
+        return JsonResponse({'exists': exists})
+
+def test1(request):
+    user = request.user
+    if user.city == None:
+        selectedcity = "Chọn Tỉnh/Thành phố"
+    else:
+        selectedcity = user.city
+    if user.district == None:
+        selecteddistrict = "Chọn Quận/Huyện"
+    else:
+        selecteddistrict = user.district
+    if user.ward == None:
+        selectedward = "Chọn Phường/Xã"
+    else:
+        selectedward = user.ward
+    cityId = request.GET.get("city", None)
+    districtId = request.GET.get("district", None)
+    ward = None
+    district = None
+    if cityId:
+        getCity = City.objects.get(pk=cityId)
+        district = District.objects.filter(parent_code=getCity)
+        selecteddistrict = "Chọn Quận/Huyện"
+    if districtId:
+        getDistrict = District.objects.get(pk=districtId)
+        ward = Ward.objects.filter(parent_code=getDistrict)
+        selectedward = "Chọn Phường/Xã"
+    city = City.objects.all()
+    return render(
+        request,
+        "product/test1.html",
+        {
+            "city": city,
+            "district": district,
+            "ward": ward,
+            "selectedcity": selectedcity,
+            "selecteddistrict": selecteddistrict,
+            "selectedward": selectedward,
+        },
+    )

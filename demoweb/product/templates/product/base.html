@@ -389,7 +389,7 @@ footer div h5 {
                 </ul>
                 <form style="position: relative;left:100px;" id="myForm" action="{% url 'product:search' %}" >
                     <input style="width: 300px;"  type="text" name="q" placeholder="Tìm kiếm tên sản phẩm..." value="{{ q }}" required />
-                    <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <button style="cursor: pointer;z-index: 999;" type="submit"><i class="fas fa-magnifying-glass" aria-hidden="true"></i></button>
                 </form>
             </div>
             
@@ -427,6 +427,8 @@ footer div h5 {
                       <a class="dropdown-item" href="{% url 'product:profile'%}">Thông tin tài khoản</a>
                       <a class="dropdown-item" href="{% url 'product:order_list'%}">Đơn hàng đã đặt</a>
                       <a class="dropdown-item" href="{% url 'product:logout'%}">Đăng xuất</a>
+                      <a class="dropdown-item" href="{% url 'product:password_change'%}">Đổi mật khẩu</a>
+                     
                     
                   </div>
                   
